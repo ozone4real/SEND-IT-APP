@@ -14,4 +14,19 @@ document.addEventListener('click', (e) => {
 const carousel = document.getElementById('container1');
 setInterval(() => {
     carousel.classList.toggle('sliding');
-}, 6000)
+}, 6000);
+
+const fixedHeader= document.getElementById('fixed-header');
+
+window.onscroll = (e) => {
+    if(pageYOffset){
+        fixedHeader.style.position = "fixed";
+        fixedHeader.style.width = "100%";
+    } 
+    
+    else {
+        fixedHeader.style.position = "";
+          
+    }
+
+}

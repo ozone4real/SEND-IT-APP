@@ -74,8 +74,8 @@ hr {
      padding: 5px;
      border: 1px solid  #DFB607;
      border-radius: 5px;
-     margin: 5px;
-     font-size: 19px;
+     margin: 7px;
+     font-size: 17px;
      font-family: 'Francois One', sans-serif;
  }
 
@@ -87,14 +87,15 @@ hr {
 /* navigation styles */
 
 nav{
-    border-bottom: 2px solid #D8D8D8;
+    box-shadow: 3px 3px 5px #888888;
     background-color: white;
-    margin-bottom: 7px;
+    margin-bottom: 10px;
+    max-height: 50px;
 }
 
 #nav-bar {
     color: #1C066B;
-    margin-top: 6px;
+    margin-top: 2px;
     margin-left: 10px;
     display: none;
     cursor: pointer;
@@ -238,7 +239,7 @@ footer {
     text-align: center;
     background: #1C066B;
     border-top: 2px solid  #DFB607;
-    color:  #DFB607;
+    color:  white;
 }
 
 footer #phone, footer #mail{
@@ -354,12 +355,12 @@ form a{
         font-size: 16px;
     }
     .container{
-        width: 97%;
+        width: 96%;
     }
 
     .site-logo a{
         display: block;
-        font-size: 11px;
+        font-size: 9px;
     } 
 
     .site-logo h1{
@@ -412,6 +413,10 @@ form a{
     #showcase{
         margin-bottom: 30px;
     }
+
+    #showcase .container {
+        width: 100%;
+    }
     
 
     #selling-point {
@@ -424,7 +429,7 @@ form a{
     }
    
     .account a {
-        font-size: 14px;
+        font-size: 13px;
         margin-left: 0;
     }
 
