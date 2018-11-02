@@ -87,8 +87,9 @@ hr {
 /* navigation styles */
 
 nav{
-    border-bottom: 2px solid #1C066B;
+    border-bottom: 2px solid #D8D8D8;
     background-color: white;
+    margin-bottom: 7px;
 }
 
 #nav-bar {
@@ -124,7 +125,9 @@ nav #book{
 /* sections styles */
 
 #showcase{
-    margin-bottom: 60px;
+    margin-bottom: 45px;
+    border-left: 1px solid #D8D8D8;
+    border-right: 1px solid #D8D8D8;
 }
 
 
@@ -168,7 +171,7 @@ nav #book{
 
 
 #info{
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 
@@ -178,12 +181,13 @@ nav #book{
     height: 350px;
     background-size: cover;
     float: left;
+    border: 1px solid #D8D8D8;
 }
 
 #info #selling-point2 {
     width: 50%;
     float: right;
-    padding: 30px;
+    padding: 10px 30px 10px 30px;
     box-sizing: border-box; 
     font-size: 22px;
     background: #1C066B;  
@@ -196,7 +200,7 @@ nav #book{
 }
 
 #info2 #fast-icon {
-    background: url('../images/rocket.png') 0;
+    background: url('../images/rocket.jpg') 0;
     width: 48%;
     background-size: cover;
     height:350px;
@@ -211,6 +215,7 @@ nav #book{
     box-sizing: border-box; 
     font-size: 22px;
     max-height: 500px;
+    border: 2px solid #E6E6E6; 
 }
 
 #info2 a, #how-it-works a {
@@ -221,8 +226,9 @@ nav #book{
 #how-it-works{
     background-color: white;
     padding: 20px;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
     max-height: 500px;
+    border: 2px solid #E6E6E6;
 }
 
 
@@ -244,7 +250,12 @@ padding: 10px 50px 10px 50px;
 /* form styles */
 
 .forms{
-    margin: 50px 0 60px 0;
+    margin: 50px 0 80px 0;
+}
+
+
+.forms-bk {
+    margin: 50px 0 30px 0;
 }
 
 .form-container{
@@ -294,6 +305,15 @@ form a{
     margin-bottom: 40px;
 } 
 
+#about #about-sec {
+    background: white;
+    padding: 25px;
+}
+
+#about li {
+    margin: 0;
+}
+
 #admin-edit{
     padding: 10px;
     margin-bottom: 20px;
@@ -318,6 +338,13 @@ form a{
     color:green; 
 }
 
+#services-section{
+    background: white;
+    padding: 25px;
+    margin-bottom: 60px;
+}
+
+
 
 
 /* style modifications for varying screen sizes */
@@ -327,7 +354,7 @@ form a{
         font-size: 16px;
     }
     .container{
-        width: 100%;
+        width: 97%;
     }
 
     .site-logo a{
@@ -383,7 +410,7 @@ form a{
 
     
     #showcase{
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
     
 
@@ -402,7 +429,7 @@ form a{
     }
 
     #info {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
     #info #happy-customer, #info2 #fast-icon {
         width: 100%;
@@ -417,7 +444,7 @@ form a{
     #info #selling-point2, #info2 #selling-point3 {
         width: 100%;
         float: none;
-        padding: 10px;
+        padding: 15px;
         font-size: 17px; 
         margin-top: 0;
     }
@@ -435,15 +462,6 @@ form a{
 
 
 @media(max-width: 500px) {
-    #info {
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    #info2{
-        margin-bottom: 30px;
-        text-align: center;
-    }
 
     nav {
         box-sizing: border-box;
