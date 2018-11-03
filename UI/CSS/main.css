@@ -35,7 +35,7 @@ hr {
   header {
       background-color: #1C066B;
       border-bottom: 3px solid  #DFB607; 
-      padding: 10px;
+      padding: 6px;
   }
 
 
@@ -88,7 +88,7 @@ hr {
 /* navigation styles */
 
 nav{
-    box-shadow: 3px 3px 5px #888888;
+    box-shadow: 2px 2px 4px rgba(230, 230, 230, 0.76); 
     background-color: white;
     margin-bottom: 10px;
     max-height: 50px;
@@ -180,7 +180,7 @@ nav #book{
 
 #info #happy-customer {
     background: url('../images/Delivery.jpg') 0;
-    width: 48%;
+    width: 50%;
     height: 350px;
     background-size: cover;
     float: left;
@@ -188,7 +188,7 @@ nav #book{
 }
 
 #info #selling-point2 {
-    width: 50%;
+    width: 48%;
     float: right;
     padding: 10px 30px 10px 30px;
     box-sizing: border-box; 
@@ -391,6 +391,7 @@ form a{
         position: absolute;
         z-index: 1000;
         border-top: 1px solid white;
+        box-shadow: 3px 3px 5px #888888;
     }
 
     #nav-contents.responsive-nav a{
