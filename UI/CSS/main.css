@@ -13,6 +13,10 @@ body{
     overflow:hidden;
   }
 
+  h3 {
+      color: #DFB607;
+  }
+
   a {
       text-decoration: none;
   }
@@ -35,7 +39,7 @@ hr {
   header {
       background-color: #1C066B;
       border-bottom: 3px solid  #DFB607; 
-      padding: 6px;
+      padding: 5px;
   }
 
 
@@ -127,7 +131,7 @@ nav #book{
 /* sections styles */
 
 #showcase{
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     border-left: 1px solid #D8D8D8;
     border-right: 1px solid #D8D8D8;
 }
@@ -156,6 +160,7 @@ nav #book{
    color: white;
    font-size: 35px;
    padding: 70px;
+   font-weight: bold;
 }
 
 #selling-point a{
@@ -173,39 +178,36 @@ nav #book{
 
 
 #info{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 
 #info #happy-customer {
     background: url('../images/Delivery.jpg') 0;
     width: 50%;
-    height: 350px;
+    height: 320px;
     background-size: cover;
     float: left;
     border: 1px solid #D8D8D8;
 }
 
 #info #selling-point2 {
-    width: 48%;
+    width: 49%;
     float: right;
     padding: 10px 30px 10px 30px;
     box-sizing: border-box; 
-    font-size: 22px;
+    font-size: 20px;
     background: #1C066B;  
     color: white; 
+    min-height: 320px;
     max-height: 500px;
-}
-
-#info2{
-    margin-bottom: 30px;
 }
 
 #info2 #fast-icon {
     background: url('../images/rocket.jpg') 0;
-    width: 48%;
+    width: 49%;
     background-size: cover;
-    height:350px;
+    height:320px;
     float: right;
 }
 
@@ -215,7 +217,7 @@ nav #book{
     width: 50%;
     color: #1C066B;
     box-sizing: border-box; 
-    font-size: 22px;
+    font-size: 20px;
     max-height: 500px;
     border: 2px solid rgba(230, 230, 230, 0.76); 
 }
@@ -270,6 +272,9 @@ form {
     width: 75%;
     margin: auto;
     color: #1C066B;
+}
+form h3{
+    color : #1C066B;
 }
 
 
@@ -353,7 +358,7 @@ form a{
 
 @media(max-width: 900px){
     body{
-        font-size: 16px;
+        font-size: 15px;
     }
     .container{
         width: 96%;
@@ -389,7 +394,7 @@ form a{
         display: block;
         position: absolute;
         z-index: 1000;
-        box-shadow: 2px 2px 2px #BDBDBD;
+        box-shadow: 2px 2px 2px #888888;
 
     }
 
@@ -398,7 +403,7 @@ form a{
         background-color: white;
         padding: 20px;
         width: 200px;
-        font-size: 16px;
+        font-size: 14px;
         border-bottom: 1px solid #1C066B;
     }
 
@@ -407,7 +412,7 @@ form a{
     }
 
     nav #book a{
-        font-size: 15px;
+        font-size: 14px;
         padding-left: 10px;
     }
 
@@ -443,16 +448,13 @@ form a{
         float: none;
         height: 250px;
     }
-
-    #info2{
-        margin-bottom: 30px;
-    }
     
     #info #selling-point2, #info2 #selling-point3 {
         width: 100%;
         float: none;
         padding: 15px;
-        font-size: 17px; 
+        font-size: 17px;
+        min-height: 0; 
         margin-top: 0;
     }
 

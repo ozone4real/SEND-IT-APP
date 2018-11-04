@@ -15,18 +15,3 @@ const carousel = document.getElementById('container1');
 setInterval(() => {
     carousel.classList.toggle('sliding');
 }, 6000);
-
-const fixedHeader= document.getElementById('fixed-header');
-
-window.onscroll = (e) => {
-    if(navCont.classList.contains('responsive-nav')) navCont.classList.remove('responsive-nav');  
-
-    if(pageYOffset){
-        fixedHeader.style.position = "fixed";
-        fixedHeader.style.width = "100%";
-        return;
-    } 
-
-    fixedHeader.style.position = "";       
-
-}
