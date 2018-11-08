@@ -1,11 +1,13 @@
-const express = require('express');
-const deliveryData = require('./db/deliveryData');
-const validateOrder = require('./middlewares/validator');
+import { Router, json, urlencoded } from 'express';
+import parcelData from '../db/parcelData';
 
-const router = express.Router();
+const router = Router();
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(json());
+router.use(urlencoded({ extended: true }));
 
+router.get('/parcels', (req, res) => {
+  res.status(200).json(parcelData);
+});
 
-module.exports = router;
+export default router;
