@@ -10,4 +10,6 @@ app.use('/api/v1/users', users);
 const port = process.env.PORT || 8000;
 app.listen(port, () => { console.log(`listening on port ${port}....`); });
 
+app.startsWith('app');
+
 export default app;
