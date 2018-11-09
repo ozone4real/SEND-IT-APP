@@ -2,13 +2,13 @@ const incompleteData = {
   // deliveryTime not provided
   pickupAddress: '8 Oluwaseyi st, Isashi',
   deliveryAddress: '14 Hundeyin st, Badagary',
-  parcelDescription: 'bag of rice and egg',
+  parcelDescription: 'bag of rice',
   userId: 'ozonkwo',
 };
 
 const improperData = {
-  // unexpected date format and very short pickupAddress
-  pickupAddress: '8. Ola',
+  // unexpected date format and improper pickupAddress (no address number)
+  pickupAddress: 'Ola',
   deliveryAddress: '14 Hundeyin st, Badagary',
   parcelDescription: '50kg parcel',
   userId: 'nduka',
