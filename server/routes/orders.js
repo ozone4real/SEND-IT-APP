@@ -6,5 +6,12 @@ const router = Router();
 router.use(json());
 router.use(urlencoded({ extended: true }));
 
+router.put('/:parcelId/cancel/', (req, res) => {
+  const { parcelId } = req.params;
+  const parcelOrder = parcelData.find(a => a.parcelId === parseInt(parcelId));
+  if (!parcelOrder) return res.status(404).send('Order not found');
+  parcelOrder.status = 'cancelled';
+  res.status(200).send(parcelOrder);
+});
 
 export default router;
