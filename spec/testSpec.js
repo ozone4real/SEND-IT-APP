@@ -9,9 +9,9 @@ describe('fetch-specific-delivery-order endpoint', () => {
       expect(response.statusCode).toBe(404);
       expect(body).toBe('Order not found');
       done();
-      })
-    })
-  
+    });
+  });
+
   it('should respond with a 200 success status code if the order is found', (done) => {
     // request with valid parcel id
     get('http://localhost:8000/api/v1/parcels/1', (error, response, body) => {
@@ -30,18 +30,18 @@ describe('GET all parcel delivery orders for a specific user', () => {
       expect(response.statusCode).toBe(404);
       expect(body).toBe('No orders found for user');
       done();
-      })
-    })
-  
-   it('should respond with a 200 (success) status code and return all orders for a user if there are any', (done) => {
+    });
+  });
+
+  it('should respond with a 200 (success) status code and return all orders for a user if there are any', (done) => {
     // request with a valid user id : 'ayzay'
     get('http://localhost:8000/api/v1/users/ayzay/parcels', (error, response, body) => {
       expect(response.statusCode).toBe(200);
       expect(JSON.parse(body)).toEqual(jasmine.arrayContaining([jasmine.any(Object)]));
       done();
-      })
-     })
-  })
+    });
+  });
+});
 
 
 describe('create-parcel-delivery-order endpoint', () => {
@@ -58,7 +58,7 @@ describe('create-parcel-delivery-order endpoint', () => {
       done();
     });
   });
- it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
+  it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
     post({ url: 'http://localhost:8000/api/v1/parcels', form: expectedData }, (error, response, body) => {
       const dataKeys = Object.keys(JSON.parse(body));
       expect(response.statusCode).toBe(200);
