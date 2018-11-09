@@ -7,7 +7,7 @@ const app = express();
 app.use('/api/v1/parcels', orders);
 app.use('/api/v1/users', users);
 
-const port = process.env.PORT || 3000;
-app.listen(8080, () => { console.log('listening on port 8080....'); });
+const port = process.env.PORT || 8000;
+app.listen(port, () => { console.log(`listening on port ${port}....`); });
 
 export default app;
