@@ -1,6 +1,19 @@
 import { get, post, put } from 'request';
 import { incompleteData, improperData, expectedData } from './testHelper';
 
+
+describe('fetch all parcel delivery orders', () => {
+  it('should respond with a 200 success status code and return all the parcel delivery orders data', (done) => {
+    get('http://localhost:8000/api/v1/parcels', (error, response, body) => {
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(body)).toEqual(jasmine.arrayContaining([jasmine.any(Object)]));
+      done();
+    });
+  });
+});
+
+
+
 describe('cancel-parcel-delivery-order endpoint', () => {
   it('should respond with a 404 (Not found) status code if the order requested to be cancelled is not found', (done) => {
     // invalid parcel id : p089

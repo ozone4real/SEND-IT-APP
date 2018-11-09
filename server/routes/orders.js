@@ -6,6 +6,10 @@ const router = Router();
 router.use(json());
 router.use(urlencoded({ extended: true }));
 
+router.get('/parcels', (req, res) => {
+  res.status(200).json(parcelData);
+  })
+
 router.put('/:parcelId/cancel/', (req, res) => {
   const { parcelId } = req.params;
   const parcelOrder = parcelData.find(a => a.parcelId === parseInt(parcelId));
