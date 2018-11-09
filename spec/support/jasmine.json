@@ -4,7 +4,7 @@
     "testSpec.js"
   ],
   "helpers": [
-    "testHelper.js"
+    ""
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true,
