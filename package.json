@@ -4,7 +4,7 @@
   "description": "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run testbuild && jasmine dist/spec/testSpec.js",
+    "test": "npm run build && npm run testbuild && jasmine dist/spec/testSpec.js",
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
     "start": "npm run build && node dist/server/index.js"
