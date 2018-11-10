@@ -1,10 +1,10 @@
 {
-  "spec_dir": "dist",
+  "spec_dir": "dist/spec",
   "spec_files": [
     "testSpec.js"
   ],
   "helpers": [
-    "index.js"
+    "../server/index.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true,
