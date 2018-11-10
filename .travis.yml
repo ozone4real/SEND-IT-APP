@@ -1,3 +1,3 @@
 language: node_js
 before_script:
-  - npm install jasmine-node g
+  - npm install --save-dev jasmine
