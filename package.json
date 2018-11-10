@@ -24,8 +24,7 @@
     "express": "^4.16.4",
     "jasmine": "^3.3.0",
     "jasmine-node": "^1.16.2",
-    "request": "^2.88.0",
-    "supertest": "^3.3.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -34,6 +33,7 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "supertest": "^3.3.0"
   }
 }
