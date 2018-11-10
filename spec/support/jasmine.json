@@ -4,7 +4,7 @@
     "testSpec.js"
   ],
   "helpers": [
-    "index"
+    "index.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true,
