@@ -7,7 +7,8 @@
     "test": "npm run build && npm run testbuild && jasmine dist/spec/testSpec.js",
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
-    "start": "npm run build && node dist/server/index.js"
+    "start": "npm run build && node dist/server/index.js",
+    "coveralls": "npm run test -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
