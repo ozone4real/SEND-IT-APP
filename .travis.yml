@@ -3,4 +3,5 @@ node_js:
   - "node"
 after_success:
   - npm install istanbul
+  - npm install coveralls
   - npm run coveralls 
