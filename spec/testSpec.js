@@ -12,7 +12,7 @@ describe('create-parcel-delivery-order endpoint', () => {
       .send(incompleteData)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).toBe('Incomplete request');
+        expect(res.body.message).toMatch(/Incomplete request/i);
       })
       .end(() => {
         done();
@@ -24,9 +24,6 @@ describe('create-parcel-delivery-order endpoint', () => {
       .post('/api/v1/parcels')
       .send(improperData)
       .expect(400)
-      .expect((res) => {
-        expect(res.body.message).toBe('Improper data provided');
-      })
       .end(() => {
         done();
       });
