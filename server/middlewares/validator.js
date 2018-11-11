@@ -11,7 +11,7 @@ function improperVal(req) {
 
   const improperValues = [];
 
-  if (!timeTest) improperValues.push('Improper date-time format or invalid date. Pattern should follow: yyyy:mm:ddThh:mm');
+  if (!timeTest) improperValues.push('Improper date-time format or invalid date. Pattern should follow: YYYY:MM:DDThh:mm');
   if (!pAdTest) improperValues.push('pickupAddress not detailed enough');
   if (!dAdTest) improperValues.push('deliveryAddress not detailed enough');
   if (!pDeTest) improperValues.push('parcelDescription not detailed enough or too long. Min. Length:15, Max. Length:40');
