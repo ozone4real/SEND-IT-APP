@@ -8,7 +8,7 @@
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
     "start": "npm run build && node dist/server/index.js",
-    "coveralls": "npm run test -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "istanbul cover node_modules/jasmine/bin/jasmine.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",

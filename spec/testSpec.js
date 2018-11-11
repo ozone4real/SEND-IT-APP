@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 import request from 'supertest';
 
 import { incompleteData, improperData, expectedData } from './testHelper';
