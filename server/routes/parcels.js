@@ -31,7 +31,7 @@ router.put('/:parcelId/cancel/', (req, res) => {
   const parcelOrder = parcelData.find(a => a.parcelId === parseInt(parcelId));
   if (!parcelOrder) return res.status(404).json({ message: 'Order not found' });
   parcelOrder.status = 'cancelled';
-  res.status(200).send(parcelOrder);
+  res.status(200).json(parcelOrder);
 });
 
 export default router;

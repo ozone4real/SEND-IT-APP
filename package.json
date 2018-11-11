@@ -14,11 +14,15 @@
     "type": "git",
     "url": "git+https://github.com/ozone4real/SEND-IT-APP.git"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ozone4real/SEND-IT-APP/issues"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "homepage": "https://github.com/ozone4real/SEND-IT-APP#readme",
   "dependencies": {
