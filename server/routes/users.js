@@ -9,8 +9,8 @@ router.use(urlencoded({ extended: true }));
 router.get('/:userId/parcels', (req, res) => {
   const { userId } = req.params;
   const userOrders = parcelData.filter(a => a.userId === userId);
-  if (userOrders.length === 0) return res.status(404).send({ message: 'No orders found for user' });
-  res.status(200).send(userOrders);
+  if (userOrders.length === 0) return res.status(404).json({ message: 'No orders found for user' });
+  res.status(200).json(userOrders);
 });
 
 export default router;

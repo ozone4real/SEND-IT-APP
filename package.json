@@ -14,7 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/ozone4real/SEND-IT-APP.git"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,6 +28,7 @@
     "express": "^4.16.4",
     "jasmine": "^3.3.0",
     "jasmine-node": "^1.16.2",
+    "pg": "^7.6.1",
     "request": "^2.88.0"
   },
   "devDependencies": {
