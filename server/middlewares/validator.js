@@ -1,5 +1,3 @@
-import { read } from 'fs';
-
 /* eslint-disable consistent-return */
 const dataKeys = ['userId', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription'];
 
@@ -55,7 +53,8 @@ function validator(req, res, next) {
 
   if (missingKeys.length !== 0) {
     missingKeys = missingKeys.join(', ');
-    return res.status(400).json({ message: `Incomplete request: ${missingKeys} parameter(s) missing` });
+    const respMessage = `Incomplete request: ${missingKeys} parameter(s) missing`;
+    return res.status(400).json({ message: respMessage });
   }
 
   let improperValues = improperVal(req);
