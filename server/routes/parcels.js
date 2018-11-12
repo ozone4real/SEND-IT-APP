@@ -5,7 +5,7 @@ import validateOrder from '../middlewares/validator';
 const router = Router();
 
 router.use(json());
-router.use(urlencoded({ extended: true }));
+router.use(urlencoded({ extended: false }));
 
 router.post('/', validateOrder, (req, res) => {
   const order = req.body;

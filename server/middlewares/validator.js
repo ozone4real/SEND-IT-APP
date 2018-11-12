@@ -1,4 +1,8 @@
+import { read } from 'fs';
+
 /* eslint-disable consistent-return */
+const dataKeys = ['userId', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription'];
+
 function improperVal(req) {
   const {
     pickupAddress, deliveryAddress, deliveryTime, parcelDescription,
@@ -20,7 +24,6 @@ function improperVal(req) {
 }
 
 function incompleteVal(req) {
-  const dataKeys = ['userId', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription'];
   const missingKeys = [];
 
   dataKeys.forEach((item) => {
@@ -30,12 +33,29 @@ function incompleteVal(req) {
   return missingKeys;
 }
 
+function unwantedKeys(req) {
+  const unwanted = [];
+  const reqBody = Object.keys(req.body);
+  reqBody.forEach((item) => {
+    if (!dataKeys.includes(item)) unwanted.push(item);
+  });
+
+  return unwanted;
+}
+
 function validator(req, res, next) {
+  let unwanted = unwantedKeys(req);
+
+  if (unwanted.length !== 0) {
+    unwanted = unwanted.join(', ');
+    return res.status(400).json({ message: `Unwanted parameter(s) ${unwanted}` });
+  }
+
   let missingKeys = incompleteVal(req);
 
   if (missingKeys.length !== 0) {
     missingKeys = missingKeys.join(', ');
-    return res.status(400).json({ message: `Incomplete request: ${missingKeys} parameters are missing` });
+    return res.status(400).json({ message: `Incomplete request: ${missingKeys} parameter(s) missing` });
   }
 
   let improperValues = improperVal(req);

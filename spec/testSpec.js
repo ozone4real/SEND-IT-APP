@@ -1,6 +1,8 @@
 import request from 'supertest';
 
-import { incompleteData, improperData, expectedData } from './testHelper';
+import {
+  incompleteData, improperData, expectedData, unwantedParams,
+} from './testHelper';
 import app from '../server/index';
 
 
@@ -18,6 +20,20 @@ describe('create-parcel-delivery-order endpoint', () => {
         done();
       });
   });
+
+  it('should respond with a 400 (Bad request) status code if unwanted parameters are provided by a user', (done) => {
+    request(app)
+      .post('/api/v1/parcels')
+      .send(unwantedParams)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toMatch(/Unwanted parameter/i);
+      })
+      .end(() => {
+        done();
+      });
+  });
+
 
   it('should respond with a 400 (Bad request) status code if the data is improper', (done) => {
     request(app)

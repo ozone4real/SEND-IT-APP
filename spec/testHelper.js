@@ -15,6 +15,15 @@ const improperData = {
   deliveryTime: 'October 7th 1999',
 };
 
+const unwantedParams = {
+  // unwanted parameters age and height
+  deliveryAddress: '14 Hundeyin st, Badagary',
+  age: 24,
+  height: '6ft',
+  parcelDescription: '50kg parcel',
+  userId: 'nduka',
+  deliveryTime: 'October 7th 1999',
+};
 const expectedData = {
   // correct data
   pickupAddress: '8 Oluwaseyi st, Isashi',
@@ -25,4 +34,6 @@ const expectedData = {
 
 };
 
-export { incompleteData, improperData, expectedData };
+export {
+ incompleteData, improperData, expectedData, unwantedParams 
+};
