@@ -1,14 +1,14 @@
 /* global styles */
 
 body{
-    font: 17px/1.5 'Ubuntu', sans-serif;
+    font: 16px/1.5 'Ubuntu', sans-serif;
     background-color:#E6E6E6;
     padding:0;
     margin:0;
   }
 
   .container{
-    width: 80%;
+    width: 85%;
     margin: auto;
     overflow:hidden;
   }
@@ -39,7 +39,7 @@ hr {
   header {
       background-color: #1C066B;
       border-bottom: 3px solid  #DFB607; 
-      padding: 5px;
+      padding: 2px 5px 2px 5px;
   }
 
 
@@ -194,7 +194,7 @@ nav #book{
 #info #selling-point2 {
     width: 49%;
     float: right;
-    padding: 10px 30px 10px 30px;
+    padding: 10px 20px 10px 20px;
     box-sizing: border-box; 
     font-size: 20px;
     background: #1C066B;  
@@ -212,7 +212,7 @@ nav #book{
 }
 
 #info2 #selling-point3 {
-    padding:  30px;
+    padding:  20px;
     background: white;
     width: 50%;
     color: #1C066B;
