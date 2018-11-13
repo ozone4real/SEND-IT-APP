@@ -1,16 +1,11 @@
 import { Router, json, urlencoded } from 'express';
-import parcelData from '../db/parcelData';
+import UserController from '../controllers/userController';
 
 const router = Router();
 
 router.use(json());
 router.use(urlencoded({ extended: false }));
 
-router.get('/:userId/parcels', (req, res) => {
-  const { userId } = req.params;
-  const userOrders = parcelData.filter(a => a.userId === userId);
-  if (userOrders.length === 0) return res.status(404).json({ message: 'No orders found for user' });
-  res.status(200).json(userOrders);
-});
+router.get('/:userId/parcels', UserController.getAllUserOrders);
 
 export default router;
