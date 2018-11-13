@@ -104,6 +104,7 @@ nav{
     margin-left: 10px;
     display: none;
     cursor: pointer;
+    font-size: 23px;
 }
 
 
@@ -239,15 +240,21 @@ nav #book{
 /* footer styles */
 
 footer {
-    text-align: center;
     background: #1C066B;
     border-top: 2px solid  #DFB607;
     color:  white;
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: center;
 }
 
-footer #phone, footer #mail{
-display: inline-block;
-padding: 10px 50px 10px 50px;
+footer #phone{
+padding: 10px;
+float: left;
+}
+footer #mail{
+    padding: 10px;
+    float: right;  
 }
 
 
@@ -278,7 +285,7 @@ form h3{
 }
 
 
-form input {
+form input, select{
     width: 90%;
     display: block;
     margin: 0 0 40px 0;
@@ -288,8 +295,11 @@ form input {
     border-radius: 5px;
 
 }
+option:hover {
+  background: #1C066B;  
+}
 
-form input:focus{
+form input:focus, select:focus {
     outline-color: #1C066B;
     -moz-outline-radius: 5px;
 }
@@ -302,12 +312,19 @@ form button{
     margin-bottom: 10px;
 }
 
+
 form a{
     color: #1C066B;
     text-decoration: underline;
 }
 
-#about, #profile{
+fieldset {
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+}
+
+#about{
     
     margin-bottom: 40px;
 } 
@@ -321,6 +338,32 @@ form a{
     margin: 0;
 }
 
+
+#profile {
+background: white;
+text-align: center;
+padding: 40px 40px 80px 40px;
+}
+
+#profile a {
+    text-decoration: underline;
+    color: #DFB607;
+}
+#profile hr {
+    width: 600px;
+    border: 1px solid #1C066B;
+}
+
+#profile #basic-details{
+    padding: 20px;
+}
+#profile #username {
+font-size: 30px;
+}
+
+#admin {
+background: white;
+}
 #admin-edit{
     padding: 10px;
     margin-bottom: 20px;
@@ -331,7 +374,6 @@ form a{
 }
 
 #orders-in-transit ul {
-    color: rgb(255, 0, 64);
     padding: 0;
     
 }

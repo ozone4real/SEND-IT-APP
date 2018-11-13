@@ -26,7 +26,7 @@
             </header>
             <nav>
                     <div class= 'container'>
-                            <span id= 'nav-bar'><i class="fas fa-bars fa-2x"></i></span>
+                            <span id= 'nav-bar'><i class="fas fa-bars"></i></span>
                         <div id= 'nav-contents'> 
                             <a href = 'index.html'><i class="fa fa-home"></i> HOME</a>
                             <a href = 'about.html'><i class="fas fa-users"></i> ABOUT US</a>
@@ -45,11 +45,34 @@
             <div class= 'form-container'>
                 <form id= 'booking-form'>
                     <h3>Need to deliver a Package? Fill the form below!</h3>
-                    <input id = 'pick-up-add' type="text" name='pickupAddress' placeholder="Pick up Address">
-                    <input id = 'delivery-add' type="text" name='deliveryAddress' placeholder="Delivery Address">
-                    <input id = 'delivery-items' type="text" name='deliveryItems' placeholder="Items to Deliver (e.g: clothes, electronics, food stuffs, e.t.c)">
+                    <fieldset>
+                        <legend><h4>Pick-up Address</h4></legend>
+                        <input id = 'address' type="text" name='Address' placeholder="Address">
+                        <input id = 'city' type="text" name='city' placeholder="City/Town">
+                        <select id = 'lg1' name='lg1'>
+                            <option>Local Government</option>
+                        </select>
+                    </fieldset>
+                    <fieldset>
+                            <legend><h4>Delivery Address</h4></legend>
+                            <input id = 'address' type="text" name='Address' placeholder="Address">
+                            <input id = 'city' type="text" name='city' placeholder="City/Town">
+                            <select id = 'lg2' name='lg2'>
+                                <option>Local Government</option>
+                            </select>
+                        </fieldset>
+                        <label><h4>Pick-up Time</h4></label>
                     <input id = 'delivery-time' type="datetime-local" name='deliveryTime' placeholder="Delivery Time">
-                    <button type="submit">BOOK NOW</button>
+                    <label><h4>Parcel Weight</h4></label>
+                    <select id = 'parcelDescription' name='parcelDescription'>
+                        <option selected="true" disabled>Parcel Weight</option>
+                        <option value="0kg - 5kg">0kg - 5kg (N50/km)</option>
+                        <option value="5kg - 20kg">5kg - 20kg (N70/km)</option>
+                        <option value="20kg - 50kg">20kg - 50kg (N100/km)</option>
+                        <option value="50kg - 100kg">50kg - 100kg (N150/km)</option>
+                        <option value="100kg above">100kg above (N200/km)</option>
+                    </select>
+                    <button type="submit">CREATE ORDER</button>
                 </form>
             </div>
         </div>
@@ -81,6 +104,7 @@
                     
             </div>
         </footer>
+        <script src = "scripts/bookings.js"></script>
         <script src="scripts/main.js"></script>
     </body>
     </html>
