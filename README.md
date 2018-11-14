@@ -42,7 +42,7 @@ User interface is hosted <a href= "https://ozone4real.github.io/SEND-IT-APP/UI/"
 
 **Testing tools**
 * <a href="https://jasmine.github.io/">Jasmine</a> - A Javascript testing framework.
-* <a href= "https://www.npmjs.com/package/supertest">Supertests</a> - Request module for testing HTTP servers.
+* <a href= "https://www.npmjs.com/package/supertest">Supertest</a> - Request module for testing HTTP servers.
 
 
 
