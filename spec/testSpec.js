@@ -158,7 +158,7 @@ it('should respond with a 200 (success) status code if the order was found and r
     });
 });
 
-
+//POST /api/v1/auth/signup
 describe('signup user endpoint', () => {
   it('should respond with a 400 (Bad request) status code if all required parameters are not provided by a user', (done) => {
     request(app)
