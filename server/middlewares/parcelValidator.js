@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const dataKeys = ['userId', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription'];
+import validationHelper from './helpers/validationHelpers';
 
 function improperVal(req) {
   const {
@@ -21,49 +21,10 @@ function improperVal(req) {
   return improperValues;
 }
 
-function incompleteVal(req) {
-  const missingKeys = [];
 
-  dataKeys.forEach((item) => {
-    if (!req.body[item]) missingKeys.push(item);
-  });
-
-  return missingKeys;
+function parcelValidator(req, res, next) {
+  const dataKeys = ['userId', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription'];
+  validationHelper(req, res, dataKeys, improperVal, next);
 }
 
-function unwantedKeys(req) {
-  const unwanted = [];
-  const reqBody = Object.keys(req.body);
-  reqBody.forEach((item) => {
-    if (!dataKeys.includes(item)) unwanted.push(item);
-  });
-
-  return unwanted;
-}
-
-function validator(req, res, next) {
-  let unwanted = unwantedKeys(req);
-
-  if (unwanted.length !== 0) {
-    unwanted = unwanted.join(', ');
-    return res.status(400).json({ message: `Unwanted parameter(s) ${unwanted}` });
-  }
-
-  let missingKeys = incompleteVal(req);
-
-  if (missingKeys.length !== 0) {
-    missingKeys = missingKeys.join(', ');
-    const respMessage = `Incomplete request: ${missingKeys} parameter(s) missing`;
-    return res.status(400).json({ message: respMessage });
-  }
-
-  let improperValues = improperVal(req);
-
-  if (improperValues.length !== 0) {
-    improperValues = improperValues.join(', ');
-    return res.status(400).json({ message: improperValues });
-  }
-  next();
-}
-
-export default validator;
+export default parcelValidator;

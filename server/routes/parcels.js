@@ -1,5 +1,5 @@
 import { Router, json, urlencoded } from 'express';
-import validateOrder from '../middlewares/validator';
+import validateOrder from '../middlewares/parcelValidator';
 import ParcelController from '../controllers/parcelController';
 
 const router = Router();
