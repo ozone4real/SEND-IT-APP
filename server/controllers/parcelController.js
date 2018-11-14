@@ -1,4 +1,4 @@
-import parcelData from '../db/parcelData';
+import parcelData from '../model/parcelData';
 
 class ParcelControllers {
   static createOrder(req, res) {
