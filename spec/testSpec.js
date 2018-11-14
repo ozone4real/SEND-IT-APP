@@ -1,8 +1,6 @@
 import request from 'supertest';
 
-import {
-  incompleteData, improperData, expectedData, unwantedParams,
-} from './testHelper';
+import {userTestData, parcelTestData} from './testHelper';
 import app from '../server/index';
 
 
@@ -11,7 +9,7 @@ describe('create-parcel-delivery-order endpoint', () => {
   it('should respond with a 400 (Bad request) status code if all required parameters are not provided by a user', (done) => {
     request(app)
       .post('/api/v1/parcels')
-      .send(incompleteData)
+      .send(parcelTestData.incompleteData)
       .expect(400)
       .expect((res) => {
         expect(res.body.message).toMatch(/Incomplete request/i);
@@ -24,7 +22,7 @@ describe('create-parcel-delivery-order endpoint', () => {
   it('should respond with a 400 (Bad request) status code if unwanted parameters are provided by a user', (done) => {
     request(app)
       .post('/api/v1/parcels')
-      .send(unwantedParams)
+      .send(parcelTestData.unwantedParams)
       .expect(400)
       .expect((res) => {
         expect(res.body.message).toMatch(/Unwanted parameter/i);
@@ -38,7 +36,7 @@ describe('create-parcel-delivery-order endpoint', () => {
   it('should respond with a 400 (Bad request) status code if the data is improper', (done) => {
     request(app)
       .post('/api/v1/parcels')
-      .send(improperData)
+      .send(parcelTestData.improperData)
       .expect(400)
       .end(() => {
         done();
@@ -48,7 +46,7 @@ describe('create-parcel-delivery-order endpoint', () => {
   it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
     request(app)
       .post('/api/v1/parcels')
-      .send(expectedData)
+      .send(parcelTestData.expectedData)
       .expect(200)
       .expect((res) => {
         const dataKeys = Object.keys(res.body);
@@ -158,4 +156,58 @@ it('should respond with a 200 (success) status code if the order was found and r
     .end(() => {
       done();
     });
+});
+
+
+describe('signup user endpoint', () => {
+  it('should respond with a 400 (Bad request) status code if all required parameters are not provided by a user', (done) => {
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(userTestData.incompleteData)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toMatch(/Incomplete request/i);
+      })
+      .end(() => {
+        done();
+      });
+  });
+
+  it('should respond with a 400 (Bad request) status code if unwanted parameters are provided by a user', (done) => {
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(userTestData.unwantedParams)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toMatch(/Unwanted parameter/i);
+      })
+      .end(() => {
+        done();
+      });
+  });
+
+
+  it('should respond with a 400 (Bad request) status code if the data is improper', (done) => {
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(userTestData.improperData)
+      .expect(400)
+      .end(() => {
+        done();
+      });
+  });
+
+  it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send(userTestData.expectedData)
+      .expect(200)
+      .expect((res) => {
+        const dataKeys = Object.keys(res.body);
+        expect(datakeys).toEqual(jasmine.arrayContaining(['fullname', 'email', 'password', 'isAdmin', 'phoneNo', 'userId']));
+      })
+      .end(() => {
+        done();
+      });
+  });
 });
