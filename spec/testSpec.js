@@ -197,7 +197,7 @@ describe('signup user endpoint', () => {
       });
   });
 
-  it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
+  it('should respond with a 200 success status code and sign up the user if all values provided are acceptable', (done) => {
     request(app)
       .post('/api/v1/auth/signup')
       .send(userTestData.expectedData)
