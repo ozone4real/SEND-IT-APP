@@ -331,11 +331,15 @@ fieldset {
 
 #about #about-sec {
     background: white;
-    padding: 25px;
+    padding: 30px;
 }
 
 #about li {
     margin: 0;
+}
+
+#about ul {
+    padding: 5px;
 }
 
 
@@ -503,8 +507,16 @@ background: white;
     #services, 
     article, 
     #profile .container div{
-        padding: 10px
-    }    
+        padding: 10px;
+    } 
+    
+    #services-section {
+        padding: 10px;
+    }
+
+    #about #about-sec {
+        padding: 10px;
+    }
 
 }
 
