@@ -1,6 +1,6 @@
 import request from 'supertest';
 
-import {userTestData, parcelTestData} from './testHelper';
+import parcelTestData from './mockdata/parcelMockData';
 import app from '../server/index';
 
 
@@ -156,58 +156,4 @@ it('should respond with a 200 (success) status code if the order was found and r
     .end(() => {
       done();
     });
-});
-
-//POST /api/v1/auth/signup
-describe('signup user endpoint', () => {
-  it('should respond with a 400 (Bad request) status code if all required parameters are not provided by a user', (done) => {
-    request(app)
-      .post('/api/v1/auth/signup')
-      .send(userTestData.incompleteData)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.message).toMatch(/Incomplete request/i);
-      })
-      .end(() => {
-        done();
-      });
-  });
-
-  it('should respond with a 400 (Bad request) status code if unwanted parameters are provided by a user', (done) => {
-    request(app)
-      .post('/api/v1/auth/signup')
-      .send(userTestData.unwantedParams)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.message).toMatch(/Unwanted parameter/i);
-      })
-      .end(() => {
-        done();
-      });
-  });
-
-
-  it('should respond with a 400 (Bad request) status code if the data is improper', (done) => {
-    request(app)
-      .post('/api/v1/auth/signup')
-      .send(userTestData.improperData)
-      .expect(400)
-      .end(() => {
-        done();
-      });
-  });
-
-  it('should respond with a 200 success status code and sign up the user if all values provided are acceptable', (done) => {
-    request(app)
-      .post('/api/v1/auth/signup')
-      .send(userTestData.expectedData)
-      .expect(200)
-      .expect((res) => {
-        const dataKeys = Object.keys(res.body);
-        expect(datakeys).toEqual(jasmine.arrayContaining(['fullname', 'email', 'password', 'isAdmin', 'phoneNo', 'userId']));
-      })
-      .end(() => {
-        done();
-      });
-  });
 });

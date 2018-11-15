@@ -4,11 +4,11 @@
   "description": "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && npm run testbuild && jasmine dist/spec/testSpec.js",
+    "test": "nyc mocha --recursive tests --exit --require babel-register",
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
     "start": "npm run build && node dist/server/index.js",
-    "coveralls": "istanbul cover node_modules/jasmine/bin/jasmine.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "npm test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -26,9 +26,11 @@
   "homepage": "https://github.com/ozone4real/SEND-IT-APP#readme",
   "dependencies": {
     "bcrypt": "^3.0.2",
+    "chai": "^4.2.0",
     "express": "^4.16.4",
     "jasmine": "^3.3.0",
     "jasmine-node": "^1.16.2",
+    "mocha": "^5.2.0",
     "pg": "^7.6.1",
     "request": "^2.88.0",
     "uuid": "^3.3.2"
@@ -36,12 +38,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "coveralls": "^3.0.2",
     "eslint": "^5.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "nyc": "^13.1.0",
     "supertest": "^3.1.0"
   }
 }
