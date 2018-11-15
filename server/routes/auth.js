@@ -9,6 +9,8 @@ router.use(urlencoded({ extended: false }));
 
 router.post('/signup', userValidator, AuthController.signUpUser);
 
+router.post('/signin', AuthController.signInUser);
+
 export default router;
 
 

@@ -34,4 +34,19 @@ const userTestData = {
   },
 };
 
-export default userTestData;
+
+const signInTestData = {
+  invalidData: {
+    //invalid email/password
+    email: "agadinwanyi@gmail.com",
+    password: "mindurbizness",
+  },
+
+  validData: {
+    //valid email/password
+    email: "ezenwaogbonna1@gmail.com",
+    password: "ozone4real",
+  },
+}
+
+export {userTestData, signInTestData};
