@@ -1,6 +1,6 @@
 import request from 'supertest';
 
-import parcelTestData from './testHelper';
+import parcelTestData from './mockdata/parcelMockData';
 import app from '../server/index';
 
 
