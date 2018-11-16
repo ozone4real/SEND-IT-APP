@@ -365,12 +365,64 @@ padding: 40px 40px 80px 40px;
 font-size: 30px;
 }
 
+.grid-container, .title-container {
+    display: grid; 
+    grid-template-columns: 12% 12% 12% 15% 15% 12% 12% 16%;
+    background: white;
+}
+
+.grid-container {
+    border-bottom: 5px solid white;
+    background: #F2F2F2;
+}
+.title-container {
+    background: #1C066B;
+    color: white;
+    
+}    
+
+.grid-item, .title-grid-item {
+    padding: 1px;
+    text-align: center;
+}
+
+
 #admin {
 background: white;
 }
+
+#admin .container {
+    width: 93%;
+}
 #admin-edit{
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 90px;
+}
+#admin-edit ul {
+    padding: 0;
+    border-bottom: 1px solid #1C066B;
+}
+
+#button {
+    position: relative;
+}
+#button .drop-down {
+    position: absolute;
+    left: 0;
+    text-align: left;
+    width: 250%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px #1C066B;
+    display: none;
+    z-index: 1000;
+}
+
+#button .drop-down.toggle-dropdown {
+    display: block;
+}
+#button .drop-down li {
+    padding: 10px 0 10px 5px;
 }
 
 #admin-edit ul{
