@@ -51,9 +51,9 @@ describe('create-parcel-delivery-order endpoint', () => {
     request(app)
       .post('/api/v1/parcels')
       .send(parcelTestData.expectedData)
-      .expect(200)
+      .expect(201)
       .expect((res) => {
-        expect(res.body).to.includes.all.keys('userId', 'status', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription');
+        expect(res.body).to.includes.all.keys('userid', 'status', 'pickupaddress', 'destination', 'pickuptime', 'parceldescription', 'parcelweight');
       })
       .end((err) => {
         if (err) return done(err);
@@ -82,7 +82,7 @@ describe('GET all parcel delivery orders for a specific user', () => {
   it('should respond with a 404 (Not found) status code if there are no orders found for the user', (done) => {
     request(app)
     // request with an invalid user id : 'aaaak'
-      .get('/api/v1/users/:aaaak/parcels')
+      .get('/api/v1/users/aaaak/parcels')
       .expect(404)
       .expect((res) => {
         expect(res.body.message).to.equal('No orders found for user');
@@ -95,8 +95,8 @@ describe('GET all parcel delivery orders for a specific user', () => {
 
   it('should respond with a 200 (success) status code and return all orders for a user if there are any', (done) => {
     request(app)
-    // request with a valid user id : 'ayzay'
-      .get('/api/v1/users/ayzay/parcels')
+    // request with a valid user id : '8559ef1e-c674-4c84-9726-b86ad71f2509'
+      .get('/api/v1/users/8559ef1e-c674-4c84-9726-b86ad71f2509/parcels')
       .expect(200)
       .expect((res) => {
         expect(res.body).to.be.an('array');
@@ -127,10 +127,10 @@ describe('fetch-specific-delivery-order endpoint', () => {
   it('should respond with a 200 success status code if the order is found', (done) => {
     request(app)
     // request with valid parcel id
-      .get('/api/v1/parcels/1')
+      .get('/api/v1/parcels/4')
       .expect(200)
       .expect((res) => {
-        expect(res.body).to.includes.all.keys('userId', 'status', 'pickupAddress', 'deliveryAddress', 'deliveryTime', 'parcelDescription');
+        expect(res.body).to.includes.all.keys('userid', 'status', 'pickupaddress', 'destination', 'pickuptime', 'parceldescription', 'parcelweight');
       })
       .end((err) => {
         if (err) return done(err);
@@ -144,7 +144,7 @@ describe('cancel-parcel-delivery-order endpoint', () => {
   it('should respond with a 404 (Not found) status code if the order requested to be cancelled is not found', (done) => {
     request(app)
     // invalid parcel id : p089
-      .put('/api/v1/parcels/p089/cancel')
+      .put('/api/v1/parcels/089/cancel')
       .expect(404)
       .expect((res) => {
         expect(res.body.message).to.equal('Order not found');
@@ -158,8 +158,8 @@ describe('cancel-parcel-delivery-order endpoint', () => {
 
 it('should respond with a 200 (success) status code if the order was found and return the updated order data', (done) => {
   request(app)
-  // valid parcel id: 1
-    .put('/api/v1/parcels/1/cancel')
+  // valid parcel id: 3
+    .put('/api/v1/parcels/3/cancel')
     .expect(200)
     .expect((res) => {
       expect(res.body.status).to.equal('cancelled');
@@ -236,7 +236,7 @@ describe('sign in user endpoint', () => {
       .send(signInTestData.invalidData)
       .expect(401)
       .expect((res) => {
-        expect(res.body.message).to.equal('Invalid email or password');
+        expect(res.body.message).match(/Invalid email or password/i);
       })
       .end((err) => {
         if (err) return done(err);
@@ -250,7 +250,7 @@ describe('sign in user endpoint', () => {
       .send(signInTestData.validData)
       .expect(200)
       .expect((res) => {
-        expect(res.body.message).to.equal('login successful');
+        expect(res.body.message).match(/Welcome/i);
       })
       .end((err) => {
         if (err) return done(err);

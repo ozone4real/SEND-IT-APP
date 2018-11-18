@@ -2,6 +2,9 @@ import express from 'express';
 import parcels from './routes/parcels';
 import users from './routes/users';
 import auth from './routes/auth';
+import createTables from './db/migrations';
+
+createTables();
 
 const app = express();
 

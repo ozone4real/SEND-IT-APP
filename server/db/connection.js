@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import { Pool } from 'pg';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -7,4 +8,4 @@ async function dbExp(text, params) {
   return result;
 }
 
-export default dbExp;
+export default { query: dbExp };
