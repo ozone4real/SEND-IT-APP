@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-import parcelData from '../model/parcelData';
 import db from '../db/connection';
 
 class ParcelControllers {
