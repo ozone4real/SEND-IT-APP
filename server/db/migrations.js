@@ -33,4 +33,3 @@ const createTables = () => {
 
 export default createTables;
 
-
