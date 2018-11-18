@@ -1,11 +1,17 @@
-import parcelData from '../model/parcelData';
+import 'babel-polyfill';
+import db from '../db/connection';
 
 class UserController {
-  static getAllUserOrders(req, res) {
+  static async getAllUserOrders(req, res) {
     const { userId } = req.params;
-    const userOrders = parcelData.filter(a => a.userId === userId);
-    if (userOrders.length === 0) return res.status(404).json({ message: 'No orders found for user' });
-    res.status(200).json(userOrders);
+    try {
+      const result = await db.query('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
+      if (result.rows.length === 0) return res.status(404).json({ message: 'No orders found for user' });
+      res.status(200).json(result.rows);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 }
 

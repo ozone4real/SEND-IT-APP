@@ -1,31 +1,55 @@
+import 'babel-polyfill';
 import parcelData from '../model/parcelData';
+import db from '../db/connection';
 
 class ParcelControllers {
-  static createOrder(req, res) {
-    const order = req.body;
-    order.id = parcelData.length + 1;
-    order.status = 'received';
-    parcelData.push(order);
-    res.status(200).json(order);
+  static async createOrder(req, res) {
+    const {
+      userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight,
+    } = req.body;
+    try {
+      const result = await db.query('INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight) values ($1, $2, $3, $4, $5, $6) RETURNING *', [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight]);
+      res.status(201).json(result.rows[0]);
+    }
+    catch (error) {
+      console.log(error);
+      if (error.detail.match(/userid/i)) res.status(401).json({ message: "You'll have to be registered to create an order" });
+    }
+
   }
 
-  static getAllOrders(req, res) {
-    res.status(200).json(parcelData);
+  static async getAllOrders(req, res) {
+    try {
+      const result = await db.query('SELECT * FROM parcelOrders');
+      res.status(200).json(result.rows);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
-  static getOneOrder(req, res) {
+  static async getOneOrder(req, res) {
     const { parcelId } = req.params;
-    const order = parcelData.find(a => a.parcelId === parseInt(parcelId));
-    if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.status(200).json(order);
+    try {
+      const result = await db.query('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
+      if (result.rows.length === 0) return res.status(404).json({ message: 'Order not found' });
+      res.status(200).json(result.rows[0]);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
-  static cancelOrder(req, res) {
+  static async cancelOrder(req, res) {
     const { parcelId } = req.params;
-    const parcelOrder = parcelData.find(a => a.parcelId === parseInt(parcelId));
-    if (!parcelOrder) return res.status(404).send({ message: 'Order not found' });
-    parcelOrder.status = 'cancelled';
-    res.status(200).json(parcelOrder);
+    try {
+      const result = await db.query('UPDATE parcelOrders SET status=\'cancelled\' WHERE parcelId = $1 RETURNING *', [parcelId]);
+      if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
+      res.status(200).json(result.rows[0]);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 }
 

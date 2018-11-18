@@ -44,8 +44,8 @@ const signInTestData = {
 
   validData: {
     //valid email/password
-    email: "ezenwaogbonna1@gmail.com",
-    password: "ozone4real",
+    email: "franciscachinenye@gmail.com",
+    password: "francis908",
   },
 }
 
