@@ -17,6 +17,8 @@ router.get('/:parcelId', ParcelController.getOneOrder);
 
 router.put('/:parcelId/cancel/', UpdateValidator.cancel, ParcelController.cancelOrder);
 
-router.put('/:parcelId/status', [Auth.genAuth, Auth.adminAuth, UpdateValidator.changeStatus], ParcelController.changeStatus);
+router.put('/:parcelId/status', [Auth.genAuth, Auth.adminAuth, UpdateValidator.changeStatus, UpdateValidator.delivered], ParcelController.changeStatus);
+
+router.put('/:parcelId/destination', UpdateValidator.changeDestination, ParcelController.changeDestination);
 
 export default router;
