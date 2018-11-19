@@ -1,5 +1,6 @@
 import { Router, json, urlencoded } from 'express';
-import validateOrder from '../middlewares/parcelValidator';
+import validateOrder from '../middlewares/parcelOrderValidator';
+import UpdateValidator from '../middlewares/parcelUpdateValidator';
 import ParcelController from '../controllers/parcelController';
 import Auth from '../middlewares/auth';
 
@@ -14,6 +15,8 @@ router.get('/', [Auth.genAuth, Auth.adminAuth], ParcelController.getAllOrders);
 
 router.get('/:parcelId', ParcelController.getOneOrder);
 
-router.put('/:parcelId/cancel/', ParcelController.cancelOrder);
+router.put('/:parcelId/cancel/', UpdateValidator.cancel, ParcelController.cancelOrder);
+
+router.put('/:parcelId/status', [Auth.genAuth, Auth.adminAuth, UpdateValidator.changeStatus], ParcelController.changeStatus);
 
 export default router;
