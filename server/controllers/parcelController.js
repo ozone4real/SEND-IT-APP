@@ -74,6 +74,19 @@ class ParcelControllers {
       console.log(error);
     }
   }
+
+  static async changePresentLocation(req, res) {
+    const { presentLocation } = req.body;
+    const { parcelId } = req.params;
+    try {
+      const result = await db.query('UPDATE parcelOrders SET presentLocation = $1 WHERE parcelId= $2 RETURNING *', [presentLocation, parcelId]);
+      res.status(200).json(result.rows[0]);
+    }
+    catch (error) {
+      console.log(error);
+    }
+
+  }
 }
 
 export default ParcelControllers;

@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-import { request } from 'http';
 import db from '../db/connection';
 
 class UpdateValidator {
@@ -57,6 +56,22 @@ class UpdateValidator {
       if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the destination of an already delivered order' });
       if (!destination) return res.status(400).json({ message: 'invalid request, new destination not provided' });
       if (!/.{15,}/.test(destination)) return res.status(400).json({ message: 'destination not detailed enough' });
+      next();
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async changePresentLocation(req, res, next) {
+    const { presentLocation } = req.body;
+    const { parcelId } = req.params;
+    try {
+      const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
+      if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
+      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the present location of an already delivered parcel' });
+      if (!presentLocation) return res.status(400).json({ message: 'Invalid request, present location not provided' });
+      if (!/[\dA-Za-z]{1,20}/.test(presentLocation)) return res.status(400).json({ message: 'invalid location or location length too long' });
       next();
     }
     catch (error) {
