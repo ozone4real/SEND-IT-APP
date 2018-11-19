@@ -18,7 +18,7 @@ const parcelTable = `CREATE TABLE IF NOT EXISTS parcelOrders (
     pickupAddress VARCHAR(255) NOT NULL,
     destination VARCHAR(255) NOT NULL,
     pickupTime TIMESTAMP NOT NULL,
-    status VARCHAR(15) DEFAULT 'received',
+    status VARCHAR(15) DEFAULT 'recorded',
     presentLocation VARCHAR(255),
     receivedBy VARCHAR(255),
     receivedAt TIMESTAMP,

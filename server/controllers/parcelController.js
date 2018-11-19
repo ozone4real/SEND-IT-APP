@@ -50,6 +50,18 @@ class ParcelControllers {
       console.log(error);
     }
   }
+
+  static async changeStatus(req, res) {
+    const { status } = req.body;
+    const { parcelId } = req.params;
+    try {
+      const result = await db.query('UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *', [status, parcelId]);
+      return res.status(200).json(result.rows[0]);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default ParcelControllers;
