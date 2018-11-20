@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import db from '../db/connection';
 
 class UserController {
-  static async getAllUserOrders(req, res) {
+  static async getAllUserOrders(req, res, next) {
     const { userId } = req.params;
     try {
       const result = await db.query('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
@@ -11,11 +11,8 @@ class UserController {
     }
     catch (error) {
       console.log(error);
+      next();
     }
-  }
-
-  static async getOneUserOrder(req, res) {
-
   }
 }
 

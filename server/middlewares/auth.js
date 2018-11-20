@@ -11,7 +11,8 @@ class Auth {
     }
     catch (error) {
       console.log(error);
-      res.status(401).json({ message: 'Access denied, invalid token provided' });
+      if (error.message.match(/invalid token/i)) return res.status(401).json({ message: 'Access denied, invalid token provided' });
+      res.status(500).send('<h1>Internal server error. Something bad happened</h1>');
     }
   }
 

@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import db from '../db/connection';
 
 class ParcelControllers {
-  static async createOrder(req, res) {
+  static async createOrder(req, res, next) {
     const {
       userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight,
     } = req.body;
@@ -13,21 +13,23 @@ class ParcelControllers {
     catch (error) {
       console.log(error);
       if (error.detail.match(/userid/i)) res.status(401).json({ message: "You'll have to be registered to create an order" });
+      next();
     }
 
   }
 
-  static async getAllOrders(req, res) {
+  static async getAllOrders(req, res, next) {
     try {
       const result = await db.query('SELECT * FROM parcelOrders');
       res.status(200).json(result.rows);
     }
     catch (error) {
       console.log(error);
+      next();
     }
   }
 
-  static async getOneOrder(req, res) {
+  static async getOneOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
       const result = await db.query('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
@@ -36,10 +38,11 @@ class ParcelControllers {
     }
     catch (error) {
       console.log(error);
+      next();
     }
   }
 
-  static async cancelOrder(req, res) {
+  static async cancelOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
       const result = await db.query('UPDATE parcelOrders SET status=\'cancelled\' WHERE parcelId = $1 RETURNING *', [parcelId]);
@@ -48,10 +51,11 @@ class ParcelControllers {
     }
     catch (error) {
       console.log(error);
+      next();
     }
   }
 
-  static async changeStatus(req, res) {
+  static async changeStatus(req, res, next) {
     const { status } = req.body;
     const { parcelId } = req.params;
     try {
@@ -60,10 +64,11 @@ class ParcelControllers {
     }
     catch (error) {
       console.log(error);
+      next();
     }
   }
 
-  static async changeDestination(req, res) {
+  static async changeDestination(req, res, next) {
     const { destination } = req.body;
     const { parcelId } = req.params;
     try {
@@ -72,10 +77,11 @@ class ParcelControllers {
     }
     catch (error) {
       console.log(error);
+      next();
     }
   }
 
-  static async changePresentLocation(req, res) {
+  static async changePresentLocation(req, res, next) {
     const { presentLocation } = req.body;
     const { parcelId } = req.params;
     try {
@@ -84,6 +90,7 @@ class ParcelControllers {
     }
     catch (error) {
       console.log(error);
+      next();
     }
 
   }

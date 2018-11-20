@@ -6,7 +6,7 @@ import db from '../db/connection';
 
 
 class AuthController {
-  static async signUpUser(req, res) {
+  static async signUpUser(req, res, next) {
     const {
       fullname, email, phoneNo, password,
     } = req.body;
@@ -21,10 +21,11 @@ class AuthController {
     catch (error) {
       if (error.detail.match(/email/i)) res.status(409).json({ message: 'Email already taken' });
       console.log(error);
+      next();
     }
   }
 
-  static async signInUser(req, res) {
+  static async signInUser(req, res, next) {
     const { email, password } = req.body;
     try {
       const result = await db.query('SELECT * FROM users where email = ($1)', [email]);
@@ -36,6 +37,7 @@ class AuthController {
     }
     catch (err) {
       console.log(err);
+      next();
     }
   }
 }
