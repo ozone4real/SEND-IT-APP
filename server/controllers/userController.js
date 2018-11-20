@@ -13,6 +13,10 @@ class UserController {
       console.log(error);
     }
   }
+
+  static async getOneUserOrder(req, res) {
+
+  }
 }
 
 export default UserController;
