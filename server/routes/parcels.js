@@ -21,4 +21,6 @@ router.put('/:parcelId/status', [Auth.genAuth, Auth.adminAuth, UpdateValidator.c
 
 router.put('/:parcelId/destination', UpdateValidator.changeDestination, ParcelController.changeDestination);
 
+router.put('/:parcelId/presentLocation', [Auth.genAuth, Auth.adminAuth, UpdateValidator.changePresentLocation], ParcelController.changePresentLocation);
+
 export default router;
