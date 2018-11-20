@@ -405,16 +405,6 @@ background: white;
     border-bottom: 1px solid #1C066B;
 }
 
-#admin-edit ul{
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    margin-right:0;
-}
-
-#admin .container{
-    width: 100%;
-}
 
 #orders-in-transit ul {
     padding: 0;
@@ -561,10 +551,17 @@ background: white;
         font-size: 70%;
     }
 
-    #admin-edit ul{
-        padding: 0;
-    }
+   
+#admin-edit ul{
+    padding: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right:0;
+}
 
+#admin .container{
+    width: 100%;
+}
     #button button{
         font-size:50%;
     }
