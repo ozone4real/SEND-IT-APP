@@ -407,6 +407,13 @@ background: white;
 
 #admin-edit ul{
     padding: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right:0;
+}
+
+#admin .container{
+    width: 100%;
 }
 
 #orders-in-transit ul {
@@ -551,7 +558,11 @@ background: white;
     }
 
     #admin-edit {
-        font-size: 70%
+        font-size: 70%;
+    }
+
+    #admin-edit ul{
+        padding: 0;
     }
 
     #button button{
