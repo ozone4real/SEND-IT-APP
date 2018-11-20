@@ -558,6 +558,10 @@ background: white;
         font-size:50%;
     }
 
+    footer #phone, footer #mail {
+        float: none;
+    } 
+
 }
 
 
@@ -598,6 +602,10 @@ background: white;
 
     #button button{
         font-size: 30%;
+    }
+
+    footer{
+        font-size: 80%;
     }
 
 
