@@ -16,10 +16,10 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(password, salt);
       const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password) values ($1, $2, $3, $4, $5) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword]);
       const token = jwt.sign({ userId: result.rows[0].userid, isAdmin: result.rows[0].isadmin }, process.env.jwt_privateKey);
-      res.status(201).header('x-auth-token', token).json(result.rows[0]);
+      res.status(201).json({ token, user: result.rows[0] });
     }
     catch (error) {
-      if (error.detail.match(/email/i)) res.status(409).json({ message: 'Email already taken' });
+      if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
       console.log(error);
       next();
     }
@@ -33,7 +33,7 @@ class AuthController {
       const validPassword = await bcrypt.compare(password, result.rows[0].password);
       if (!validPassword) return res.status(401).json({ message: 'Invalid Email or Password' });
       const token = jwt.sign({ userId: result.rows[0].userid, isAdmin: result.rows[0].isadmin }, process.env.jwt_privateKey);
-      res.status(200).header('x-auth-token', token).json({ message: `Welcome ${result.rows[0].fullname}` });
+      res.status(200).header('x-auth-token', token).json({ token, user: result.rows[0], message: `Welcome ${result.rows[0].fullname}` });
     }
     catch (err) {
       console.log(err);

@@ -28,8 +28,9 @@ const parcelTable = `CREATE TABLE IF NOT EXISTS parcelOrders (
 
 const createTables = () => {
   db.query(`${userTable} ${parcelTable}`)
-    .catch(error => console.log(error));
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export default createTables;
-

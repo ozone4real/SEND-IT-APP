@@ -4,7 +4,7 @@
   "description": "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --recursive tests --exit --require babel-register",
+    "test": "nyc mocha --recursive tests --timeout 5000 --exit --require babel-register --require babel-polyfill",
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
     "start": "npm run build && node dist/server/index.js",
@@ -28,6 +28,7 @@
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.2",
     "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "config": "^2.0.1",
     "express": "^4.16.4",
     "jasmine": "^3.3.0",

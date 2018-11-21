@@ -25,7 +25,7 @@ function improperVal(req) {
 
 
 function parcelValidator(req, res, next) {
-  const dataKeys = ['userId', 'pickupAddress', 'destination', 'pickupTime', 'parcelDescription', 'parcelWeight'];
+  const dataKeys = ['pickupAddress', 'destination', 'pickupTime', 'parcelDescription', 'parcelWeight'];
   validationHelper(req, res, dataKeys, improperVal, next);
 }
 

@@ -33,7 +33,6 @@ const parcelTestData = {
     pickupAddress: '8 Oluwaseyi st, Isashi',
     destination: '14 Hundeyin st, Badagary',
     parcelDescription: 'bag of rice and egg',
-    userId: '8559ef1e-c674-4c84-9726-b86ad71f2509',
     pickupTime: '2018-12-06T19:07',
     parcelWeight: '80kg',
   },
