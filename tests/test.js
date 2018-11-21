@@ -1,4 +1,3 @@
-
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import bcrypt from 'bcrypt';
@@ -48,7 +47,6 @@ describe('Integration testing', () => {
       .set('x-auth-token', userToken)
       .send(parcelTestData.expectedData)
       .end((err, res) => {
-        if (err) return done(err);
         parcelId = res.body.parcelid;
         done();
       });
@@ -65,7 +63,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', userToken)
         .send(parcelTestData.incompleteData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           done();
         });
@@ -77,7 +74,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', userToken)
         .send(parcelTestData.unwantedParams)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res.body.message).match(/Unwanted parameter/i);
           expect(res).to.have.status(400);
           done();
@@ -91,7 +87,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', userToken)
         .send(parcelTestData.improperData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           return done();
         });
@@ -102,7 +97,6 @@ describe('Integration testing', () => {
         .post('/api/v1/parcels')
         .send(parcelTestData.expectedData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -115,7 +109,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .send(parcelTestData.expectedData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -128,7 +121,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', userToken)
         .send(parcelTestData.expectedData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(201);
           expect(res.body).to.includes.all.keys('userid', 'status', 'pickupaddress', 'destination', 'pickuptime', 'parceldescription', 'parcelweight');
           done();
@@ -142,7 +134,6 @@ describe('Integration testing', () => {
       chai.request(app)
         .get('/api/v1/parcels')
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -154,7 +145,6 @@ describe('Integration testing', () => {
         .get('/api/v1/parcels')
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -166,7 +156,6 @@ describe('Integration testing', () => {
         .get('/api/v1/parcels')
         .set('x-auth-token', userToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(403);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -178,7 +167,6 @@ describe('Integration testing', () => {
         .get('/api/v1/parcels')
         .set('x-auth-token', adminToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('array');
           done();
@@ -192,7 +180,6 @@ describe('Integration testing', () => {
       chai.request(app)
         .get(`/api/v1/users/${regUserId}/parcels`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -204,7 +191,6 @@ describe('Integration testing', () => {
         .get(`/api/v1/users/${regUserId}/parcels`)
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -216,7 +202,6 @@ describe('Integration testing', () => {
         .get(`/api/v1/users/${adminUserId}/parcels`)
         .set('x-auth-token', userToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(403);
           expect(res.body.message).match(/forbidden/i);
           done();
@@ -230,7 +215,6 @@ describe('Integration testing', () => {
         .get(`/api/v1/users/${adminUserId}/parcels`)
         .set('x-auth-token', adminToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(404);
           expect(res.body.message).match(/no orders/i);
           done();
@@ -242,7 +226,6 @@ describe('Integration testing', () => {
         .get(`/api/v1/users/${regUserId}/parcels`)
         .set('x-auth-token', userToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('array');
           done();
@@ -256,7 +239,6 @@ describe('Integration testing', () => {
       chai.request(app)
         .get('/api/v1/parcels/1')
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -268,7 +250,6 @@ describe('Integration testing', () => {
         .get('/api/v1/parcels/1')
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -281,7 +262,6 @@ describe('Integration testing', () => {
         .get('/api/v1/parcels/1000000')
         .set('x-auth-token', `${userToken}`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(404);
           expect(res.body.message).to.equal('Order not found');
           return done();
@@ -294,7 +274,6 @@ describe('Integration testing', () => {
         .get(`/api/v1/parcels/${parcelId}`)
         .set('x-auth-token', `${userToken}`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(200);
           expect(res.body).to.includes.all.keys('userid', 'status', 'pickupaddress', 'destination', 'pickuptime', 'parceldescription', 'parcelweight');
           return done();
@@ -308,7 +287,6 @@ describe('Integration testing', () => {
       chai.request(app)
         .put('/api/v1/parcels/1/cancel')
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -320,7 +298,6 @@ describe('Integration testing', () => {
         .put('/api/v1/parcels/1/cancel')
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -333,7 +310,6 @@ describe('Integration testing', () => {
         .put('/api/v1/parcels/1000000/cancel')
         .set('x-auth-token', `${userToken}`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(404);
           expect(res.body.message).to.equal('Order not found');
           return done();
@@ -347,7 +323,6 @@ describe('Integration testing', () => {
       .put(`/api/v1/parcels/${parcelId}/cancel`)
       .set('x-auth-token', `${userToken}`)
       .end((err, res) => {
-        if (err) return done(err);
         expect(res).to.have.status(200);
         expect(res.body.status).to.equal('cancelled');
         return done();
@@ -362,7 +337,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signup')
         .send(signUpTestData.incompleteData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           expect(res.body.message).match(/Incomplete request/i);
           return done();
@@ -374,7 +348,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signup')
         .send(signUpTestData.unwantedParams)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           expect(res.body.message).match(/Unwanted parameter/i);
           return done();
@@ -387,7 +360,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signup')
         .send(signUpTestData.invalidData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           return done();
         });
@@ -398,7 +370,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signup')
         .send(signUpTestData.expectedData3)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(201);
           expect(res.body.user).to.includes.all.keys('phoneno', 'email', 'password', 'fullname', 'userid');
           expect(res.body.token);
@@ -414,7 +385,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signin')
         .send(signInTestData.invalidData)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/Invalid email or password/i);
           return done();
@@ -426,7 +396,6 @@ describe('Integration testing', () => {
         .post('/api/v1/auth/signin')
         .send(signInTestData.validData1)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(200);
           expect(res.body.message).match(/Welcome/i);
           return done();
@@ -441,7 +410,6 @@ describe('Integration testing', () => {
         .put(`/api/v1/parcels/${parcelId}/status`)
         .send({ status: 'in transit' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -454,7 +422,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .send({ status: 'delivered' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -467,7 +434,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', userToken)
         .send({ status: 'delivered' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(403);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -480,7 +446,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', adminToken)
         .send({ status: 'delivered' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(404);
           expect(res.body.message).match(/not found/i);
           done();
@@ -493,7 +458,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', adminToken)
         .send({ status: 'sleeping' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           expect(res.body.message).match(/invalid/i);
           done();
@@ -506,7 +470,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', adminToken)
         .send({ status: 'in transit' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(400);
           expect(res.body.message).to.equal("Changing the status to 'in transit' requires a 'present location', value");
           done();
@@ -519,7 +482,6 @@ describe('Integration testing', () => {
         .set('x-auth-token', adminToken)
         .send({ status: 'in transit', presentLocation: 'Badagary' })
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(200);
           expect(res.body.status).to.equal('in transit');
           done();
@@ -532,7 +494,6 @@ describe('Integration testing', () => {
       chai.request(app)
         .put('/api/v1/parcels/1/destination')
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -544,7 +505,6 @@ describe('Integration testing', () => {
         .put('/api/v1/parcels/1/destination')
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
           done();
@@ -556,7 +516,6 @@ describe('Integration testing', () => {
         .put('/api/v1/parcels/100000/destination')
         .set('x-auth-token', userToken)
         .end((err, res) => {
-          if (err) return done(err);
           expect(res).to.have.status(404);
           expect(res.body.message).match(/not found/i);
           done();
