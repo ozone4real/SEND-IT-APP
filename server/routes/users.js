@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { DataCreationValidator } from '../middlewares/dataValidator';
-import UserController from '../controllers/UserController';
+import UserController from '../controllers/userController';
 import Auth from '../middlewares/auth';
 
 
 const { userAuth } = Auth;
-const { getAllUserOrders, signInUser, signUpUser, signUpAdmin } = UserController;
+const {
+  getAllUserOrders, signInUser, signUpUser, signUpAdmin
+} = UserController;
 const { userDataValidator } = DataCreationValidator;
 
 
