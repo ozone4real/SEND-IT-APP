@@ -22,8 +22,11 @@ class Auth {
       next();
     } catch (error) {
       console.log(error);
-      if (error.message.match(/key/i)) return res.status(500).send('<h1>Internal server error. Something bad happened</h1>');
-      res.status(401).json({ message: 'Access denied, invalid token provided' });
+      if (error.message.match(/key/i)) {
+        return res.status(500).send('Internal server error. Something bad happened');
+      }
+      res.status(401)
+        .json({ message: 'Access denied, invalid token provided' });
     }
   }
 
@@ -37,7 +40,12 @@ class Auth {
    */
   static adminAuth(req, res, next) {
     const { isAdmin } = req.user;
-    if (!isAdmin) return res.status(403).json({ message: "Access denied, you don't have the required credentials to access this route" });
+    if (!isAdmin) {
+      return res.status(403)
+        .json({
+          message: "Access denied, you don't have the required credentials to access this route"
+        });
+    }
     next();
   }
 }

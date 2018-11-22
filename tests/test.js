@@ -32,7 +32,11 @@ describe('Integration testing', () => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const res = await db.query('INSERT INTO users (userId, email, password, phoneNo, fullname, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [userId, email, hashedPassword, phoneNo, fullname, isAdmin]);
+    await db.query(
+      `INSERT INTO users (userId, email, password, phoneNo, fullname, isAdmin)
+       values ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [userId, email, hashedPassword, phoneNo, fullname, isAdmin]
+    );
 
     const response = await chai.request(app)
       .post('/api/v1/auth/signin')

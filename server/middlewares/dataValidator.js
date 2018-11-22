@@ -15,7 +15,7 @@ class ImproperValues {
    */
   static improperUserData(req) {
     const {
-      fullname, email, phoneNo, password,
+      fullname, email, phoneNo, password, isAdmin,
     } = req.body;
 
     const fnameTest = /^[a-zA-Z]+? [a-zA-Z]+?( [a-zA-Z]+?)?$/.test(fullname);
@@ -58,6 +58,7 @@ class ImproperValues {
     if (!pDeTest) improperValues.push('parcel description not detailed enough or too long. Min. Length:3, Max. Length:40');
     if (!pWeightTest) improperValues.push('parcel weight unit must be in kg');
 
+
     return improperValues;
   }
 }
@@ -76,6 +77,19 @@ class DataCreationValidator {
    */
   static userDataValidator(req, res, next) {
     const dataKeys = ['fullname', 'email', 'phoneNo', 'password'];
+    validationHelper(req, res, dataKeys, ImproperValues.improperUserData, next);
+  }
+
+
+  /**
+   * @description validates signup input for Admin
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware
+   */
+  static signUpAdminValidator(req, res, next) {
+    const dataKeys = ['fullname', 'isAdmin', 'email', 'phoneNo', 'password'];
     validationHelper(req, res, dataKeys, ImproperValues.improperUserData, next);
   }
 
@@ -130,9 +144,15 @@ class DataUpdateValidator {
     try {
       const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
       if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the status of an already delivered order' });
+      if (result.rows[0].status === 'delivered' || result.rows[0].status === 'cancelled') {
+        return res.status(400)
+          .json({ message: 'You cannot change the status of an already delivered or cancelled order' });
+      }
       if (!status) return res.status(400).json({ message: 'invalid request, new status not provided' });
-      if (!validValues.includes(status)) return res.status(400).json({ message: "Invalid status value. Value must be either 'recorded', 'in transit' or 'delivered'" });
+      if (!validValues.includes(status)) {
+        return res.status(400)
+          .json({ message: "Invalid status value. Value must be either 'recorded', 'in transit' or 'delivered'" });
+      }
       next();
     } catch (error) {
       console.log(error);
@@ -150,12 +170,22 @@ class DataUpdateValidator {
     const { status, receivedBy, receivedAt } = req.body;
     const { parcelId } = req.params;
     if (status !== 'delivered') return next();
-    if (!receivedBy || !receivedAt) return res.status(400).json({ message: 'Incomplete request, pls submit the name of the parcel receiver and the time the parcel was delivered' });
+    if (!receivedBy || !receivedAt) {
+      return res.status(400).json({ message: 'Incomplete request, pls submit the name of the parcel receiver and the time the parcel was delivered' });
+    }
+    if (!/^\d{4}-((1[0-2])|(0[1-9]))-((3[0-1])|([0-2][0-9]))T(([0-1][0-9])|(2[0-3])):[0-5][0-9]$/.test(receivedAt)) {
+      return res.status(400).json({ message: 'Invalid input syntax. Format must be timestamp' });
+    }
     try {
-      const result = await db.query('UPDATE parcelOrders SET status= $1, receivedBy= $2, receivedAt= $3 WHERE parcelId= $4 RETURNING *', [status, receivedBy, receivedAt, parcelId]);
+      const result = await db.query(
+        `UPDATE parcelOrders SET status= $1, receivedBy= $2, receivedAt= $3
+         WHERE parcelId= $4 RETURNING *`,
+        [status, receivedBy, receivedAt, parcelId]
+      );
       res.status(200).json(result.rows[0]);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      next();
     }
   }
 
@@ -171,17 +201,28 @@ class DataUpdateValidator {
     const { parcelId } = req.params;
 
     if (status !== 'in transit') return next();
-    if (!presentLocation) return res.status(400).json({ message: "Changing the status to 'in transit' requires a 'present location', value" });
-    if (!/[\dA-Za-z]{1,20}/.test(presentLocation)) return res.status(400).json({ message: 'invalid location or location length too long' });
+    if (!presentLocation) {
+      return res.status(400)
+        .json({ message: "Changing the status to 'in transit' requires a 'present location', value" });
+    }
+    if (!/[A-Za-z]{2,20}/.test(presentLocation)) {
+      return res.status(400).json({ message: 'invalid location or location length too long' });
+    }
 
     try {
-      const result = await db.query('UPDATE parcelOrders SET status = $1, presentLocation = $2 WHERE parcelId= $3 RETURNING *', [status, presentLocation, parcelId]);
+      const result = await db.query(
+        `UPDATE parcelOrders
+         SET status = $1, presentLocation = $2 
+         WHERE parcelId= $3 RETURNING *`,
+        [status, presentLocation, parcelId]
+      );
       res.status(200).json(result.rows[0]);
     } catch (error) {
       console.log(error);
       next();
     }
   }
+
 
   /**
    * @description validates change destination requests
@@ -196,9 +237,18 @@ class DataUpdateValidator {
     try {
       const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
       if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the destination of an already delivered order' });
-      if (!destination) return res.status(400).json({ message: 'invalid request, new destination not provided' });
-      if (!/.{15,}/.test(destination)) return res.status(400).json({ message: 'destination not detailed enough' });
+      if (result.rows[0].status === 'delivered' || result.rows[0].status === 'cancelled') {
+        return res.status(400)
+          .json({
+            message: 'You cannot change the destination of an already delivered or cancelled order'
+          });
+      }
+      if (!destination) {
+        return res.status(400).json({ message: 'invalid request, new destination not provided' });
+      }
+      if (!/.{15,}/.test(destination)) {
+        return res.status(400).json({ message: 'destination not detailed enough' });
+      }
       next();
     } catch (error) {
       console.log(error);
@@ -218,9 +268,16 @@ class DataUpdateValidator {
     try {
       const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
       if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the present location of an already delivered parcel' });
-      if (!presentLocation) return res.status(400).json({ message: 'Invalid request, present location not provided' });
-      if (!/[\dA-Za-z]{1,20}/.test(presentLocation)) return res.status(400).json({ message: 'invalid location or location length too long' });
+      if (result.rows[0].status === 'delivered') {
+        return res.status(400)
+          .json({ message: 'You cannot change the present location of an already delivered parcel' });
+      }
+      if (!presentLocation) {
+        return res.status(400).json({ message: 'Invalid request, present location not provided' });
+      }
+      if (!/[\dA-Za-z]{1,20}/.test(presentLocation)) {
+        return res.status(400).json({ message: 'invalid location or location length too long' });
+      }
       next();
     } catch (error) {
       console.log(error);
