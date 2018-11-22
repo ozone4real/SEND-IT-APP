@@ -3,7 +3,7 @@ import parcels from './routes/parcels';
 import users from './routes/users';
 import auth from './routes/auth';
 import createTables from './db/migrations';
-import error from './middlewares/error';
+import error from './helpers/error';
 
 createTables();
 

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 class Auth {
-  static genAuth(req, res, next) {
+  static userAuth(req, res, next) {
     const token = req.header('x-auth-token');
     if (!token) return res.status(401).json({ message: 'Access denied, token not provided' });
     try {

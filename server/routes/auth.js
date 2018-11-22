@@ -1,16 +1,17 @@
 import { Router, json, urlencoded } from 'express';
-import AuthController from '../controllers/authController';
-import userValidator from '../middlewares/userValidator';
+import userController from '../controllers/userController';
+import { DataCreationValidator } from '../middlewares/dataValidator';
+
+const { userDataValidator } = DataCreationValidator;
+const { signInUser, signUpUser } = userController;
 
 const router = Router();
 
 router.use(json());
 router.use(urlencoded({ extended: false }));
 
-router.post('/signup', userValidator, AuthController.signUpUser);
+router.post('/signup', userDataValidator, signUpUser);
 
-router.post('/signin', AuthController.signInUser);
+router.post('/signin', signInUser);
 
 export default router;
-
-
