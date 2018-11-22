@@ -7,9 +7,12 @@ const { signInUser, signUpUser } = userController;
 
 const router = Router();
 
+// Express middlewares
 router.use(json());
 router.use(urlencoded({ extended: false }));
 
+
+// User signup/signin endpoints
 router.post('/signup', userDataValidator, signUpUser);
 
 router.post('/signin', signInUser);

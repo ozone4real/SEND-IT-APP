@@ -2,7 +2,17 @@ import 'babel-polyfill';
 import db from '../db/connection';
 import validationHelper from '../helpers/validationHelpers';
 
+/**
+ * @description Represents a collection of improper data values submitted by a client
+ * @class improperUserData
+ */
 class ImproperValues {
+  /**
+   * @description captures all improper data from signup form
+   * @static
+   * @param {object} req Request Object
+   * @returns an array of improper data from signup form
+   */
   static improperUserData(req) {
     const {
       fullname, email, phoneNo, password,
@@ -23,6 +33,12 @@ class ImproperValues {
     return improperValues;
   }
 
+  /**
+   * @description captures mproper entries from parcel delivery creation data
+   * @static
+   * @param {object} req Request Object
+   * @returns an array of improper data from parcel delivery order form
+   */
   static improperParcelData(req) {
     const {
       pickupAddress, destination, pickupTime, parcelDescription, parcelWeight,
@@ -46,19 +62,48 @@ class ImproperValues {
   }
 }
 
+/**
+ * @description Represents a collection of input validators
+ * @class DataCreationValidator
+ */
 class DataCreationValidator {
+  /**
+   * @description validates user signup input
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware
+   */
   static userDataValidator(req, res, next) {
     const dataKeys = ['fullname', 'email', 'phoneNo', 'password'];
     validationHelper(req, res, dataKeys, ImproperValues.improperUserData, next);
   }
 
+  /**
+   * @description validates parcel delivery order input
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static parcelDataValidator(req, res, next) {
     const dataKeys = ['pickupAddress', 'destination', 'pickupTime', 'parcelDescription', 'parcelWeight'];
     validationHelper(req, res, dataKeys, ImproperValues.improperParcelData, next);
   }
 }
 
+/**
+ * @description Represents a collection of update request validators
+ * @class DataUpdateValidator
+ */
 class DataUpdateValidator {
+  /**
+   * @description validates cancel requests
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static async cancel(req, res, next) {
     const { parcelId } = req.params;
     try {
@@ -71,6 +116,13 @@ class DataUpdateValidator {
     }
   }
 
+  /**
+   * @description validates change status requests
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static async status(req, res, next) {
     const validValues = ['recorded', 'dispatched', 'in transit', 'delivered'];
     const { status } = req.body;
@@ -87,6 +139,13 @@ class DataUpdateValidator {
     }
   }
 
+  /**
+   * @description validates 'update status' requests with 'delivered' value
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static async delivered(req, res, next) {
     const { status, receivedBy, receivedAt } = req.body;
     const { parcelId } = req.params;
@@ -100,21 +159,13 @@ class DataUpdateValidator {
     }
   }
 
-  static async destination(req, res, next) {
-    const { destination } = req.body;
-    const { parcelId } = req.params;
-    try {
-      const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
-      if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the destination of an already delivered order' });
-      if (!destination) return res.status(400).json({ message: 'invalid request, new destination not provided' });
-      if (!/.{15,}/.test(destination)) return res.status(400).json({ message: 'destination not detailed enough' });
-      next();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
+  /**
+   * @description validates 'update status' requests with 'in transit' value
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static async inTransit(req, res, next) {
     const { status, presentLocation } = req.body;
     const { parcelId } = req.params;
@@ -132,6 +183,35 @@ class DataUpdateValidator {
     }
   }
 
+  /**
+   * @description validates change destination requests
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
+  static async destination(req, res, next) {
+    const { destination } = req.body;
+    const { parcelId } = req.params;
+    try {
+      const result = await db.query('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
+      if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
+      if (result.rows[0].status === 'delivered') return res.status(400).json({ message: 'You cannot change the destination of an already delivered order' });
+      if (!destination) return res.status(400).json({ message: 'invalid request, new destination not provided' });
+      if (!/.{15,}/.test(destination)) return res.status(400).json({ message: 'destination not detailed enough' });
+      next();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * @description validates 'update present location' requests
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   * @param {object} next passes control to the next middleware/handler
+   */
   static async presentLocation(req, res, next) {
     const { presentLocation } = req.body;
     const { parcelId } = req.params;
