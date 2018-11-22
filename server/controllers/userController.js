@@ -45,7 +45,7 @@ class UserController {
    * @static
    * @param {object} req Request Object
    * @param {object} res Response Object
-   * @param {object} next passes control to the next middleware/handler
+   * @param {object} next passes control to the next middleware/handler.
    */
   static async signUpAdmin(req, res, next) {
     const {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { DataCreationValidator, DataUpdateValidator } from '../middlewares/dataValidator';
-import ParcelController from '../controllers/ParcelController';
+import ParcelController from '../controllers/parcelController';
 import Auth from '../middlewares/auth';
 
 const {

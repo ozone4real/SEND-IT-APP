@@ -35,8 +35,8 @@ class ParcelControllers {
    * @static
    * @param {object} req Request Object
    * @param {object} res Response Object
-   * @param {object} next passes control to the next middleware/handler
-   * @returns a response object and status code
+   * @param {object} next passes control to the next middleware/handler.
+   * @returns a response object and status code.
    */
   static async getAllOrders(req, res, next) {
     try {
