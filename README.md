@@ -55,6 +55,8 @@ User interface is hosted <a href= "https://ozone4real.github.io/SEND-IT-APP/UI/"
 |   POST        | Create an order|`POST /api/v1/parcels`          |
 |   GET         | GET all orders by a user|`GET /api/v1/users/<userId>/parcels`|
 |   PUT         |Cancel an order |`PUT /api/v1/parcels/<parcelId>`|
+|   PUT         |Change destination of an order|`PUT /api/v1/parcels/<parcelId>/destination`|
+|PUT|Change status|PUT /api/v1/parcels/<parcelId>/status|
  
  
 ### HOW TO INSTALL THIS APP
