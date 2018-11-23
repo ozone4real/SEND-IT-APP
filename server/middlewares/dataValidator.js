@@ -82,18 +82,6 @@ class DataCreationValidator {
 
 
   /**
-   * @description validates signup input for Admin
-   * @static
-   * @param {object} req Request Object
-   * @param {object} res Response Object
-   * @param {object} next passes control to the next middleware
-   */
-  static signUpAdminValidator(req, res, next) {
-    const dataKeys = ['fullname', 'isAdmin', 'email', 'phoneNo', 'password'];
-    validationHelper(req, res, dataKeys, ImproperValues.improperUserData, next);
-  }
-
-  /**
    * @description validates parcel delivery order input
    * @static
    * @param {object} req Request Object

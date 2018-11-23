@@ -19,6 +19,6 @@ users.get('/:userId/parcels', userAuth, getAllUserOrders);
 
 auth.post('/signup', userDataValidator, signUpUser);
 auth.post('/signin', signInUser);
-auth.post('/signupAdmin', signUpAdmin);
+auth.post('/signupAdmin', userDataValidator, signUpAdmin);
 
 export { auth, users };

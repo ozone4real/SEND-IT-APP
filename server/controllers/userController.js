@@ -53,16 +53,15 @@ class UserController {
       email,
       phoneNo,
       password,
-      isAdmin
     } = req.body;
 
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, isAdmin]);
+      const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
       const token = jwt.sign({
         userId: result.rows[0].userid,
-        isAdmin: result.rows[0].isadmin,
+        isAdmin: true,
       }, process.env.jwt_privateKey);
       return res.status(201).json({ token, user: result.rows[0] });
     } catch (error) {
