@@ -8,7 +8,7 @@ router.use('/parcels', parcels);
 router.use('/users', users);
 router.use('/auth', auth);
 router.all('*', (req, res) => {
-  res.status(404).json({
+  res.status(200).json({
     message: 'Welcome to SENDIT. How are you doing?'
   });
 });
