@@ -1,4 +1,6 @@
-import jwt from 'jsonwebtoken';
+import TokenAuth from '../helpers/tokenAuth';
+
+const { verifyToken } = TokenAuth;
 
 /**
  * @description Represents authentication of user/admin
@@ -17,7 +19,7 @@ class Auth {
     const token = req.header('x-auth-token');
     if (!token) return res.status(401).json({ message: 'Access denied, token not provided' });
     try {
-      const decoded = jwt.verify(token, process.env.jwt_privateKey);
+      const decoded = verifyToken(token);
       req.user = decoded;
       next();
     } catch (error) {

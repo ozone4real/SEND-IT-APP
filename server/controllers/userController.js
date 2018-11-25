@@ -1,9 +1,11 @@
 import 'babel-polyfill';
 import bcrypt from 'bcrypt';
 import uuid from 'uuid/v4';
-import jwt from 'jsonwebtoken';
-
+import TokenAuth from '../helpers/tokenAuth';
 import db from '../db/connection';
+
+const { signToken } = TokenAuth;
+
 /**
  * @description Represents a collection of route handlers pertaining to the user
  * @class UserControllers
@@ -28,10 +30,7 @@ class UserController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password) values ($1, $2, $3, $4, $5) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword]);
-      const token = jwt.sign({
-        userId: result.rows[0].userid,
-        isAdmin: result.rows[0].isadmin,
-      }, process.env.jwt_privateKey);
+      const token = signToken(result);
       return res.status(201).json({ token, user: result.rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
@@ -59,10 +58,8 @@ class UserController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
-      const token = jwt.sign({
-        userId: result.rows[0].userid,
-        isAdmin: true,
-      }, process.env.jwt_privateKey);
+      const token = signToken(result);
+      console.log(token);
       return res.status(201).json({ token, user: result.rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
@@ -92,12 +89,7 @@ class UserController {
 
       if (!validPassword) return res.status(401).json({ message: 'Invalid Email or Password' });
 
-      const token = jwt.sign({
-        userId: result.rows[0].userid,
-        isAdmin: result.rows[0].isadmin
-      },
-      process.env.jwt_privateKey);
-
+      const token = signToken(result);
       res.status(200)
         .header('x-auth-token', token)
         .json({

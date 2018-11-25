@@ -19,7 +19,6 @@ class ParcelControllers {
       pickupAddress, destination, pickupTime, parcelDescription, parcelWeight,
     } = req.body;
     const { userId } = req.user;
-    console.log(req.user);
     try {
       const result = await db.query('INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight) values ($1, $2, $3, $4, $5, $6) RETURNING *', [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight]);
       res.status(201).json(result.rows[0]);
