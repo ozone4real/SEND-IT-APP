@@ -1,6 +1,10 @@
 import 'babel-polyfill';
 import db from '../db/connection';
 import validationHelper from '../helpers/validationHelpers';
+import mailer from '../helpers/mailer';
+import messages from '../helpers/mailMessages';
+
+const { statusDeliveredMail, statusInTransitMail, locationChangeMail } = messages;
 
 /**
  * @description Represents a collection of improper data values submitted by a client
@@ -15,7 +19,7 @@ class ImproperValues {
    */
   static improperUserData(req) {
     const {
-      fullname, email, phoneNo, password, isAdmin,
+      fullname, email, phoneNo, password,
     } = req.body;
 
     const fnameTest = /^[a-zA-Z]+? [a-zA-Z]+?( [a-zA-Z]+?)?$/.test(fullname);
@@ -165,12 +169,21 @@ class DataUpdateValidator {
       return res.status(400).json({ message: 'Invalid input syntax. Format must be timestamp' });
     }
     try {
-      const result = await db.query(
+      const { parcelRows } = await db.query(
         `UPDATE parcelOrders SET status= $1, receivedBy= $2, receivedAt= $3
          WHERE parcelId= $4 RETURNING *`,
         [status, receivedBy, receivedAt, parcelId]
       );
-      res.status(200).json(result.rows[0]);
+
+      const { userRows } = await db.query(`SELECT email from users
+      WHERE userid = $1`, [parcelRows.userid]);
+
+      const { email } = userRows[0];
+      const { subject, html } = statusDeliveredMail(receivedBy, receivedAt, parcelId);
+
+      mailer(subject, html, email);
+
+      return res.status(200).json(parcelRows[0]);
     } catch (error) {
       console.log(error.message);
       next();
@@ -198,13 +211,19 @@ class DataUpdateValidator {
     }
 
     try {
-      const result = await db.query(
+      const { rows: parcelRows } = await db.query(
         `UPDATE parcelOrders
          SET status = $1, presentLocation = $2 
          WHERE parcelId= $3 RETURNING *`,
         [status, presentLocation, parcelId]
       );
-      res.status(200).json(result.rows[0]);
+
+      const { rows: userRows } = await db.query(`SELECT email from users
+      WHERE userid = $1`, [parcelRows[0].userid]);
+      const { email } = userRows[0];
+      const { subject, html } = statusInTransitMail(presentLocation, parcelId);
+      mailer(subject, html, email);
+      res.status(200).json(parcelRows[0]);
     } catch (error) {
       console.log(error);
       next();

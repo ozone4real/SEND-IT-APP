@@ -29,9 +29,9 @@ class UserController {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password) values ($1, $2, $3, $4, $5) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword]);
-      const token = signToken(result);
-      return res.status(201).json({ token, user: result.rows[0] });
+      const { rows } = await db.query('INSERT into users (userId, fullname, email, phoneNo, password) values ($1, $2, $3, $4, $5) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword]);
+      const token = signToken(rows);
+      return res.status(201).json({ token, user: rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
       console.log(error);
@@ -57,10 +57,10 @@ class UserController {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const result = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
-      const token = signToken(result);
+      const { rows } = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
+      const token = signToken(rows);
       console.log(token);
-      return res.status(201).json({ token, user: result.rows[0] });
+      return res.status(201).json({ token, user: rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
       console.log(error);
@@ -79,23 +79,23 @@ class UserController {
   static async signInUser(req, res, next) {
     const { email, password } = req.body;
     try {
-      const result = await db.query('SELECT * FROM users where email = ($1)', [email]);
-      if (!result.rows[0]) {
+      const { rows } = await db.query('SELECT * FROM users where email = ($1)', [email]);
+      if (!rows[0]) {
         return res.status(401)
           .json({ message: 'Invalid Email or Password' });
       }
 
-      const validPassword = await bcrypt.compare(password, result.rows[0].password);
+      const validPassword = await bcrypt.compare(password, rows[0].password);
 
       if (!validPassword) return res.status(401).json({ message: 'Invalid Email or Password' });
 
-      const token = signToken(result);
+      const token = signToken(rows);
       res.status(200)
         .header('x-auth-token', token)
         .json({
           token,
-          user: result.rows[0],
-          message: `Welcome ${result.rows[0].fullname}`
+          user: rows[0],
+          message: `Welcome ${rows[0].fullname}`
         });
     } catch (err) {
       console.log(err);

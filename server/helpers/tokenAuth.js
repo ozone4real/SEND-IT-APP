@@ -11,17 +11,17 @@ class Token {
    * @param {Object} result Response of the database query
    * @returns a token signed with the user's id and role
    */
-  static signToken(result) {
+  static signToken(rows) {
     return jwt.sign({
-      userId: result.rows[0].userid,
-      isAdmin: result.rows[0].isadmin,
+      userId: rows[0].userid,
+      isAdmin: rows[0].isadmin,
     }, process.env.jwt_privateKey);
   }
 
   /**
    * @description It verifies a token
    * @static
-   * @param {string} token Token to be verified
+   * @param {String} token Token to be verified
    * @returns a boolean value
    */
   static verifyToken(token) {
