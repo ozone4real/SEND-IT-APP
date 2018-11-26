@@ -77,11 +77,11 @@ hr {
 
  .account a {
      padding: 5px;
-     border: 1px solid  #DFB607;
-     border-radius: 5px;
      margin: 7px;
      font-size: 17px;
      font-weight: bold;
+     background: darkblue;
+     border-radius: 5px;
  }
 
  .account a:hover{
@@ -159,7 +159,7 @@ nav #book{
 
 #selling-point{
    color: white;
-   font-size: 35px;
+   font-size: 40px;
    padding: 70px;
    font-weight: bold;
 }
@@ -216,7 +216,6 @@ nav #book{
     padding:  20px;
     background: white;
     width: 50%;
-    color: #1C066B;
     box-sizing: border-box; 
     font-size: 20px;
     max-height: 500px;
