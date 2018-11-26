@@ -6,16 +6,14 @@ const mailer = async (subject, html, receiver) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     service: 'Gmail',
-    port: '25',
+    port: '587',
     auth: {
       user: 'senditcourierapp@gmail.com',
       password: process.env.mail_password,
     },
     secure: false,
     tls: {
-      ciphers: 'SSLv3',
       rejectUnauthorized: false
-
     }
   });
 
