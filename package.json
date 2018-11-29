@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/ozone4real/SEND-IT-APP#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.2",
     "chai": "^4.2.0",

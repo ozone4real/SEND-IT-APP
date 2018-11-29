@@ -3,12 +3,16 @@ import bcrypt from 'bcrypt';
 import uuid from 'uuid/v4';
 import TokenAuth from '../helpers/tokenAuth';
 import db from '../db/connection';
+import mailer from '../helpers/mailer';
+import messages from '../helpers/mailMessages';
+
+const { signUpMail } = messages;
 
 const { signToken } = TokenAuth;
 
 /**
  * @description Represents a collection of route handlers pertaining to the user
- * @class UserControllers
+ * @class UserController
  */
 class UserController {
   /**
@@ -29,8 +33,12 @@ class UserController {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const { rows } = await db.query('INSERT into users (userId, fullname, email, phoneNo, password) values ($1, $2, $3, $4, $5) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword]);
+      const { rows } = await db(`INSERT into users (userId, fullname, email, phoneNo, password)
+       values ($1, $2, $3, $4, $5) RETURNING *`,
+      [uuid(), fullname, email, phoneNo, hashedPassword]);
       const token = signToken(rows);
+      const { html, subject } = signUpMail(fullname);
+      mailer(subject, html, email);
       return res.status(201).json({ token, user: rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
@@ -57,7 +65,7 @@ class UserController {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const { rows } = await db.query('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
+      const { rows } = await db('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
       const token = signToken(rows);
       console.log(token);
       return res.status(201).json({ token, user: rows[0] });
@@ -79,7 +87,7 @@ class UserController {
   static async signInUser(req, res, next) {
     const { email, password } = req.body;
     try {
-      const { rows } = await db.query('SELECT * FROM users where email = ($1)', [email]);
+      const { rows } = await db('SELECT * FROM users where email = ($1)', [email]);
       if (!rows[0]) {
         return res.status(401)
           .json({ message: 'Invalid Email or Password' });
@@ -117,9 +125,9 @@ class UserController {
         .json({ message: 'Access denied. You are forbidden from accessing this route.' });
     }
     try {
-      const result = await db.query('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
-      if (result.rows.length === 0) return res.status(404).json({ message: 'No orders found for user' });
-      return res.status(200).json(result.rows);
+      const { rows } = await db('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
+      if (!rows[0]) return res.status(404).json({ message: 'No orders found for user' });
+      return res.status(200).json(rows);
     } catch (error) {
       console.log(error);
       return next();

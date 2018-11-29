@@ -1,35 +1,19 @@
 import 'babel-polyfill';
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
-
-const mailer = async (subject, html, receiver) => {
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    service: 'Gmail',
-    port: '587',
-    auth: {
-      user: 'senditcourierapp@gmail.com',
-      password: process.env.mail_password,
-    },
-    secure: false,
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
-
-  const mailOptions = {
-    from: 'senditcourierapp@gmail.com',
+const mailer = (subject, html, receiver) => {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
     to: receiver,
+    from: 'senditcourierapp@gmail.com',
     subject,
     html
   };
-
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`Email Sent. ${info.response}`);
-  } catch (error) {
-    console.log(error);
-  }
+  sgMail
+    .send(msg)
+    .then(result => console.log('mail successfully sent'))
+    .catch(error => console.log(error));
 };
+
 
 export default mailer;
