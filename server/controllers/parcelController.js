@@ -1,5 +1,9 @@
 import 'babel-polyfill';
 import db from '../db/connection';
+import mailer from '../helpers/mailer';
+import messages from '../helpers/mailMessages';
+
+const { locationChangeMail, orderCreatedMail } = messages;
 
 /**
  * @description Represents a collection of route handlers for the parcel delivery resource
@@ -20,8 +24,17 @@ class ParcelControllers {
     } = req.body;
     const { userId } = req.user;
     try {
-      const result = await db.query('INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight) values ($1, $2, $3, $4, $5, $6) RETURNING *', [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight]);
-      res.status(201).json(result.rows[0]);
+      const { rows: parcelRows } = await db(`INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight) 
+      values ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight]);
+
+      const { rows: userRows } = await db(`SELECT email, fullname from users
+      WHERE userid = $1`, [parcelRows[0].userid]);
+      const { email, fullname } = userRows[0];
+      const { subject, html } = orderCreatedMail(parcelRows[0], fullname);
+      mailer(subject, html, email);
+
+      res.status(201).json(parcelRows[0]);
     } catch (error) {
       console.log(error);
       if (error.detail.match(/userid/i)) return res.status(401).json({ message: "You'll have to be registered to create an order" });
@@ -39,8 +52,8 @@ class ParcelControllers {
    */
   static async getAllOrders(req, res, next) {
     try {
-      const result = await db.query('SELECT * FROM parcelOrders');
-      res.status(200).json(result.rows);
+      const { rows } = await db('SELECT * FROM parcelOrders');
+      res.status(200).json(rows);
     } catch (error) {
       console.log(error);
       next();
@@ -58,9 +71,9 @@ class ParcelControllers {
   static async getOneOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
-      const result = await db.query('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
-      if (result.rows.length === 0) return res.status(404).json({ message: 'Order not found' });
-      res.status(200).json(result.rows[0]);
+      const { rows } = await db('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
+      if (rows.length === 0) return res.status(404).json({ message: 'Order not found' });
+      res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
       next();
@@ -78,9 +91,9 @@ class ParcelControllers {
   static async cancelOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
-      const result = await db.query('UPDATE parcelOrders SET status=\'cancelled\' WHERE parcelId = $1 RETURNING *', [parcelId]);
-      if (!result.rows[0]) return res.status(404).json({ message: 'Order not found' });
-      res.status(200).json(result.rows[0]);
+      const { rows } = await db('UPDATE parcelOrders SET status=\'cancelled\' WHERE parcelId = $1 RETURNING *', [parcelId]);
+      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
+      res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
       next();
@@ -99,8 +112,8 @@ class ParcelControllers {
     const { status } = req.body;
     const { parcelId } = req.params;
     try {
-      const result = await db.query('UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *', [status, parcelId]);
-      return res.status(200).json(result.rows[0]);
+      const { rows } = await db('UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *', [status, parcelId]);
+      return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
       next();
@@ -119,8 +132,8 @@ class ParcelControllers {
     const { destination } = req.body;
     const { parcelId } = req.params;
     try {
-      const result = await db.query('UPDATE parcelOrders SET destination = $1 WHERE parcelId = $2 RETURNING *', [destination, parcelId]);
-      return res.status(200).json(result.rows[0]);
+      const { rows } = await db('UPDATE parcelOrders SET destination = $1 WHERE parcelId = $2 RETURNING *', [destination, parcelId]);
+      return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
       next();
@@ -139,8 +152,17 @@ class ParcelControllers {
     const { presentLocation } = req.body;
     const { parcelId } = req.params;
     try {
-      const result = await db.query('UPDATE parcelOrders SET presentLocation = $1 WHERE parcelId= $2 RETURNING *', [presentLocation, parcelId]);
-      res.status(200).json(result.rows[0]);
+      const { rows: parcelRows } = await db(`UPDATE parcelOrders
+       SET presentLocation = $1 WHERE parcelId= $2 RETURNING *`,
+      [presentLocation, parcelId]);
+
+      const { rows: userRows } = await db(`SELECT email, fullname from users
+      WHERE userid = $1`, [parcelRows[0].userid]);
+      const { email, fullname } = userRows[0];
+      const { subject, html } = locationChangeMail(presentLocation, parcelId, fullname);
+      mailer(subject, html, email);
+
+      res.status(200).json(parcelRows[0]);
     } catch (error) {
       console.log(error);
       next();
