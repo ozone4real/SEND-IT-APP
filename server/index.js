@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import router from './routes';
 import createTables from './db/migrations';
 import error from './helpers/error';
@@ -9,6 +10,7 @@ createTables();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('UI'));
 
 app.use('/api/v1/', router);
 app.use(error);
