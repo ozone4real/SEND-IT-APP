@@ -27,7 +27,7 @@ const parcelTable = `CREATE TABLE IF NOT EXISTS parcelOrders (
 
 
 const createTables = () => {
-  db.query(`${userTable} ${parcelTable}`)
+  db(`${userTable} ${parcelTable}`)
     .catch((error) => {
       console.log(error);
     });
