@@ -341,27 +341,75 @@ fieldset {
     padding: 5px;
 }
 
-
 #profile {
-background: white;
-text-align: center;
-padding: 40px 40px 80px 40px;
+    margin-top: 30px;
+    
 }
 
-#profile a {
-    text-decoration: underline;
-    color: #DFB607;
-}
-#profile hr {
-    width: 600px;
-    border: 1px solid #1C066B;
+#profile #tabs{
+width: 98%;
+margin: auto;
+color:  #1C066B;
+border-top: 3px solid #D8D8D8;
+box-shadow: 2px 35px 10px 10px #D8D8D8;
 }
 
-#profile #basic-details{
-    padding: 20px;
+#profile ul {
+    margin: 0;
+    padding-left: 0;
 }
-#profile #username {
-font-size: 30px;
+#profile #head {
+    background:white;
+    padding: 0px;
+    border-bottom: 2px solid #1C066B;
+}
+
+#profile #head li {
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+    font-weight: bold;
+    margin: 0;
+    background: #E6E6E6;
+    cursor: pointer;
+}
+
+#profile #head .highlight {
+    background: #1C066B;
+    color: white;
+}
+
+#profile #body {
+    background: white;
+    margin-top: 0;
+    padding: 10px 30px 80px 30px;
+}
+
+#profile #body ul {
+    display: inline-block;
+    margin: auto;
+}
+
+#profile #body .info {
+    margin: auto;
+}
+
+#profile #body .unfulfilled ul,
+#profile #body .delivered ul {
+    background: #F2F2F2;
+    color: #1C066B;
+    width: 32%;
+    margin-bottom: 20px;
+}
+
+#profile #body li{
+padding: 10px;
+}
+
+#profile #body button {
+    padding: 5px 10px 5px 10px;
+    color: white;
+    background: #1C066B;
+    border-radius: 7px;
 }
 
 .grid-container, .title-container {
@@ -478,7 +526,6 @@ background: white;
         padding: 20px;
         width: 200px;
         font-size: 14px;
-        border-bottom: 1px solid #1C066B;
     }
 
     #nav-contents.responsive-nav a:active{
@@ -534,10 +581,30 @@ background: white;
 
     #services, 
     article, 
-    #profile .container div{
-        padding: 10px;
-    } 
     
+    #profile #tabs{
+        width: 100%;
+    }
+
+    #profile #head li {
+        display: inline-block;
+        padding: 10px;
+    }
+
+    #profile #body {
+        padding: 10px 10px 80px 10px;
+    }
+
+    #profile #body ul {
+        display: inline-block;
+        margin: auto;
+    }
+    
+    #profile #body .unfulfilled ul,
+    #profile #body .delivered ul {
+    width: 100%;
+    }
+
     #services-section {
         padding: 10px;
     }
@@ -616,4 +683,14 @@ background: white;
     }
 
 
+}
+
+
+@media(max-width: 380px) {
+    body{
+        font-size: 14px;
+    }
+    #profile #head li {
+        padding: 7px 2px 7px 2px;
+    }
 }
