@@ -39,6 +39,7 @@ class UserController {
       const token = signToken(rows);
       const { html, subject } = signUpMail(fullname);
       mailer(subject, html, email);
+      delete rows[0].password;
       return res.status(201).json({ token, user: rows[0] });
     } catch (error) {
       if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
@@ -46,36 +47,7 @@ class UserController {
       return next();
     }
   }
-
-  /**
-   * @description Signs up an admin
-   * @static
-   * @param {object} req Request Object
-   * @param {object} res Response Object
-   * @param {object} next passes control to the next middleware/handler.
-   */
-  static async signUpAdmin(req, res, next) {
-    const {
-      fullname,
-      email,
-      phoneNo,
-      password,
-    } = req.body;
-
-    try {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      const { rows } = await db('INSERT into users (userId, fullname, email, phoneNo, password, isAdmin) values ($1, $2, $3, $4, $5, $6) RETURNING *', [uuid(), fullname, email, phoneNo, hashedPassword, true]);
-      const token = signToken(rows);
-      console.log(token);
-      return res.status(201).json({ token, user: rows[0] });
-    } catch (error) {
-      if (error.detail.match(/email/i)) return res.status(409).json({ message: 'Email already taken' });
-      console.log(error);
-      return next();
-    }
-  }
-
+  
   /**
    * @description Signs in a user
    * @static
@@ -96,8 +68,8 @@ class UserController {
       const validPassword = await bcrypt.compare(password, rows[0].password);
 
       if (!validPassword) return res.status(401).json({ message: 'Invalid Email or Password' });
-
       const token = signToken(rows);
+      delete rows[0].password;
       res.status(200)
         .header('x-auth-token', token)
         .json({

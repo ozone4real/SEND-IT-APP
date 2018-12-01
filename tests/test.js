@@ -375,7 +375,7 @@ describe('Integration testing', () => {
         .send(signUpTestData.expectedData3)
         .end((err, res) => {
           expect(res).to.have.status(201);
-          expect(res.body.user).to.includes.all.keys('phoneno', 'email', 'password', 'fullname', 'userid');
+          expect(res.body.user).to.includes.all.keys('phoneno', 'email', 'fullname', 'userid');
           expect(res.body.token);
           return done();
         });
@@ -524,7 +524,7 @@ describe('Integration testing', () => {
     });
   });
 
-  //PUT api/v1/parcels/parcelId/destination
+  // PUT api/v1/parcels/parcelId/destination
   describe('change destination endpoint', () => {
     it('should respond with a 401(Unauthorized) status code if no token was provided by the user', (done) => {
       chai.request(app)
@@ -622,7 +622,7 @@ describe('Integration testing', () => {
       chai.request(app)
         .put(`/api/v1/parcels/${parcelId}/presentLocation`)
         .set('x-auth-token', userToken)
-        .send({ presentLocation: 'Ijanikin'})
+        .send({ presentLocation: 'Ijanikin' })
         .end((err, res) => {
           expect(res).to.have.status(403);
           expect(res.body.message).match(/access denied/i);
@@ -644,37 +644,37 @@ describe('Integration testing', () => {
 
     it('should respond with a 400 (bad request) status code if no present location was provided', (done) => {
       chai.request(app)
-      .put(`/api/v1/parcels/${parcelId}/presentLocation`)
-      .set('x-auth-token', adminToken)
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body.message).match(/Invalid request/i);
-        done();
-      });
-    })
-    
+        .put(`/api/v1/parcels/${parcelId}/presentLocation`)
+        .set('x-auth-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).match(/Invalid request/i);
+          done();
+        });
+    });
+
     it('should respond with a 400 (bad request) status code if the present location is not in the required format', (done) => {
       chai.request(app)
-      .put(`/api/v1/parcels/${parcelId}/presentLocation`)
-      .set('x-auth-token', adminToken)
-      .send({ presentLocation: '19 Ipaja road' })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body.message).match(/invalid location/i);
-        done();
-      });
-    })
+        .put(`/api/v1/parcels/${parcelId}/presentLocation`)
+        .set('x-auth-token', adminToken)
+        .send({ presentLocation: '19 Ipaja road' })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).match(/invalid location/i);
+          done();
+        });
+    });
 
     it('should respond with a 200 (success) status code and update the database if all requirements are met', (done) => {
       chai.request(app)
-      .put(`/api/v1/parcels/${parcelId}/presentLocation`)
-      .set('x-auth-token', adminToken)
-      .send({ presentLocation: 'Ipaja' })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.presentlocation).to.equal('Ipaja');
-        done();
-      });
-    })
-  })
+        .put(`/api/v1/parcels/${parcelId}/presentLocation`)
+        .set('x-auth-token', adminToken)
+        .send({ presentLocation: 'Ipaja' })
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.presentlocation).to.equal('Ipaja');
+          done();
+        });
+    });
+  });
 });
