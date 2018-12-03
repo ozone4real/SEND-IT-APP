@@ -6,18 +6,19 @@ import Auth from '../middlewares/auth';
 
 const { userAuth } = Auth;
 const {
-  getAllUserOrders, signInUser, signUpUser, signUpAdmin
+  getAllUserOrders, signInUser, signUpUser, authUser
 } = UserController;
 const { userDataValidator } = DataCreationValidator;
 
 
-const users = Router();
+const user = Router();
 const auth = Router();
 
 
-users.get('/:userId/parcels', userAuth, getAllUserOrders);
+user.get('/parcels', userAuth, getAllUserOrders);
+user.get('/', userAuth, authUser);
 
 auth.post('/signup', userDataValidator, signUpUser);
 auth.post('/signin', signInUser);
 
-export { auth, users };
+export { auth, user };

@@ -1,7 +1,8 @@
 /* global styles */
 
 body{
-    font: 16px/1.5 'Ubuntu', sans-serif;
+    font: 15px/1.5 'Noto Sans TC', sans-serif;
+    font-weight: 500;
     background-color:#E6E6E6;
     padding:0;
     margin:0;
@@ -17,6 +18,10 @@ body{
       color: #DFB607;
   }
 
+  small {
+      color: red;
+  }
+
   a {
       text-decoration: none;
   }
@@ -27,17 +32,17 @@ body{
   button{
     padding: 5px;
     background: white;
-    color: #1C066B;
+    color: #0B0B61;
     cursor: pointer;
 }
 hr {
-    color: #1C066B;
+    color: #0B0B61;
 }
 
 /* header styles */
 
   header {
-      background-color: #1C066B;
+      background-color: #0B0B61;
       border-bottom: 3px solid  #DFB607; 
       padding: 2px 5px 2px 5px;
   }
@@ -45,7 +50,7 @@ hr {
 
   header button{
       color:  #DFB607;
-      background-color: #1C066B;
+      background-color: #0B0B61;
       border-color:  #DFB607;
   }
 
@@ -72,22 +77,62 @@ hr {
 
  .account{
      float: right;
-     margin-top: 40px;
+     margin-top: 30px;
  }
 
  .account a {
      padding: 5px;
      margin: 7px;
-     font-size: 17px;
      font-weight: bold;
-     background: darkblue;
+     background: #0B3861;
      border-radius: 5px;
  }
 
  .account a:hover{
-     color: #1C066B;
+     color: #0B0B61;
      background-color: white;
  }
+
+ .account .user {
+     padding-right: 30px;
+     display: inline-block;
+ }
+ .account #user-icon {
+     color: #DFB607;
+     cursor: pointer;
+ }
+
+ .account #account-menu {
+     position: absolute;
+     background: white;
+     font-size: 14px;
+     margin: 0;
+     text-align: center;
+     padding: 0;
+     z-index: 1000;
+     display: none;
+     border-radius: 7px;
+     font-weight: bold;
+ }
+
+ .account #account-menu.display-menu {
+     display: block;
+ }
+
+ .account #account-menu li {
+     padding: 10px;
+     cursor: pointer;
+     text-decoration: underline;
+ }
+ .account #account-menu a{
+    font-size: 14px;
+    background: white;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    color: #0B0B61;
+    text-decoration: underline;
+}
 
 /* navigation styles */
 
@@ -100,7 +145,7 @@ nav{
 }
 
 #nav-bar {
-    color: #1C066B;
+    color: #0B0B61;
     margin-left: 10px;
     display: none;
     cursor: pointer;
@@ -116,7 +161,7 @@ nav #nav-contents{
 nav a {
    padding: 5px 10px 5px 10px;
    display: table-cell;
-   color: #1C066B;
+   color: #0B0B61;
    font-weight: bold;
 }
 
@@ -195,10 +240,10 @@ nav #book{
 #info #selling-point2 {
     width: 49%;
     float: right;
-    padding: 10px 20px 10px 20px;
+    padding: 40px;
     box-sizing: border-box; 
-    font-size: 20px;
-    background: #1C066B;  
+    font-size: 17px;
+    background: #0B0B61;  
     color: white; 
     min-height: 320px;
     max-height: 500px;
@@ -213,11 +258,12 @@ nav #book{
 }
 
 #info2 #selling-point3 {
-    padding:  20px;
+    padding:  40px;
     background: white;
     width: 50%;
     box-sizing: border-box; 
-    font-size: 20px;
+    font-size: 17px;
+    min-height: 320px;
     max-height: 500px;
     border: 2px solid rgba(230, 230, 230, 0.76); 
 }
@@ -239,7 +285,7 @@ nav #book{
 /* footer styles */
 
 footer {
-    background: #1C066B;
+    background: #0B0B61;
     border-top: 2px solid  #DFB607;
     color:  white;
     padding-left: 20%;
@@ -277,17 +323,17 @@ footer #mail{
 form {
     width: 75%;
     margin: auto;
-    color: #1C066B;
+    color: #0B0B61;
 }
 form h3{
-    color : #1C066B;
+    color : #0B0B61;
 }
 
 
 form input, select{
     width: 90%;
     display: block;
-    margin: 0 0 40px 0;
+    margin: 40px 0 0 0;
     padding: 15px;
     font-size: 1rem;
     border: 1px solid #BDBDBD;
@@ -295,25 +341,26 @@ form input, select{
 
 }
 option:hover {
-  background: #1C066B;  
+  background: #0B0B61;  
 }
 
 form input:focus, select:focus {
-    outline-color: #1C066B;
+    outline-color: #0B0B61;
     -moz-outline-radius: 5px;
 }
 
 form button{
     font-size: 1rem;
     padding: 10px;
-    background: #1C066B;
+    background: #0B0B61;
     color: white;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    display: block;
 }
 
 
 form a{
-    color: #1C066B;
+    color: #0B0B61;
     text-decoration: underline;
 }
 
@@ -349,7 +396,7 @@ fieldset {
 #profile #tabs{
 width: 98%;
 margin: auto;
-color:  #1C066B;
+color:  #0B0B61;
 border-top: 3px solid #D8D8D8;
 box-shadow: 2px 35px 10px 10px #D8D8D8;
 }
@@ -361,7 +408,7 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 #profile #head {
     background:white;
     padding: 0px;
-    border-bottom: 2px solid #1C066B;
+    border-bottom: 2px solid #0B0B61;
 }
 
 #profile #head li {
@@ -374,7 +421,7 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 }
 
 #profile #head .highlight {
-    background: #1C066B;
+    background: #0B0B61;
     color: white;
 }
 
@@ -396,7 +443,7 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 #profile #body .unfulfilled ul,
 #profile #body .delivered ul {
     background: #F2F2F2;
-    color: #1C066B;
+    color: #0B0B61;
     width: 32%;
     margin-bottom: 20px;
 }
@@ -408,7 +455,7 @@ padding: 10px;
 #profile #body button {
     padding: 5px 10px 5px 10px;
     color: white;
-    background: #1C066B;
+    background: #0B0B61;
     border-radius: 7px;
 }
 
@@ -423,7 +470,7 @@ padding: 10px;
     background: #F2F2F2;
 }
 .title-container {
-    background: #1C066B;
+    background: #0B0B61;
     color: white;
     
 }    
@@ -434,7 +481,7 @@ padding: 10px;
 }
 
 #button button{
-    background-color: #1C066B;
+    background-color: #0B0B61;
     color: white;
     border-radius: 10px;
 }
@@ -449,7 +496,7 @@ background: white;
 }
 #admin-edit ul {
     padding: 0;
-    border-bottom: 1px solid #1C066B;
+    border-bottom: 1px solid #0B0B61;
 }
 
 
@@ -480,7 +527,7 @@ background: white;
 
 @media(max-width: 900px){
     body{
-        font-size: 16px;
+        font-size: 14px;
     }
     .container{
         width: 96%;
@@ -524,8 +571,8 @@ background: white;
         display: block;
         background-color: white;
         padding: 20px;
-        width: 200px;
-        font-size: 14px;
+        width: 150px;
+        font-size: 13px;
     }
 
     #nav-contents.responsive-nav a:active{
@@ -533,7 +580,7 @@ background: white;
     }
 
     nav #book a{
-        font-size: 14px;
+        font-size: 13px;
         padding-left: 10px;
     }
 
@@ -573,8 +620,8 @@ background: white;
     #info #selling-point2, #info2 #selling-point3 {
         width: 100%;
         float: none;
-        padding: 15px;
-        font-size: 17px;
+        padding: 20px;
+        font-size: 15px;
         min-height: 0; 
         margin-top: 0;
     }
@@ -688,7 +735,7 @@ background: white;
 
 @media(max-width: 380px) {
     body{
-        font-size: 14px;
+        font-size: 13px;
     }
     #profile #head li {
         padding: 7px 2px 7px 2px;

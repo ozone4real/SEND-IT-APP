@@ -47,7 +47,7 @@ class UserController {
       return next();
     }
   }
-  
+
   /**
    * @description Signs in a user
    * @static
@@ -83,6 +83,20 @@ class UserController {
     }
   }
 
+  static async authUser(req, res, next) {
+    const { userId } = req.user;
+    try {
+      const { rows } = await db('SELECT * FROM users WHERE userId = $1', [userId]);
+      if (!rows[0]) return res.status(404).json({ message: 'User not found' });
+      delete rows[0].password;
+      delete rows[0].userid;
+      return res.status(200).json(rows[0]);
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+  }
+
   /**
    * @description fetches all user parcel delivery orders
    * @static
@@ -91,11 +105,7 @@ class UserController {
    * @param {object} next passes control to the next middleware/handler
    */
   static async getAllUserOrders(req, res, next) {
-    const { userId } = req.params;
-    if (req.user.userId !== userId) {
-      return res.status(403)
-        .json({ message: 'Access denied. You are forbidden from accessing this route.' });
-    }
+    const { userId } = req.user;
     try {
       const { rows } = await db('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
       if (!rows[0]) return res.status(404).json({ message: 'No orders found for user' });
