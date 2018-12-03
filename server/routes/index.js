@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import parcels from './parcels';
-import { auth, users } from './users';
+import { auth, user } from './user';
 
 const router = Router();
 
 router.use('/parcels', parcels);
-router.use('/users', users);
+router.use('/user', user);
 router.use('/auth', auth);
 router.all('*', (req, res) => {
   res.status(200).json({
