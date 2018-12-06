@@ -6,7 +6,7 @@ const presentPage = document.getElementById('present')
 document.addEventListener('click', (e) => {
 
   if (e.target.closest('#nav-bar')) {
-    presentPage.style.background = "#D8D8D8";
+    if (presentPage) presentPage.style.background = "#D8D8D8";
     navCont.classList.toggle('responsive-nav');
     return;
   }
