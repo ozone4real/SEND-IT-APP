@@ -8,11 +8,11 @@ signInForm.addEventListener('submit', (e) => {
   signInFormElems.forEach((item) => {
     if (!item.value) {
       item.style.cssText = 'background-color: lightyellow; border-color: red;';
-      item.nextElementSibling.innerHTML = 'This must not be empty';
+      item.previousElementSibling.innerHTML = 'This must not be empty';
       error = true;
     }
   });
-  
+
   if (error) return;
   submitData(signInForm);
 });

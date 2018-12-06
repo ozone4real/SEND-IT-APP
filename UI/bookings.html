@@ -45,27 +45,40 @@
         <div class = 'container'>
             <div class= 'form-container'>
                 <form id= 'booking-form'>
+                    <small id="form-error"></small>
                     <h3>Need to deliver a Package? Fill the form below!</h3>
                     <fieldset>
                         <legend><h4>Pick-up Address</h4></legend>
-                        <input id = 'address' type="text" name='Address' placeholder="Address">
-                        <input id = 'city' type="text" name='city' placeholder="City/Town">
+                        <small></small>
+                        <input id = 'address1' type="text" name='address1' placeholder="Address">
+                        <small></small>
+                        <input id = 'city1' type="text" name='city1' placeholder="City/Town">
+                        <small></small>
                         <select id = 'lg1' name='lg1'>
+
                             <option>Local Government</option>
                         </select>
                     </fieldset>
                     <fieldset>
                             <legend><h4>Delivery Address</h4></legend>
-                            <input id = 'address' type="text" name='Address' placeholder="Address">
-                            <input id = 'city' type="text" name='city' placeholder="City/Town">
+                            <small></small>
+                            <input id = '2' type="text" name='address2' placeholder="Address">
+                            <small></small>
+                            <input id = 'city2' type="text" name='city2' placeholder="City/Town">
+                            <small></small>
                             <select id = 'lg2' name='lg2'>
                                 <option>Local Government</option>
                             </select>
                         </fieldset>
                         <label><h4>Pick-up Time</h4></label>
-                    <input id = 'delivery-time' type="datetime-local" name='deliveryTime' placeholder="Delivery Time">
+                        <small></small>
+                        <input id = 'delivery-time' type="datetime-local" name='pickupTime' placeholder="Delivery Time">
+                    <label><h4>Parcel Description</h4></label>
+                    <small></small>
+                    <input name="parcelDescription" id="parcelDescription" placeholder="Parcel Description">
                     <label><h4>Parcel Weight</h4></label>
-                    <select id = 'parcelDescription' name='parcelDescription'>
+                    <small></small>
+                    <select id = 'parcelWeight' name='parcelWeight'>
                         <option selected="true" disabled>Parcel Weight</option>
                         <option value="0kg - 5kg">0kg - 5kg (N50/km)</option>
                         <option value="5kg - 20kg">5kg - 20kg (N70/km)</option>
@@ -76,8 +89,15 @@
                     <button type="submit">CREATE ORDER</button>
                 </form>
             </div>
-        </div>
+          </div>
     </section>
+    <div class="modal">
+            <div class="container">
+                <div id="confirm-order">
+                  
+                </div>
+            </div>
+        </div>
     <section id="info3">
         <div class="container">
             <div id="how-it-works">
@@ -88,6 +108,7 @@
             </div>
         </div>
     </section>
+    
     <footer>
             <div class= 'container'>
                     <h3>Get in touch !</h3>
@@ -105,7 +126,7 @@
                     
             </div>
         </footer>
-        <script src = "scripts/bookings.js"></script>
         <script src="scripts/main.js"></script>
+        <script src = "scripts/bookings.js"></script>
     </body>
     </html>

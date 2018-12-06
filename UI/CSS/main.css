@@ -20,6 +20,7 @@ body{
 
   small {
       color: red;
+      margin: 0;
   }
 
   a {
@@ -113,6 +114,7 @@ hr {
      display: none;
      border-radius: 7px;
      font-weight: bold;
+     box-shadow: 2px 2px 5px #888888;
  }
 
  .account #account-menu.display-menu {
@@ -140,7 +142,7 @@ nav{
     box-shadow: 2px 2px 5px #888888; 
     background-color: white;
     margin-bottom: 10px;
-    max-height: 40px;
+    max-height: 34px;
     overflow: hidden;
 }
 
@@ -333,7 +335,7 @@ form h3{
 form input, select{
     width: 90%;
     display: block;
-    margin: 40px 0 0 0;
+    margin: 0 0 40px 0;
     padding: 15px;
     font-size: 1rem;
     border: 1px solid #BDBDBD;
@@ -368,6 +370,36 @@ fieldset {
     padding-left: 0;
     padding-right: 0;
     border: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+}
+
+#confirm-order {
+    margin: 10% auto;
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 450px;
+    border-radius: 10px;  
+}
+
+#confirm-order ul {
+    padding: 0 20px 0 20px;
+}
+
+#confirm-order li{
+    padding-bottom: 15px;
+    text-align: center;
 }
 
 #about{
@@ -432,7 +464,6 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 }
 
 #profile #body ul {
-    display: inline-block;
     margin: auto;
 }
 
@@ -444,19 +475,21 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 #profile #body .delivered ul {
     background: #F2F2F2;
     color: #0B0B61;
-    width: 32%;
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
+    padding: 0;
 }
 
 #profile #body li{
 padding: 10px;
 }
 
-#profile #body button {
+#profile #body button, #confirm-order button{
     padding: 5px 10px 5px 10px;
     color: white;
     background: #0B0B61;
     border-radius: 7px;
+    margin-right: 10px;
+    display: inline-block;
 }
 
 .grid-container, .title-container {
@@ -549,7 +582,16 @@ background: white;
     }
     
     #nav-contents {
-        display: none;
+        display: block;
+        position: absolute;
+        z-index: 1000;
+        box-shadow: 2px 2px 2px #888888;
+        left: -100%;
+        width: 250px;
+        height: 100%;
+        transition: 500ms;
+        border-top: 2px solid #D8D8D8;
+        background-color: #F2F2F2;
     }
 
     #nav-bar {
@@ -560,18 +602,13 @@ background: white;
         width:100%;
     }
    #nav-contents.responsive-nav {
-        display: block;
-        position: absolute;
-        z-index: 1000;
-        box-shadow: 2px 2px 2px #888888;
+       left: 0;
+   }
 
-    }
-
-    #nav-contents.responsive-nav a{
+    #nav-contents a{
         display: block;
-        background-color: white;
+        background-color: #F2F2F2;
         padding: 20px;
-        width: 150px;
         font-size: 13px;
     }
 
@@ -600,14 +637,9 @@ background: white;
     }
 
     .account{
-        margin-top: 20px;
+        margin-top: 15px;
     }
    
-    .account a {
-        font-size: 13px;
-        margin-left: 0;
-    }
-
     #info {
         margin-bottom: 30px;
     }
@@ -686,13 +718,24 @@ background: white;
 }
 
 
-
-
-
 @media(max-width: 500px) {
+    .account .user {
+        margin-top: 0;
+        padding-top: 0;
+        padding-right: 22px;
+        display: inline-block;
+    }
+
+    .account #account-menu, .account #account-menu a {
+        font-size: 13px;   
+    }
 
     nav {
         box-sizing: border-box;
+    }
+
+    #confirm-order {
+        width: 90%;
     }
 
     .form-container{

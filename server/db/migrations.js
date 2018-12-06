@@ -14,14 +14,15 @@ const parcelTable = `CREATE TABLE IF NOT EXISTS parcelOrders (
     parcelId SERIAL,
     userId VARCHAR(255) REFERENCES users(userId),
     parcelDescription VARCHAR(40) NOT NULL,
-    parcelWeight VARCHAR(10) NOT NULL,
+    parcelWeight VARCHAR(20) NOT NULL,
     pickupAddress VARCHAR(255) NOT NULL,
     destination VARCHAR(255) NOT NULL,
-    pickupTime TIMESTAMP NOT NULL,
+    pickupTime TIMESTAMPTZ NOT NULL,
+    price INTEGER NOT NULL,
     status VARCHAR(15) DEFAULT 'recorded',
     presentLocation VARCHAR(255),
     receivedBy VARCHAR(255),
-    receivedAt TIMESTAMP,
+    receivedAt TIMESTAMPTZ,
     PRIMARY KEY (parcelId, userId)
 );`;
 

@@ -26,6 +26,7 @@
   "homepage": "https://github.com/ozone4real/SEND-IT-APP#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
+    "async-request": "^1.2.0",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.2",
     "chai": "^4.2.0",
@@ -36,7 +37,9 @@
     "jasmine-node": "^1.16.2",
     "jsonwebtoken": "^8.4.0",
     "mocha": "^5.2.0",
+    "node-fetch": "^2.3.0",
     "nodemailer": "^4.7.0",
+    "npm": "^6.4.1",
     "pg": "^7.6.1",
     "request": "^2.88.0",
     "uuid": "^3.3.2"

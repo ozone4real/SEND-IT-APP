@@ -10,6 +10,10 @@ const { locationChangeMail, orderCreatedMail } = messages;
  * @class ParcelControllers
  */
 class ParcelControllers {
+  static confirmOrder(req, res) {
+    res.status(200).json(req.body);
+  }
+
   /**
    * @description Creates a parcel delivery order
    * @static
@@ -20,13 +24,13 @@ class ParcelControllers {
    */
   static async createOrder(req, res, next) {
     const {
-      pickupAddress, destination, pickupTime, parcelDescription, parcelWeight,
+      pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price,
     } = req.body;
     const { userId } = req.user;
     try {
-      const { rows: parcelRows } = await db(`INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight) 
-      values ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight]);
+      const { rows: parcelRows } = await db(`INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price) 
+      values ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price]);
 
       const { rows: userRows } = await db(`SELECT email, fullname from users
       WHERE userid = $1`, [parcelRows[0].userid]);
@@ -129,10 +133,10 @@ class ParcelControllers {
    * @returns a response object and status code
    */
   static async changeDestination(req, res, next) {
-    const { destination } = req.body;
+    const { destination, price } = req.body;
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('UPDATE parcelOrders SET destination = $1 WHERE parcelId = $2 RETURNING *', [destination, parcelId]);
+      const { rows } = await db('UPDATE parcelOrders SET destination = $1, price = $2 WHERE parcelId = $3 RETURNING *', [destination, price, parcelId]);
       return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);

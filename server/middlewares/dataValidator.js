@@ -52,7 +52,7 @@ class ImproperValues {
     const pAdTest = /.{15,}/.test(pickupAddress);
     const dAdTest = /.{15,}/.test(destination);
     const pDeTest = /^.{3,40}$/.test(parcelDescription);
-    const pWeightTest = /^\d{1,5}kg$/.test(parcelWeight);
+    const pWeightTest = /kg/.test(parcelWeight);
 
     const improperValues = [];
 
@@ -242,9 +242,10 @@ class DataUpdateValidator {
     const { destination } = req.body;
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('SELECT status FROM parcelOrders WHERE parcelId = $1', [parcelId]);
+      const { rows } = await db('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
       if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (rows[0].status === 'delivered' || rows[0].status === 'cancelled') {
+      const { status, pickupaddress, parcelweight } = rows[0]
+      if (status === 'delivered' || status === 'cancelled') {
         return res.status(400)
           .json({
             message: 'You cannot change the destination of an already delivered or cancelled order'
@@ -256,6 +257,8 @@ class DataUpdateValidator {
       if (!/.{15,}/.test(destination)) {
         return res.status(400).json({ message: 'destination not detailed enough' });
       }
+      req.body.pickupAddress = pickupaddress;
+      req.body.parcelWeight = parcelweight;
       next();
     } catch (error) {
       console.log(error);

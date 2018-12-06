@@ -2,8 +2,10 @@ import { Router } from 'express';
 import { DataCreationValidator, DataUpdateValidator } from '../middlewares/dataValidator';
 import ParcelController from '../controllers/parcelController';
 import Auth from '../middlewares/auth';
+import addPrice from '../middlewares/addPrice';
 
 const {
+  confirmOrder,
   getAllOrders,
   getOneOrder,
   createOrder,
@@ -21,8 +23,11 @@ const {
 const router = Router();
 
 router.post('/',
-  [userAuth, parcelDataValidator],
+  [userAuth, parcelDataValidator, addPrice],
   createOrder);
+router.post('/confirm', [userAuth, parcelDataValidator, addPrice], confirmOrder);
+
+router.put('/:parcelId/confirmUpdate', [userAuth, destination, addPrice, confirmOrder]);
 
 router.get('/', [userAuth, adminAuth], getAllOrders);
 
@@ -35,7 +40,7 @@ router.put('/:parcelId/status',
   changeStatus);
 
 router.put('/:parcelId/destination',
-  [userAuth, destination], changeDestination);
+  [userAuth, destination, addPrice], changeDestination);
 
 router.put('/:parcelId/presentLocation',
   [userAuth, adminAuth, presentLocation],

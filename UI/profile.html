@@ -19,8 +19,7 @@
                 <i id="fast-reliable" style="color: white;">fast, reliable, efficient</i>
             </div>
                    
-            <div class= 'account'>
-                <a href='admin.html' title='Manage Orders (Admin only)'>MO(Admin)</a>
+            <div class= 'account' id="account">
             </div>
                    
         </div>
@@ -55,49 +54,21 @@
                     
                 </div>
                 <div class="unfulfilled" id="unfulfilled" style= "display: none;">
-                        <ul>
-                            <li><b>Parcel ID:</b> <span id="parcelId">9383894</span></li>
-                            <li><b>Parcel Description:</b> <span id="parcelDesc">Samsung TV</span ></li>
-                            <li id="red-date"><b>Parcel Weight:</b> 50kg</li>
-                            <li id= "total-parcels"><b>Pickup Location:</b> 8, Muibi st. Ogba</li>
-                            <li id="red-date"><b>Delivery Address:</b> </li>
-                            <li id="red-date"><b>Status: </b>In transit</li>
-                            <li><button>Cancel</button> <button>Track</button></li>
-                        </ul>
-                        <ul>
-                                <li><b>Parcel ID:</b> <span id="parcelId">9383894</span></li>
-                                <li><b>Parcel Description:</b> <span id="parcelDesc">Samsung TV</span ></li>
-                                <li id="red-date"><b>Parcel Weight:</b> 50kg</li>
-                                <li id= "total-parcels"><b>Pickup Location:</b> 8, Muibi st. Ogba</li>
-                                <li id="red-date"><b>Delivery Address:</b> </li>
-                                <li id="red-date"><b>Status: </b>In transit</li>
-                                <li><button>Cancel</button> <button>Track</button></li>
-                            </ul>
-                            <ul>
-                                    <li><b>Parcel ID:</b> <span id="parcelId">9383894</span></li>
-                                    <li><b>Parcel Description:</b> <span id="parcelDesc">Samsung TV</span ></li>
-                                    <li id="red-date"><b>Parcel Weight:</b> 50kg</li>
-                                    <li id= "total-parcels"><b>Pickup Location:</b> 8, Muibi st. Ogba</li>
-                                    <li id="red-date"><b>Delivery Address:</b> </li>
-                                    <li id="red-date"><b>Status: </b>In transit</li>
-                                    <li><button>Cancel</button> <button>Track</button></li>
-                                </ul>
                 </div>
-                <div class="delivered" id="delivered" style= "display: none;">
-                        <ul>
-                            <li><b>Parcel ID:</b> <span id="parcelId">89084</span></li>
-                            <li><b>Parcel Description:</b> <span id="parcelDesc">Documents</span ></li>
-                            <li id="red-date"><b>Parcel Weight:</b> 1kg</li>
-                            <li id= "total-parcels"><b>Pickup Location:</b> 19. Ajeronmi st. Ikorodu</li>
-                            <li id="red-date"><b>Delivery Address:</b> 10. Musibau st. Isheri</li>
-                            <li id="red-date"><b>Status: </b>Delivered</li>
-                            
-                        </ul>
+                <div class="delivered" id="delivered" style= "display: none;">                        
                     </div>
             </div>
         </div>
         </div>
         </div>
+
+        <div class="modal">
+                <div class="container">
+                    <div id="confirm-order">
+                      
+                    </div>
+                </div>
+            </div>
 
     <!-- <section id= "profile">
         <div class="container">
@@ -154,7 +125,7 @@
             </div> -->
     
         </footer>
-        <script src="scripts/profile.js"></script>
         <script src="scripts/main.js"></script>
+        <script src="scripts/profile.js"></script>
     </body>
     </html>

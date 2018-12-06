@@ -13,7 +13,9 @@ signUpForm.addEventListener('submit', (e) => {
   signUpFormElems.forEach((item) => {
     if (!item.value) {
       item.style.cssText = 'background-color: lightyellow; border-color: red;';
-      item.nextElementSibling.innerHTML = 'This must not be empty';
+      item.previousElementSibling.innerHTML = 'This must not be empty';
+      error = true;
+      return;
     }
     validate(item);
   });
@@ -41,12 +43,12 @@ function validate(elem) {
     if (elem.name === key) {
       if (!patterns[key].test(elem.value)) {
         elem.style.cssText = 'background-color: lightyellow; border-color: red;';
-        elem.nextElementSibling.innerHTML = errorMessages[key];
+        elem.previousElementSibling.innerHTML = errorMessages[key];
         error = true;
         return;
       }
       elem.style.cssText = '';
-      elem.nextElementSibling.innerHTML = '';
+      elem.previousElementSibling.innerHTML = '';
     }
   }
 }
@@ -70,7 +72,7 @@ async function submitData(form) {
   if (response.status === 409) {
     return emailError.innerHTML = 'Email Already Taken';
   }
-  if(response.status !== 201) return;
+  if (response.status !== 201) return;
   const body = await response.json();
   localStorage.setItem('token', body.token);
   window.location.href = '/bookings.html';
