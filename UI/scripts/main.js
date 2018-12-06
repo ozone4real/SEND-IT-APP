@@ -20,6 +20,11 @@ document.addEventListener('click', (e) => {
   }
 });
 
+const carousel = document.getElementById('container1');
+setInterval(() => {
+  carousel.classList.toggle('sliding');
+}, 6000);
+
 window.onscroll = (e) => {
   if (pageYOffset) {
     navLinks.classList.remove('responsive-nav');
@@ -29,10 +34,7 @@ window.onscroll = (e) => {
 };
 
 
-const carousel = document.getElementById('container1');
-setInterval(() => {
-  carousel.classList.toggle('sliding');
-}, 6000);
+
 
 document.addEventListener('DOMContentLoaded', async (e) => {
   await verifyUser();

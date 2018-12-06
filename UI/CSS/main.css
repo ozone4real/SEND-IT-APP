@@ -8,10 +8,6 @@ body{
     margin:0;
   }
 
-  .preventScroll {
-      overflow: hidden;
-  }
-
   .container{
     width: 85%;
     margin: auto;
@@ -570,6 +566,10 @@ background: white;
         width: 96%;
     }
 
+    .preventScroll {
+        overflow: hidden;
+    }
+
     .site-logo a{
         display: block;
         font-size: 9px;
@@ -585,14 +585,7 @@ background: white;
         font-size: 11px;
     }
     
-    #nav-contents {
-        display: block;
-        position: absolute;
-        z-index: 1000;
-        width: 100%;
-        height: 100%;
-    }
-
+    
     #nav-links {
         position: absolute;
         height: 100%;
@@ -618,6 +611,11 @@ background: white;
 
    #nav-contents.responsive-nav {
     background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
    }
 
     #nav-contents a{
