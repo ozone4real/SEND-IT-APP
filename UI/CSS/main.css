@@ -8,6 +8,10 @@ body{
     margin:0;
   }
 
+  .preventScroll {
+      overflow: hidden;
+  }
+
   .container{
     width: 85%;
     margin: auto;
@@ -585,13 +589,20 @@ background: white;
         display: block;
         position: absolute;
         z-index: 1000;
-        box-shadow: 2px 2px 2px #888888;
-        left: -100%;
-        width: 250px;
+        width: 100%;
         height: 100%;
-        transition: 500ms;
+    }
+
+    #nav-links {
+        position: absolute;
+        height: 100%;
+        width: 70%;
+        box-shadow: 2px 2px 2px #888888;
         border-top: 2px solid #D8D8D8;
         background-color: #F2F2F2;
+        left: -100%;
+        height: 100%;
+        transition: 500ms;
     }
 
     #nav-bar {
@@ -601,8 +612,12 @@ background: white;
     nav .container{
         width:100%;
     }
-   #nav-contents.responsive-nav {
+   #nav-links.responsive-nav{
        left: 0;
+   }
+
+   #nav-contents.responsive-nav {
+    background-color: rgba(0, 0, 0, 0.5);
    }
 
     #nav-contents a{

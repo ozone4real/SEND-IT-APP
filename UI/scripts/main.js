@@ -1,17 +1,32 @@
-const navCont = document.getElementById('nav-contents');
+const navLinks = document.getElementById('nav-links');
 const navBar = document.getElementById('nav-bar');
+const navContents = document.getElementById('nav-contents');
 const account = document.getElementById('account');
-const presentPage = document.getElementById('present')
+const presentPage = document.getElementById('present');
 
 document.addEventListener('click', (e) => {
 
   if (e.target.closest('#nav-bar')) {
-    if (presentPage) presentPage.style.background = "#D8D8D8";
-    navCont.classList.toggle('responsive-nav');
+    if (presentPage) presentPage.style.background = '#D8D8D8';
+    navLinks.classList.toggle('responsive-nav');
+    navContents.classList.toggle('responsive-nav');
+    document.body.classList.toggle('preventScroll');
     return;
   }
-  if (!event.target.closest('#nav-contents')) navCont.classList.remove('responsive-nav');
+  if (!e.target.closest('#nav-links')) {
+    navLinks.classList.remove('responsive-nav');
+    navContents.classList.remove('responsive-nav');
+    document.body.classList.remove('preventScroll');
+  }
 });
+
+window.onscroll = (e) => {
+  if (pageYOffset) {
+    navLinks.classList.remove('responsive-nav');
+    navContents.classList.remove('responsive-nav');
+    document.body.classList.remove('preventScroll');
+  }
+};
 
 
 const carousel = document.getElementById('container1');
@@ -37,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     window.location.href = '/';
   };
 });
+
 
 async function verifyUser() {
   const accountHTML = `<div class='user'>
