@@ -584,11 +584,16 @@ background: white;
         margin: 0;
         font-size: 11px;
     }
+
+    #nav-contents {
+        position: absolute;
+        overflow: hidden;
+        transition: 500ms;
+    }
     
     
     #nav-links {
         position: absolute;
-        height: 100%;
         width: 70%;
         box-shadow: 2px 2px 2px #888888;
         border-top: 2px solid #D8D8D8;
@@ -612,8 +617,8 @@ background: white;
    #nav-contents.responsive-nav {
     background-color: rgba(0, 0, 0, 0.5);
     display: block;
-    position: absolute;
     z-index: 1000;
+    left: 0;
     width: 100%;
     height: 100%;
    }
