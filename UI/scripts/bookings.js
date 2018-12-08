@@ -11,9 +11,10 @@ const bookingForm = document.getElementById('booking-form');
 bookingForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const bookingFormElems = Array.from(bookingForm.querySelectorAll('input'));
+  const bookingFormElems = Array.from(bookingForm.elements);
   let error;
   bookingFormElems.forEach((item) => {
+    if (item.tagName !== 'INPUT' && item.tagName !== 'SELECT') return;
     if (!item.value) {
       item.style.cssText = 'background-color: lightyellow; border-color: red;';
       item.previousElementSibling.innerHTML = 'This must not be empty';
@@ -41,6 +42,7 @@ bookingForm.addEventListener('submit', async (e) => {
   const response = await createOrder('/api/v1/parcels/confirm', json, token);
   const body = await response.json();
 
+  
   if (response.status === 401 || response.status === 403) {
     window.location.href = '/signup.html';
     return;

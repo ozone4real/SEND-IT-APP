@@ -2,6 +2,7 @@ const profileHead = document.getElementById('head');
 const profileBody = document.getElementById('body');
 const token = localStorage.getItem('token');
 const modal = document.querySelector('.modal');
+const confirmOrder = document.getElementById('confirm-order');
 
 let highlighted = profileHead.querySelector('ul').firstElementChild;
 
@@ -140,7 +141,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     }
 
     if (item.status === 'in transit') {
-      unfulfilled.insertAdjacentHTML('beforeend', `<ul>
+      unfulfilled.insertAdjacentHTML('afterbegin', `<ul>
       <li><b>Parcel ID:</b> <span id="parcelId"> ${item.parcelid}</span></li>
       <li><b>Parcel Description:</b> <span id="parcelDesc"> ${item.parceldescription}</span ></li>
       <li><b>Parcel Weight:</b> ${item.parcelweight}</li>
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       <li><b>Destination:</b> ${item.destination}</li>
       <li><b>Status:</b> ${item.status}</li>
       <li><b>Present Location:</b> ${item.presentlocation}</li>
-      <li><button>Cancel</button> <button>Change Destination</button> <button>Track</button></li>
+      <li><button onclick= "cancelOrder(${item.parcelid})">Cancel</button> <button  onclick="changeDestination(${item.parcelid})">Change Destination</button> <button>Track</button></li>
   </ul>`);
     }
   });
@@ -172,7 +173,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 function cancelOrder(id) {
   modal.style.display = 'block';
 
-  const confirmOrder = document.getElementById('confirm-order');
   confirmOrder.innerHTML = `<div style="text-align: center; margin: 25% auto;">
   <h2>Are you sure you want to cancel this order?</h2>
   <button id="abort">No! Return</button><button id="confirm-cancel">Yes! Cancel</button>
@@ -211,7 +211,6 @@ function cancelOrder(id) {
 function changeDestination(id) {
   modal.style.display = 'block';
 
-  const confirmOrder = document.getElementById('confirm-order');
   confirmOrder.innerHTML = `<form id="update-form" style="margin: 20% auto;">
   <label><h3>New Destination</h3></label>
   <small></small>

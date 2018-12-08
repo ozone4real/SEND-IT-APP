@@ -166,7 +166,7 @@ class DataUpdateValidator {
       return res.status(400).json({ message: 'Incomplete request, pls submit the name of the parcel receiver and the time the parcel was delivered' });
     }
     if (!/^\d{4}-((1[0-2])|(0[1-9]))-((3[0-1])|([0-2][0-9]))T(([0-1][0-9])|(2[0-3])):[0-5][0-9]$/.test(receivedAt)) {
-      return res.status(400).json({ message: 'Invalid input syntax. Format must be timestamp' });
+      return res.status(400).json({ message: 'Invalid time. Format must be timestamp' });
     }
     try {
       const { rows: parcelRows } = await db(
@@ -244,7 +244,7 @@ class DataUpdateValidator {
     try {
       const { rows } = await db('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
       if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
-      const { status, pickupaddress, parcelweight } = rows[0]
+      const { status, pickupaddress, parcelweight } = rows[0];
       if (status === 'delivered' || status === 'cancelled') {
         return res.status(400)
           .json({
@@ -285,7 +285,7 @@ class DataUpdateValidator {
       if (!presentLocation) {
         return res.status(400).json({ message: 'Invalid request, present location not provided' });
       }
-      if (!/^[A-Za-z]{1,20}$/.test(presentLocation)) {
+      if (!/^[a-zA-Z]{2,20}, [a-zA-Z]{2,20}$/.test(presentLocation)) {
         return res.status(400).json({ message: 'invalid location or location length too long' });
       }
       next();
