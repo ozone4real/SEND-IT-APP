@@ -155,19 +155,25 @@ nav{
 }
 
 
-nav #nav-contents{
+nav #nav-contents, nav ul{
     float: left;
 }
 
+nav ul {
+    padding: 0;
+    margin:0;
+}
 
-nav a {
+
+nav a, nav li {
    padding: 5px 10px 5px 10px;
    display: table-cell;
    color: #0B0B61;
    font-weight: bold;
+   cursor: pointer;
 }
 
-nav a:hover{
+nav a:hover, nav li:hover {
     background-color: #DFB607; 
 }
 
@@ -322,11 +328,13 @@ footer #mail{
     background: white;
     padding: 20px 0 20px 0;
 }
+
 form {
     width: 75%;
     margin: auto;
     color: #0B0B61;
 }
+
 form h3{
     color : #0B0B61;
 }
@@ -391,6 +399,26 @@ fieldset {
     box-sizing: border-box;
     height: 450px;
     border-radius: 10px;  
+}
+
+#confirm-order form {
+    font-size: 14px;
+}
+
+#confirm-order form input, #confirm-order form select{
+    font-size: 14px;
+    padding: 8px;
+    margin: 0 0 25px 0;
+}
+
+#confirm-order button {
+    padding: 3px 5px 3px 5px;
+    color: white;
+    background: #0B0B61;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 20px 3px 0px 0px;
+    display: inline-block;
 }
 
 #confirm-order ul {
@@ -483,7 +511,7 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 padding: 10px;
 }
 
-#profile #body button, #confirm-order button{
+#profile #body button {
     padding: 5px 10px 5px 10px;
     color: white;
     background: #0B0B61;
@@ -492,16 +520,21 @@ padding: 10px;
     display: inline-block;
 }
 
+#categories .highlight {
+    background: #DFB607;;
+}
+
 .grid-container, .title-container {
     display: grid; 
-    grid-template-columns: 12% 12% 12% 15% 15% 12% 10% 12%;
     background: white;
 }
+
 
 .grid-container {
     border-bottom: 5px solid white;
     background: #F2F2F2;
 }
+
 .title-container {
     background: #0B0B61;
     color: white;
@@ -509,9 +542,29 @@ padding: 10px;
 }    
 
 .grid-item, .title-grid-item {
-    padding: 1px;
+    padding: 1px 5px 1px 5px;
     text-align: center;
 }
+
+#recorded-table .grid-container,
+ #recorded-table .title-container {
+    grid-template-columns: 12% 8% 9% 8% 9% 13% 13% 14% 8% 6%;
+} 
+
+#in-transit-table .title-container,
+ #in-transit-table .grid-container {
+    grid-template-columns: 13% 8% 9% 8% 9% 13% 13% 8% 10% 6%;
+ }
+
+#cancelled-table .grid-container,
+ #cancelled-table .title-container {
+    grid-template-columns: 12% 9% 9% 9% 10% 14% 14% 9% 8%;
+ }
+
+ #delivered-table .grid-container,
+ #delivered-table .title-container {
+    grid-template-columns: 12% 8% 9% 7% 9% 12% 12% 8% 9% 13%;
+ }
 
 #button button{
     background-color: #0B0B61;
@@ -519,32 +572,30 @@ padding: 10px;
     border-radius: 10px;
 }
 
-#admin {
+/** #admin {
 background: white;
+} **/
+
+#parcelsTables .container {
+    overflow: auto;
 }
 
-#admin-edit{
+.admin-edit{
     padding: 10px;
     margin-bottom: 90px;
-}
-#admin-edit ul {
-    padding: 0;
+    width: 120%;
     border-bottom: 1px solid #0B0B61;
+    font-size: 12px;
 }
 
-
-#orders-in-transit ul {
+.admin-edit ul {
     padding: 0;
+    margin: 0;
     
 }
 
-#orders-in-transit ul li{
-    margin-bottom: 30px;
-}
-
-#fulfilled-orders {
-    padding: 0;
-    color:green; 
+.admin-edit .parcels-body {
+    background: white;
 }
 
 #services-section{
@@ -710,28 +761,29 @@ background: white;
         padding: 10px;
     }
 
-    #admin-edit {
-        font-size: 70%;
-    }
-
-   
-#admin-edit ul{
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    margin-right:0;
-}
-
-#admin .container{
-    width: 100%;
-}
-    #button button{
-        font-size:50%;
-    }
+    
 
     footer #phone, footer #mail {
         float: none;
     } 
+
+    .admin-edit{
+        padding: 10px;
+        margin-bottom: 90px;
+        width: 200%;
+        border-bottom: 1px solid #0B0B61;
+        font-size: 10px;
+    }
+    
+    .admin-edit ul {
+        padding: 0;
+        margin: 0;
+        
+    }
+    
+    .admin-edit .parcels-body {
+        background: white;
+    }
 
 }
 
@@ -800,5 +852,9 @@ background: white;
     }
     #profile #head li {
         padding: 7px 2px 7px 2px;
+    }
+
+    nav {
+        font-size: 10px;
     }
 }
