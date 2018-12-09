@@ -188,7 +188,7 @@ function updatePending(id) {
         <option value='delivered' disabled>delivered</option>
         </select>
         <small></small>
-        <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location(town/state)">
+        <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location(town, state)">
         <button id="abort" type="button">Return</button> <button type="submit">Submit</button>
         </form>`;
 

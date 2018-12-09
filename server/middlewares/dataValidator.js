@@ -285,8 +285,8 @@ class DataUpdateValidator {
       if (!presentLocation) {
         return res.status(400).json({ message: 'Invalid request, present location not provided' });
       }
-      if (!/^[a-zA-Z]{2,20}, [a-zA-Z]{2,20}$/.test(presentLocation)) {
-        return res.status(400).json({ message: 'invalid location or location length too long' });
+      if (!/^\w{2,20}, \w{2,20}$/.test(presentLocation)) {
+        return res.status(400).json({ message: "invalid location or location length too long. Provide just city and state name, e.g: 'Ikeja, Lagos'" });
       }
       next();
     } catch (error) {

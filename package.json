@@ -4,7 +4,7 @@
   "description": "SendIT is a courier service that helps users deliver parcels to different destinations. SendIT provides courier quotes based on weight categories.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --recursive tests --timeout 5000 --exit --require babel-register",
+    "test": "nyc mocha --recursive tests --timeout 10000 --exit --require babel-register",
     "testbuild": "babel spec/ -d dist/spec",
     "build": "babel server/ -d dist/server",
     "start": "npm run build && node dist/server/index.js",

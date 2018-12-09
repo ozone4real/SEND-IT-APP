@@ -119,7 +119,19 @@ describe('Integration testing', () => {
         });
     });
 
-    it('should respond with a 200 success status code and create the delivery order if the data is correct', (done) => {
+    it('should respond compute the distance and price and return an object including both to the user for confirmation', (done) => {
+      chai.request(app)
+        .post('/api/v1/parcels/confirm')
+        .set('x-auth-token', userToken)
+        .send(parcelTestData.expectedData)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.include.all.keys('price', 'distance');
+          done();
+        });
+    });
+
+    it('should respond with a 201 success status code and create the delivery order if the data is correct', (done) => {
       chai.request(app)
         .post('/api/v1/parcels')
         .set('x-auth-token', userToken)
@@ -178,11 +190,11 @@ describe('Integration testing', () => {
     });
   });
 
-  // GET /api/v1/users/<userId>/parcels
+  // GET /api/v1/user/parcels
   describe('GET all parcel delivery orders for a specific user', () => {
     it('should respond with a 401(Unauthorized) status code if no token was provided by the user', (done) => {
       chai.request(app)
-        .get(`/api/v1/users/${regUserId}/parcels`)
+        .get('/api/v1/user/parcels')
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.message).match(/access denied/i);
@@ -192,7 +204,7 @@ describe('Integration testing', () => {
 
     it('should respond with a 401 (Unauthorized) status code if an invalid authentication token was provided', (done) => {
       chai.request(app)
-        .get(`/api/v1/users/${regUserId}/parcels`)
+        .get('/api/v1/user/parcels')
         .set('x-auth-token', `${userToken}fjfjfj84`)
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -201,22 +213,11 @@ describe('Integration testing', () => {
         });
     });
 
-    it('should respond with a 403 (Forbidden) status code if the authentication token is valid but its id does not match the id in the request', (done) => {
-      chai.request(app)
-        .get(`/api/v1/users/${adminUserId}/parcels`)
-        .set('x-auth-token', userToken)
-        .end((err, res) => {
-          expect(res).to.have.status(403);
-          expect(res.body.message).match(/forbidden/i);
-          done();
-        });
-    });
-
 
     it('should respond with a 404 (Not found) status code if there are no orders found for the user', (done) => {
       // user has no orders yet
       chai.request(app)
-        .get(`/api/v1/users/${adminUserId}/parcels`)
+        .get('/api/v1/user/parcels')
         .set('x-auth-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -227,7 +228,7 @@ describe('Integration testing', () => {
 
     it('should respond with a 200 (success) status code and return all orders for a user if the user passes the authentication and has some orders', (done) => {
       chai.request(app)
-        .get(`/api/v1/users/${regUserId}/parcels`)
+        .get('/api/v1/user/parcels')
         .set('x-auth-token', userToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -456,23 +457,6 @@ describe('Integration testing', () => {
         });
     });
 
-    it('should respond with a 400 (bad request) status code if the parcel has been delivered or cancelled', (done) => {
-      chai.request(app)
-        .put(`/api/v1/parcels/${parcelId}/cancel`)
-        .set('x-auth-token', adminToken)
-        .end((err, res) => {
-        });
-
-      chai.request(app)
-        .put(`/api/v1/parcels/${parcelId}/status`)
-        .set('x-auth-token', adminToken)
-        .send({ status: 'in transit' })
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.message).match(/cancelled/i);
-          done();
-        });
-    });
 
     it('should respond with a 400 (bad request) status code if the status value is invalid', (done) => {
       chai.request(app)
@@ -581,6 +565,18 @@ describe('Integration testing', () => {
         });
     });
 
+    it('should respond with a 200 (status) status code if a valid destination was provided and return the data for confirmation', (done) => {
+      chai.request(app)
+        .put(`/api/v1/parcels/${parcelId}/confirmUpdate`)
+        .set('x-auth-token', userToken)
+        .send({ destination: '19, emir street, Ijanikin' })
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.include.all.keys('price', 'destination');
+          done();
+        });
+    });
+
     it('should respond with a 200 (status) status code if a valid destination was provided', (done) => {
       chai.request(app)
         .put(`/api/v1/parcels/${parcelId}/destination`)
@@ -657,7 +653,7 @@ describe('Integration testing', () => {
       chai.request(app)
         .put(`/api/v1/parcels/${parcelId}/presentLocation`)
         .set('x-auth-token', adminToken)
-        .send({ presentLocation: '19 Ipaja road' })
+        .send({ presentLocation: '19. Ipaja road' })
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.message).match(/invalid location/i);
@@ -669,10 +665,10 @@ describe('Integration testing', () => {
       chai.request(app)
         .put(`/api/v1/parcels/${parcelId}/presentLocation`)
         .set('x-auth-token', adminToken)
-        .send({ presentLocation: 'Ipaja' })
+        .send({ presentLocation: 'Ipaja, Lagos' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.presentlocation).to.equal('Ipaja');
+          expect(res.body.presentlocation).to.equal('Ipaja, Lagos');
           done();
         });
     });

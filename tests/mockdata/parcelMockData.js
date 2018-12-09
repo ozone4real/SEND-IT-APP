@@ -34,7 +34,7 @@ const parcelTestData = {
     destination: '14 Hundeyin st, Badagary',
     parcelDescription: 'bag of rice and egg',
     pickupTime: '2018-12-06T19:07',
-    parcelWeight: '80kg',
+    parcelWeight: '50kg - 100kg',
   },
 };
 

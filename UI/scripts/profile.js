@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       <li><b>Picked Up At:</b> ${item.pickupaddress}</li>
       <li><b>Dropped At:</b> ${item.destination}</li>
       <li><b>Received By:</b> ${item.receivedby}</li>
-      <li><b>Time Received:</b> ${item.receivedat}</li>
+      <li><b>Time Received:</b> ${new Date(item.receivedat)}</li>
   </ul>`);
   });
 });
@@ -174,7 +174,7 @@ function cancelOrder(id) {
   modal.style.display = 'block';
 
   confirmOrder.innerHTML = `<div style="text-align: center; margin: 25% auto;">
-  <h2>Are you sure you want to cancel this order?</h2>
+  <h2>Are you sure you want to cancel this order (Parcel ID: ${id})?</h2>
   <button id="abort">No! Return</button><button id="confirm-cancel">Yes! Cancel</button>
   </div>`;
 
@@ -212,7 +212,7 @@ function changeDestination(id) {
   modal.style.display = 'block';
 
   confirmOrder.innerHTML = `<form id="update-form" style="margin: 20% auto;">
-  <label><h3>New Destination</h3></label>
+  <label><h3>New Destination for parcel (ID: ${id})</h3></label>
   <small></small>
   <input style="margin-bottom:0;" type="text" name="destination" placeholder="New Destination">
   <button id="abort" type="button">Return</button> <button type="submit">Submit</button>

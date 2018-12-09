@@ -10,6 +10,12 @@ const { locationChangeMail, orderCreatedMail } = messages;
  * @class ParcelControllers
  */
 class ParcelControllers {
+  /**
+   * @description returns a data with compputed distance and price to the user for confirmation
+   * @static
+   * @param {object} req Request Object
+   * @param {object} res Response Object
+   */
   static confirmOrder(req, res) {
     res.status(200).json(req.body);
   }
