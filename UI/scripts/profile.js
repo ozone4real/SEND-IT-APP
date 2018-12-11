@@ -28,7 +28,7 @@ function display(node) {
 
 document.addEventListener('DOMContentLoaded', async (e) => {
   const userInfo = document.querySelector('.info');
-
+  userInfo.innerHTML = '<i style= "margin: 80px 40%;" class="fas fa-spinner fa-pulse fa-6x"></i>';
   const response = await fetch('/api/v1/user/', {
     headers: {
       'x-auth-token': token
@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   });
 });
 
+
 function cancelOrder(id) {
   modal.style.display = 'block';
 
@@ -186,6 +187,7 @@ function cancelOrder(id) {
   };
 
   confirmCancel.onclick = async () => {
+    confirmOrder.innerHTML = '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
     const response = await fetch(`/api/v1/parcels/${id}/cancel`, {
       method: 'PUT',
       headers: {
@@ -203,10 +205,14 @@ function cancelOrder(id) {
       return;
     }
 
-    confirmOrder.innerHTML = '<h1 style="color: green; text-align: center; margin: 25% auto;">Order successfully cancelled</h1>';
+    confirmOrder.innerHTML = `<div style="color: green; text-align: center; margin: 25% auto;">
+      <h1>Order successfully cancelled</h1>
+      <div><i class="far fa-check-circle fa-5x"></i></div>
+      </div>`;
     location.href = '/profile.html';
   };
 }
+
 
 function changeDestination(id) {
   modal.style.display = 'block';
@@ -236,10 +242,17 @@ function changeDestination(id) {
       destination: updateForm.destination.value,
     });
 
-    const response = await destinationRequest(`/api/v1/parcels/${id}/confirmUpdate`, json)
+    const submitButton = updateForm.lastElementChild;
+
+    submitButton.disabled = true;
+    submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
+
+    const response = await destinationRequest(`/api/v1/parcels/${id}/confirmUpdate`, json);
     const body = await response.json();
 
     if (response.status === 400) {
+      submitButton.disabled = false;
+      submitButton.lastElementChild.remove();
       updateForm.destination.previousElementSibling.innerHTML = body.message;
       return;
     }
@@ -264,13 +277,18 @@ function changeDestination(id) {
     };
 
     confirmUpdate.onclick = async () => {
+      confirmOrder.innerHTML = '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
+      
       const result = await destinationRequest(`/api/v1/parcels/${id}/destination`, json);
       const resultBody = await result.json();
       if (result.status !== 200) {
         confirmOrder.innerHTML = `<h3 style="color: red; text-align: center; margin: 25% auto;">${resultBody.message}</h3>`;
         return;
       }
-      confirmOrder.innerHTML = '<h2 style="color: green; text-align: center; margin: 25% auto;">Destination successfully changed</h2s>';
+      confirmOrder.innerHTML = `<div style="color: green; text-align: center; margin: 25% auto;">
+      <h1>Destination successfully changed</h1>
+      <div><i class="far fa-check-circle fa-5x"></i></div>
+      </div>`;
       window.location.href = '/profile.html';
     };
   });

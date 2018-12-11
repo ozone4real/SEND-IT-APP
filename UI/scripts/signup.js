@@ -1,5 +1,19 @@
 const signUpForm = document.getElementById('sign-up-form');
+const submitButton = signUpForm.querySelector('button');
 
+/*
+const loadSpinner = () => {
+  const div = document.createElement('div');
+  div.className = 'spinner';
+  div.innerHTML = `<span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>`;
+
+  return div;
+};
+*/
 
 signUpForm.addEventListener('input', (e) => {
   if (e.target.tagName !== 'INPUT') return;
@@ -61,6 +75,9 @@ async function submitData(form) {
     password: form.password.value,
     phoneNo: form.phoneNo.value,
   });
+
+  submitButton.disabled = true;
+  submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
   const response = await fetch('/api/v1/auth/signup', {
     method: 'POST',
     headers: {
@@ -70,6 +87,8 @@ async function submitData(form) {
   });
 
   if (response.status === 409) {
+    submitButton.disabled = false;
+    submitButton.lastElementChild.remove();
     return emailError.innerHTML = 'Email Already Taken';
   }
   if (response.status !== 201) return;

@@ -40,6 +40,65 @@ hr {
     color: #0B0B61;
 }
 
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.spinner span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0B0B61;
+    animation: rotate 2s linear infinite both;
+}
+
+.spinner span:nth-of-type(1) {
+    animation-delay: .2s;
+}
+
+.spinner span:nth-of-type(2) {
+  animation: rotate 2s .4s linear infinite both;
+}
+
+.spinner span:nth-of-type(3) {
+    animation: rotate 2s .6s linear infinite both;
+}
+
+.spinner span:nth-of-type(4) {
+  animation-delay: .8s;
+} 
+
+.spinner span:nth-of-type(5) {
+    animation-delay: 1s;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg)
+		           translateY(-200%)
+		           rotate(0deg)
+               scale(0.2);
+    
+	}
+	50% {
+		transform: rotate(360deg)
+		           translateY(-200%) 
+		           rotate(-360deg)
+               scale(1);
+	}
+  
+  to {
+		transform: rotate(360deg)
+		           translateY(-200%) 
+		           rotate(-360deg)
+               scale(0);
+	}
+}
+
 /* header styles */
 
   header {
@@ -398,7 +457,8 @@ fieldset {
     padding: 20px;
     box-sizing: border-box;
     height: 450px;
-    border-radius: 10px;  
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px 3px grey;  
 }
 
 #confirm-order form {

@@ -1,5 +1,5 @@
 const signInForm = document.getElementById('sign-in-form');
-
+const submitButton = signInForm.querySelector('button');
 
 signInForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -23,6 +23,9 @@ async function submitData(form) {
     email: form.email.value,
     password: form.password.value,
   });
+
+  submitButton.disabled = true;
+  submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
   const response = await fetch('/api/v1/auth/signin', {
     method: 'POST',
     headers: {
@@ -32,6 +35,8 @@ async function submitData(form) {
   });
 
   if (response.status === 401) {
+    submitButton.disabled = false;
+    submitButton.lastElementChild.remove();
     return signInError.innerHTML = 'Invalid Email or Password';
   }
   if (response.status !== 200) return;
