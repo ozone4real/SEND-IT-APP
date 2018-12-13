@@ -542,12 +542,17 @@ border-top: 3px solid #D8D8D8;
     padding: 10px 15px 10px 15px;
     font-weight: bold;
     margin: 0;
+    background: #F2F2F2;
     cursor: pointer;
 }
 
 #profile #head li:hover {
-    background: #E6E6E6;
-    color: #0B0B61;
+    color: #888888;
+}
+
+#profile #head li:active {
+    background: #0B0B61;;
+    color: white;
 }
 
 #profile #head .highlight {
@@ -689,7 +694,7 @@ background: white;
         font-size: 14px;
     }
     .container{
-        width: 96%;
+        width: 94%;
     }
 
     .preventScroll {
@@ -708,7 +713,7 @@ background: white;
     .site-logo #fast-reliable{
         display: block;
         margin: 0;
-        font-size: 11px;
+        font-size: 10px;
     }
 
     #nav-contents {
