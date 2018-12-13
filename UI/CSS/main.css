@@ -386,7 +386,7 @@ footer #mail{
     margin: auto;
     background: white;
     padding: 20px 0 20px 0;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(223, 127, 127, 0.10);
     -webkit-box-shadow: 0 10px 6px -6px #777;
 	   -moz-box-shadow: 0 10px 6px -6px #777;
 	        box-shadow: 0 10px 6px -6px #777;
@@ -694,7 +694,7 @@ background: white;
         font-size: 14px;
     }
     .container{
-        width: 94%;
+        width: 95%;
     }
 
     .preventScroll {
@@ -716,22 +716,23 @@ background: white;
         font-size: 10px;
     }
 
-    #nav-contents {
+    #nav-contents { 
         position: absolute;
-        overflow: hidden;
-        transition: 500ms;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        transition: 400ms;
     }
     
     
     #nav-links {
         position: absolute;
         width: 70%;
-        box-shadow: 2px 2px 2px #888888;
-        border-top: 2px solid #D8D8D8;
-        background-color: #F2F2F2;
-        left: -100%;
         height: 100%;
-        transition: 500ms;
+        border-top: 2px solid #d8d8d8;
+        box-shadow: 2px 2px 2px #888888;
+        transition: 400ms;
+        background-color: #F2F2F2;
     }
 
     #nav-bar {
@@ -746,12 +747,9 @@ background: white;
    }
 
    #nav-contents.responsive-nav {
-    background-color: rgba(0, 0, 0, 0.5);
     display: block;
     z-index: 1000;
     left: 0;
-    width: 100%;
-    height: 100%;
    }
 
     #nav-contents a{
