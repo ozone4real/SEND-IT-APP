@@ -150,7 +150,10 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       <li><b>Destination:</b> ${item.destination}</li>
       <li><b>Status:</b> ${item.status}</li>
       <li><b>Present Location:</b> ${item.presentlocation}</li>
-      <li><button onclick= "cancelOrder(${item.parcelid})">Cancel</button> <button  onclick="changeDestination(${item.parcelid})">Change Destination</button> <button>Track</button></li>
+      <li><button onclick= "cancelOrder(${item.parcelid})">Cancel</button>
+     <button  onclick="changeDestination(${item.parcelid})">Change Destination</button>
+     <button><a href="/track.html?parcelId=${item.parcelid}&pickupAddress=${item.pickupaddress}&presentLocation=${item.presentlocation}&destination=${item.destination}">Track</a></button>
+     </li>
   </ul>`);
     }
   });
@@ -278,7 +281,7 @@ function changeDestination(id) {
 
     confirmUpdate.onclick = async () => {
       confirmOrder.innerHTML = '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
-      
+
       const result = await destinationRequest(`/api/v1/parcels/${id}/destination`, json);
       const resultBody = await result.json();
       if (result.status !== 200) {
