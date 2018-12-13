@@ -386,6 +386,10 @@ footer #mail{
     margin: auto;
     background: white;
     padding: 20px 0 20px 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
 }
 
 form {
@@ -518,7 +522,9 @@ width: 98%;
 margin: auto;
 color:  #0B0B61;
 border-top: 3px solid #D8D8D8;
-box-shadow: 2px 35px 10px 10px #D8D8D8;
+-webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
 }
 
 #profile ul {
@@ -536,8 +542,12 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
     padding: 10px 15px 10px 15px;
     font-weight: bold;
     margin: 0;
-    background: #E6E6E6;
     cursor: pointer;
+}
+
+#profile #head li:hover {
+    background: #E6E6E6;
+    color: #0B0B61;
 }
 
 #profile #head .highlight {
@@ -561,10 +571,15 @@ box-shadow: 2px 35px 10px 10px #D8D8D8;
 
 #profile #body .unfulfilled ul,
 #profile #body .delivered ul {
-    background: #F2F2F2;
+    background: #FAFAFA;
     color: #0B0B61;
     margin: 0 auto 20px auto;
     padding: 0;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+	   -moz-box-shadow: 0 10px 6px -6px #777;
+	        box-shadow: 0 10px 6px -6px #777;
 }
 
 #profile #body li{
