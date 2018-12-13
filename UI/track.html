@@ -32,28 +32,22 @@
 
 
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {lat: 40.72, lng: -73.96}
-            });
-            const infoWindow = new google.maps.InfoWindow;
-            const geocoder = new google.maps.Geocoder;
-
-            document.addEventListener('DOMContentLoaded', () => {
-                loadMap(map, infoWindow, geocoder);
-            })
+            loadMap();
         }
 
-        
-        function loadMap(map, geocoder, infoWindow) {
+
+        function loadMap() {
+            const geocoder = new google.maps.Geocoder;
             geocoder.geocode({address: presentLocation}, (result, status) => {
                 if(status !== 'OK') {
                     console.log(`Geocode was not successful for the following reason: ${status}`);
                     return;    
                 }
-
-                map.setZoom(10);
-                map.setCenter(result.geometry[0].location);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: result[0].geometry.location
+                });
+                const infoWindow = new google.maps.InfoWindow;
 
                 const marker = new google.maps.Marker({
                     map: map,
