@@ -43,7 +43,8 @@
                 loadMap(map, infoWindow, geocoder);
             })
         }
-    
+
+        
         function loadMap(map, geocoder, infoWindow) {
             geocoder.geocode({address: presentLocation}, (result, status) => {
                 if(status !== 'OK') {
