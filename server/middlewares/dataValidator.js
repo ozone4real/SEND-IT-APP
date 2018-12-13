@@ -22,7 +22,7 @@ class ImproperValues {
       fullname, email, phoneNo, password,
     } = req.body;
 
-    const fnameTest = /^[a-zA-Z]+? [a-zA-Z]+?( [a-zA-Z]+?)?$/.test(fullname);
+    const fnameTest = /^[a-zA-Z-]+? [a-zA-Z-]+?( [a-zA-Z-]+?)?$/.test(fullname);
     const emailTest = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/.test(email);
     const phNoTest = /^\d{10,20}$/.test(phoneNo);
     const passwordTest = /.{7,}/.test(password);

@@ -40,7 +40,7 @@ signUpForm.addEventListener('submit', (e) => {
 
 function validate(elem) {
   const patterns = {
-    fullname: /^[a-zA-Z]+? [a-zA-Z]+?( [a-zA-Z]+?)?$/,
+    fullname: /^[a-zA-Z-]+? [a-zA-Z-]+?( [a-zA-Z-]+?)?$/,
     email: /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/,
     phoneNo: /^\d{10,20}$/,
     password: /.{7,}/
