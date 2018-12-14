@@ -600,6 +600,10 @@ padding: 10px;
     display: inline-block;
 }
 
+#profile #body button a {
+    color: white;
+}
+
 #categories .highlight {
     background: #DFB607;;
 }

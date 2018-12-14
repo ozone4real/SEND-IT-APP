@@ -499,7 +499,7 @@ describe('Integration testing', () => {
       chai.request(app)
         .put(`/api/v1/parcels/${parcelId}/status`)
         .set('x-auth-token', adminToken)
-        .send({ status: 'in transit', presentLocation: 'Badagary' })
+        .send({ status: 'in transit', presentLocation: 'Badagary, Lagos' })
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.status).to.equal('in transit');
@@ -673,4 +673,31 @@ describe('Integration testing', () => {
         });
     });
   });
+
+  // PUT /api/v1/user/updatePhoneNo
+  describe('Update phone number endpoint', () => {
+    it('should respond with a 400 (Bad request) status code if the phone number provided was invalid', (done) => {
+      chai.request(app)
+        .put('/api/v1/user/updatePhoneNo')
+        .set('x-auth-token', userToken)
+        .send({ phoneNo: '090g3'})
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.message).match(/invalid phone number/i);
+          done();
+        })
+    })
+
+    it('should respond with a 200 (success) status code and update the phone number if a valid phone number was provided', (done) => {
+      chai.request(app)
+      .put('/api/v1/user/updatePhoneNo')
+      .set('x-auth-token', userToken)
+      .send({ phoneNo: '09038976756'})
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.message).match(/Phone number successfully updated/i);
+        done();
+      })
+    })
+  })
 });

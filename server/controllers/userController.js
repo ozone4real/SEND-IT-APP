@@ -115,6 +115,18 @@ class UserController {
       return next();
     }
   }
+
+  static async updatePhoneNo(req, res, next) {
+    const { userId } = req.user;
+    const { phoneNo } = req.body;
+    try {
+      await db('UPDATE users SET phoneNo = $1 WHERE userId = $2', [phoneNo, userId]);
+      return res.status(200).json({ message: 'Phone number successfully updated' });
+    } catch (error) {
+      console.log(error);
+      return next();
+    }
+  }
 }
 
 export default UserController;

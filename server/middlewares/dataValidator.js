@@ -24,7 +24,7 @@ class ImproperValues {
 
     const fnameTest = /^[a-zA-Z-]+? [a-zA-Z-]+?( [a-zA-Z-]+?)?$/.test(fullname);
     const emailTest = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/.test(email);
-    const phNoTest = /^\d{10,20}$/.test(phoneNo);
+    const phNoTest = /^\d{7,20}$/.test(phoneNo);
     const passwordTest = /.{7,}/.test(password);
 
     const improperValues = [];
@@ -206,7 +206,7 @@ class DataUpdateValidator {
       return res.status(400)
         .json({ message: "Changing the status to 'in transit' requires a 'present location', value" });
     }
-    if (!/[A-Za-z]{2,20}/.test(presentLocation)) {
+    if (!/^[\w\s]{2,20}, [\w\s]{2,20}$/.test(presentLocation)) {
       return res.status(400).json({ message: 'invalid location or location length too long' });
     }
 
@@ -285,13 +285,19 @@ class DataUpdateValidator {
       if (!presentLocation) {
         return res.status(400).json({ message: 'Invalid request, present location not provided' });
       }
-      if (!/^\w{2,20}, \w{2,20}$/.test(presentLocation)) {
+      if (!/^[\w\s]{2,20}, [\w\s]{2,20}$/.test(presentLocation)) {
         return res.status(400).json({ message: "invalid location or location length too long. Provide just city and state name, e.g: 'Ikeja, Lagos'" });
       }
       next();
     } catch (error) {
       console.log(error);
     }
+  }
+
+  static validatePhoneNo(req, res, next) {
+    const { phoneNo } = req.body;
+    if(!/^\d{7,20}$/.test(phoneNo)) return res.status(400).json({message: "Invalid phone number"});
+    next();
   }
 }
 

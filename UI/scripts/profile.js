@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   userInfo.innerHTML = `<ul>
   <li id="username"><h2>${body.fullname.toUpperCase()}</h2></li>
   <li><b>Email: </b>${body.email}</li>
-  <li id="user-cont"><b>Phone No:</b> <span id= 'contact-edit'><span id='num-edit'>${body.phoneno}</span>  <button id="num-change">Change?</button></span></li>
+  <li id="user-cont"><b>Phone No:</b> <span id= 'contact-edit'><span id='num-edit'>${body.phoneno}</span>  <button style="display:inline; padding: 3px; width: auto;" id="num-change">Change</button></span></li>
   <li id="reg-date"><b>Date Registered: </b>${new Date(Date.parse(body.registered))} </li>
   <li><b>Total Number of Parcel Orders:</b> <span id="total-parcels"></span></li>
 </ul>`;
@@ -55,13 +55,33 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   numChange.onclick = (e) => {
     const numForm = document.createElement('form');
     numForm.style.display = 'inline';
-    numForm.innerHTML = '<input type="number" name = "contact" style="max-width: 150px; padding: 3px; display: inline;"> <input type= "submit" value ="submit" style="display:inline; padding: 3px; width: auto;">';
+    numForm.innerHTML = `<small></small><input type="number" name = "contact" style="max-width: 150px; padding: 3px; display: inline;">
+     <input type= "submit" value ="submit" name="submit" style="display:inline; padding: 3px; width: auto;">`;
     numForm.contact.value = numEdit.innerHTML;
     contactEdit.replaceWith(numForm);
 
-    numForm.onsubmit = (e) => {
+    numForm.onsubmit = async (e) => {
       e.preventDefault();
-      const value = numForm.contact.value;
+      const { value } = numForm.contact;
+      if (!/^\d{7,20}$/.test(value)) {
+        numForm.contact.previousElementSibling.innerHTML = 'Invalid phone number';
+        return;
+      }
+
+      const submitButton = numForm.lastElementChild;
+      const data = JSON.stringify({ phoneNo: value });
+
+      submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
+      const result = await fetch('/api/v1/user/updatePhoneNo', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': token,
+        },
+        body: data,
+      });
+
+      if (result.status !== 200) return;
       numForm.replaceWith(contactEdit);
       numEdit.innerHTML = value;
     };
