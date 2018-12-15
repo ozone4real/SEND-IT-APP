@@ -45,6 +45,7 @@
     <section>
         <div class="container">
             <div id="map"></div>
+            <h>Couldn't load map presently. Try again later</h1>
             <div id="result"></div>
        </div>
     </section>
@@ -52,17 +53,34 @@
     <script>
         const mapContainer = document.getElementById('map');
         const urlParams = new URLSearchParams(window.location.search);
-        const presentLocation = urlParams.get('presentLocation');
+        const parcelId = urlParams.get('parcelId');
+        const token = localStorage.getItem('token');
 
+        const fetchParcel = async () => {
+            const response = await fetch(`/api/v1/parcels/${parcelId}`, {
+                headers: {
+                    'x-auth-token': token,
+                }
+            });
+            if(response.status !== 200) {
+                window.location.href = '/';
+                return;
+            }
+            const data = await response.json();
+            return data;
+        } 
 
-        function initMap() {
-            loadMap();
+       
+        
+        async function initMap() {
+            const { pickupaddress, presentlocation, destination } = await fetchParcel();
+            loadMap(presentlocation, destination);
         }
 
 
-        function loadMap() {
+        function loadMap(presentlocation, destination) {
             const geocoder = new google.maps.Geocoder;
-            geocoder.geocode({address: presentLocation}, (result, status) => {
+            geocoder.geocode({address: presentlocation}, (result, status) => {
                 if(status !== 'OK') {
                     console.log(`Geocode was not successful for the following reason: ${status}`);
                     return;    
@@ -77,6 +95,18 @@
                     map: map,
                     position: result[0].geometry.location
                 });
+
+                geocoder.geocode({ address: destination }, (result2, status2) => {
+                    if(status2 !== 'OK') {
+                        console.log(`Geocode was not successful for the following reason: ${status}`);
+                        return;    
+                    }
+
+                    const marker2 = new google.maps.Marker({
+                        map: map,
+                        position: result2[0].geometry.location
+                    });
+                })
 
                 infoWindow.setContent(result[0].formatted_address);
                 infoWindow.open(map, marker);

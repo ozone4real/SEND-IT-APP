@@ -3,37 +3,13 @@
  * @class Messages
  */
 class Messages {
-  static htmlContainer(mailMessage) {
-    const mailHTML = `<!DOCTYPE html>
-      <html>
-      <head>
-          <meta charset="utf-8" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <title>WELCOME | SEND-IT</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="keywords" content="courier, shipping, delivery">
-          <link rel="stylesheet" type="text/css" media="screen" href="http://sendit03.herokuapp.com/CSS/main.css" />
-          <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC" rel="stylesheet">
-          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-      </head>
-      <body>
-          <header>
-              <div class = 'container'>
-                  <div class = 'site-logo'>
-                      <a href= 'index.html'><h1>SeNd It</h1>....<i class="fas fa-shipping-fast fa-2x"></i>  </a>
-                      <i id="fast-reliable" style="color: white;">fast, reliable, efficient</i>
-                  </div>
-              </div>
-          </header>               
-          <section class = 'mail-Message'>
-          <div class="container">
-            ${mailMessage}
-            </div>
-          </section>
-          </body>
-          </html>`;
-
-    return mailHTML;
+  static messageHTML(mailMessage) {
+    return `<div style="font-family: 'Verdana';">
+      <header style="text-align: center; background: #0B0B61; padding: 5px;"><h1 style="color: gold; margin-bottom:0;">SeNd It</h1><small style="color: white; margin-top:0;"><i>fast, reliable, efficient</i></small></header>
+      <section style="font-size: 13px; background-color: white; padding: 10px; margin: 20px auto; border: 10px solid #F2F2F2;"> 
+      ${mailMessage}
+      </section>
+      </div>`;
   }
 
   /**
@@ -43,13 +19,14 @@ class Messages {
    * @returns an object
    */
   static signUpMail(name) {
-    const mailMessage = `<p>Hello ${name}. Welcome to send it. We are glad to have you. Do you need to deliver a package to a particular location?
-    we are at your service anytime. We go the distance so you don't have to.
-    Make you order now!
+    const message = `<p>Hello <b><i>${name}</i></b>. Welcome to send it. We are glad to have you. Do you need to deliver a package to a particular location?
+    we are at your service anytime. Our <a href='http://sendit03.herokuapp.com/services.html'>services</a> are worldclass and our prices are affordable.
+    Start delivering your parcels through us now.
+    <a href='https://sendit03.herokuapp.com/bookings.html'>Make your order now</a>
     </p>`;
     return {
       subject: 'Welcome To Send It !',
-      html: Messages.htmlContainer(mailMessage),
+      html: Messages.messageHTML(message),
     };
   }
 
@@ -61,19 +38,22 @@ class Messages {
    * @returns an object
    */
   static orderCreatedMail(parcel, name) {
-    const mailMessage = `<p>Hello ${name}. Your order has been recorded. 
+    const message = `<p>Hello <b><i>${name}</i></b>. Your order has been recorded. 
     A delivery man would call you soon to find out more about your request before coming to get your parcel for delivery. Below are details of your order:</p>
     <ul>
-    <li> Parcel id: ${parcel.parcelid}.</li>
-    <li> Pickup location: ${parcel.pickupaddress}.</li>
-    <li> Destination: ${parcel.destination}.</li>
-    <li> Pickup Time: ${parcel.pickuptime}.</li>
-    <li> Parcel description: ${parcel.parceldescription}.</li>
-    <li>Parcel Weight: ${parcel.parcelweight}.</li>
-    </ul>`;
+    <li> <b>Parcel id:</b> ${parcel.parcelid}.</li>
+    <li> <b>Pickup location:</b> <address>${parcel.pickupaddress}.</address></li>
+    <li> <b>Destination:</b> <address>${parcel.destination}.</address></li>
+    <li> <b>Pickup Time:</b> ${parcel.pickuptime}.</li>
+    <li> <b>Parcel description:</b> ${parcel.parceldescription}.</li>
+    <li> <b>Parcel Weight:</b> ${parcel.parcelweight}.</li>
+    <li> <b>Price:</b> N${parcel.price}.</li>
+    </ul>
+    <p>Please note that you can change the destination of your parcel or cancel your parcel delivery <a href="https://sendit03.herokuapp.com/profile.html">HERE</a></p>`;
+
     return {
       subject: 'Order successfully created',
-      html: Messages.htmlContainer(mailMessage),
+      html: Messages.messageHTML(message),
     };
   }
 
@@ -86,14 +66,12 @@ class Messages {
    * @returns an object
    */
   static statusInTransitMail(location, id, name) {
+    const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id: <b>${id}</b> is in transit and presently at <address><b>${location}</b>.</address></p>
+    <p>You can <a href="http://sendit03.herokuapp.com?parcelId=${id}">track your parcel</a> while it is
+     in transit</p>`;
     return {
       subject: 'Update on your parcel delivery order',
-      html: `<div style="background:#E6E6E6;">
-      <header style="text-align: center; background: #3104B4; padding: 5px;"><h1 style="color: gold" >SeNd It</h1></header>
-      <section style="font-size: 13px; width: 90%; background-color: white; padding: 5px; margin-top: 10px; margin: auto;"> 
-      <p>Hello ${name}. Your parcel with parcel id: <b>${id}</b> is in transit and presently at <b>${location}</b>.</p>
-      </section>
-      </div>`
+      html: Messages.messageHTML(message),
     };
   }
 
@@ -107,18 +85,17 @@ class Messages {
    * @returns an object
    */
   static statusDeliveredMail(receivedBy, receivedAt, id, name) {
+    const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id: <b>${id}</b> has been delivered !</p>
+    <ul>
+    <li>Received by : <b>${receivedBy}</b></li>
+    <li>Time received: <b>${new Date(receivedAt)}</b></li>
+    </ul>
+    <p>Thank you very much for your patronage and we look forward to offering you more of our service</p>
+    <i>Regards. SEND IT</i>`;
+
     return {
       subject: 'Update on your parcel delivery order',
-      html: `<div style="background:#E6E6E6;">
-      <header style="text-align: center; background: #3104B4; padding: 5px;"><h1 style="color: gold" >SeNd It</h1></header>
-      <section style="font-size: 13px; width:90%; background-color: white; padding: 5px; margin-top: 10px; margin: auto;">
-      <p>Hello ${name}. Your parcel with parcel id: <b>${id}</b> has been delivered !</p>
-      <ul>
-      <li>received by : <b>${receivedBy}</b></li>
-      <li>received at: <b>${receivedAt}</b></li>
-      </ul>
-      </section>
-      </div>`
+      html: Messages.messageHTML(message),
     };
   }
 
@@ -131,14 +108,11 @@ class Messages {
    * @returns an object
    */
   static locationChangeMail(location, id, name) {
+    const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id <b>${id}</b> is presently at <address><b>${location}.</b></address></p>
+    <p>You can <a href="http://sendit03.herokuapp.com?parcelId=${id}">track your parcel</a> while it is in transit</p>`;
     return {
       subject: 'Update on your parcel delivery order',
-      html: `<div style="background:#E6E6E6;">
-        <header style="text-align: center; background: #3104B4; padding: 5px;"><h1 style="color: gold" >SeNd It</h1></header>
-        <section style="font-size:13px; width:90%; background-color: white; padding: 5px; margin-top: 10px; margin: auto;">
-        <p>Hello ${name}. Your parcel with parcel id ${id} is presently at ${location}.</p>
-        </section>
-        </div>`
+      html: Messages.messageHTML(message),
     };
   }
 }

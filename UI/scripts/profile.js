@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       <li><b>Present Location:</b> ${item.presentlocation}</li>
       <li><button onclick= "cancelOrder(${item.parcelid})">Cancel</button>
      <button  onclick="changeDestination(${item.parcelid})">Change Destination</button>
-     <button><a href="/track.html?parcelId=${item.parcelid}&pickupAddress=${item.pickupaddress}&presentLocation=${item.presentlocation}&destination=${item.destination}">Track</a></button>
+     <button><a href="/track.html?parcelId=${item.parcelid}">Track</a></button>
      </li>
   </ul>`);
     }
