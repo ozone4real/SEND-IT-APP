@@ -12,7 +12,7 @@ class Messages {
           <title>WELCOME | SEND-IT</title>
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta name="keywords" content="courier, shipping, delivery">
-          <link rel="stylesheet" type="text/css" media="screen" href="sendit03.herokuapp.com/CSS/main.css" />
+          <link rel="stylesheet" type="text/css" media="screen" href="http://sendit03.herokuapp.com/CSS/main.css" />
           <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC" rel="stylesheet">
           <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
       </head>
