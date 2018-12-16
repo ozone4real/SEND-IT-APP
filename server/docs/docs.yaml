@@ -11,12 +11,12 @@ info:
 # basePath: /api/v1
 tags:
 - name: parcels
-  description: Parcel operations
+  description: Parcel routes
   externalDocs:
     description: Find out more
-    url: http://sendit03.herokuapp.com/services
+    url: http://sendit03.herokuapp.com/services.html
 - name: user
-  description: Operations about user
+  description: User routes
 # schemes:
 # - http
 paths:
@@ -61,6 +61,9 @@ paths:
           description: Parcel delivery order successfully created
           schema:
               $ref: '#/definitions/Parcels'
+      security:
+      - UserSecurity: []
+
     get:
       tags:
       - parcels
@@ -82,9 +85,8 @@ paths:
             items:
               $ref: '#/definitions/Parcels'
       security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
+      - AdminSecurity: []
+
   /parcels/{parcelId}:
     get:
       tags:
@@ -113,7 +115,7 @@ paths:
         404:
           description: Parcel Order not found
       security:
-      - AdminSecurity: []
+      - UserSecurity: []
     
   /parcel/{parcelId}/cancel:
     put:
@@ -136,6 +138,13 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Parcels'
+        401:
+          description: Unauthorized access, if an invalid the authentication token was sent with the request or no token was sent at all
+        404:
+          description: Parcel with the given ID not found
+      security:
+      - UserSecurity: []
+
   /parcels/{parcelId}/destination:
     put:
       tags:
@@ -176,7 +185,7 @@ paths:
         403:
           description: Forbidden access if the user is not an Admin
       security:
-      - AdminSecurity: []
+      - UserSecurity: []
   /parcels/{parcelId}/status:
     put:
       tags:
@@ -262,8 +271,9 @@ paths:
           description: Unauthorized access if a token was not provided(user not registered or logged in) or an invalid token was provided
         403:
           description: Forbidden access for non-admins
-    security:
+      security:
       - AdminSecurity: []
+
   /auth/signup:
     post:
       tags:
@@ -298,6 +308,9 @@ paths:
             $ref: '#/definitions/User'
         400:
           description: Invalid input by the user
+        409:
+          description: Email Already taken
+      
   
   /auth/signin:
     post:
@@ -326,7 +339,7 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/User'
-        400:
+        404:
           description: Invalid username/password supplied
 
   /user/parcels:
@@ -348,6 +361,8 @@ paths:
           description: Invalid userid supplied
         404:
           description: No parcel found for user
+      security:
+      - UserSecurity: []
 
 securityDefinitions:
   UserSecurity:
@@ -358,8 +373,7 @@ securityDefinitions:
     type: apiKey
     in: header
     name: x-auth-token
-security:
-  - UserSecurity: [ ]
+
 definitions:
   Parcels:
     type: object
@@ -391,7 +405,7 @@ definitions:
         - delivered
       presentlocation:
         type: string
-      receivedBy:
+      receivedby:
         type: string
       receivedat:
         type: string
@@ -435,5 +449,5 @@ schemes:
  - https
  - http
 # Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /E165/SENDIT/1.0.0
+host: sendit03.herokuapp.com
+basePath: /api/v1

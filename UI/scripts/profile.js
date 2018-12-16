@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       const submitButton = numForm.lastElementChild;
       const data = JSON.stringify({ phoneNo: value });
 
-      submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
+      submitButton.insertAdjacentHTML('afterend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
       const result = await fetch('/api/v1/user/updatePhoneNo', {
         method: 'PUT',
         headers: {
