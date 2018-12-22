@@ -128,14 +128,6 @@ header a {
   margin-top: 30px;
 }
 
-.account a {
-  padding: 5px;
-  margin: 7px;
-  font-weight: bold;
-  background: #0b3861;
-  border-radius: 5px;
-}
-
 .account a:hover {
   color: #0b0b61;
   background-color: white;
@@ -153,12 +145,10 @@ header a {
 .account #account-menu {
   margin-top: 10px;
   position: absolute;
-  background: white;
   text-align: center;
   padding: 0;
   z-index: 1000;
   visibility: hidden;
-  border-radius: 7px;
   font-weight: bold;
   box-shadow: 2px 2px 5px #888888;
   background: #f2f2f2;
@@ -169,7 +159,7 @@ header a {
   height: 0;
   width: 0;
   margin: auto;
-  border-width: 10px;
+  border-width: 8px;
   border-style: solid;
   border-color: transparent transparent #f2f2f2 transparent;
   visibility: hidden;
@@ -187,11 +177,10 @@ header a {
 }
 
 .account #account-menu a {
-  font-size: 14px;
-  background: white;
   margin: 0;
   padding: 0;
   border-radius: 0;
+  background: #f2f2f2;
   color: #0b0b61;
 }
 .account #account-menu hr {
@@ -300,7 +289,8 @@ nav #book {
   background-size: cover;
 }
 
-#info, #info2 {
+#info,
+#info2 {
   margin-bottom: 20px;
 }
 
