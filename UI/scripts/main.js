@@ -1,11 +1,10 @@
 const navLinks = document.getElementById('nav-links');
 const navBar = document.getElementById('nav-bar');
 const navContents = document.getElementById('nav-contents');
-const account = document.getElementById('account');
+const user = document.querySelector('.user');
 const presentPage = document.getElementById('present');
 
 document.addEventListener('click', (e) => {
-
   if (e.target.closest('#nav-bar')) {
     if (presentPage) presentPage.style.background = '#D8D8D8';
     navLinks.classList.toggle('responsive-nav');
@@ -33,19 +32,26 @@ window.onscroll = (e) => {
   }
 };
 
-
-
-
 document.addEventListener('DOMContentLoaded', async (e) => {
   await verifyUser();
 
   const userIcon = document.getElementById('user-icon');
   const accountMenu = document.getElementById('account-menu');
+  const accountMenuTip = document.querySelector('.tip');
   userIcon.onclick = () => {
     accountMenu.classList.toggle('display-menu');
+    accountMenuTip.classList.toggle('display-tip');
     const userIconPos = userIcon.getBoundingClientRect();
+    const accountMenuPos = accountMenu.getBoundingClientRect();
 
-    accountMenu.style.left = `${userIconPos.left - (accountMenu.offsetWidth - userIcon.offsetWidth) / 2}px`;
+    accountMenu.style.left = `${userIconPos.left
+      - (accountMenu.offsetWidth - userIcon.offsetWidth) / 2}px`;
+
+    accountMenuTip.style.top = `${accountMenuPos.top
+      - accountMenuTip.offsetHeight}px`;
+
+    accountMenuTip.style.left = `${userIconPos.left
+      - (accountMenuTip.offsetWidth - userIcon.offsetWidth) / 2}px`;
   };
 
   const logout = document.getElementById('logout');
@@ -55,12 +61,13 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   };
 });
 
-
 async function verifyUser() {
   const accountHTML = `<div class='user'>
-  <span id="user-icon" class="fas fa-user-alt fa-2x"> </span>
+  <span id="user-icon" class="fas fa-user-circle fa-2x"> </span>
+  <span class="tip"></span>
   <ul id="account-menu">
   <li><a href="/signup.html">Sign up</a></li>
+  <hr>
   <li><a href="signin.html">Sign in</a></li>
   </ul>
   </div>`;
@@ -74,7 +81,7 @@ async function verifyUser() {
 
   const response = await fetch('/api/v1/user', {
     headers: {
-      'x-auth-token': token,
+      'x-auth-token': token
     }
   });
 
@@ -87,20 +94,25 @@ async function verifyUser() {
 
   if (!body.isadmin) {
     account.innerHTML = `<div class='user'>
-    <span id="user-icon" class="fas fa-user-alt fa-2x"> </span>
-    <ul id="account-menu">
+    <span id="user-icon" class="fas fa-user-circle fa-2x"> </span>
+    <span class="tip"></span>
+    <div id="account-menu">
     <li><a href="/profile.html">My Profile</a></li>
+    <hr>
     <li id = "logout">Logout</li>
-    </ul>
+    </div>
     </div>`;
   } else {
     account.innerHTML = `<div class='user'>
-    <span id="user-icon" class="fas fa-user-alt fa-2x"> </span>
-    <ul id="account-menu">
+    <span id="user-icon" class="fas fa-user-circle fa-2x"> </span>
+    <span class="tip"></span>
+    <div id="account-menu">
     <li><a href="/profile.html">My Profile</a></li>
+    <hr>
     <li><a href="/admin.html">Manage Parcels</a></li>
+    <hr>
     <li id = "logout">Logout</li>
-    </ul>
+    </div>
     </div>`;
   }
 }

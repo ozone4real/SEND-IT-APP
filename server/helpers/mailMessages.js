@@ -25,8 +25,8 @@ class Messages {
     <a href='https://sendit03.herokuapp.com/bookings.html'>Make your order now</a>
     </p>`;
     return {
-      subject: 'Welcome To Send It !',
-      html: Messages.messageHTML(message),
+      subject: "Welcome To Send It !",
+      html: Messages.messageHTML(message)
     };
   }
 
@@ -42,7 +42,9 @@ class Messages {
     A delivery man would call you soon to find out more about your request before coming to get your parcel for delivery. Below are details of your order:</p>
     <ul>
     <li> <b>Parcel id:</b> ${parcel.parcelid}.</li>
-    <li> <b>Pickup location:</b> <address>${parcel.pickupaddress}.</address></li>
+    <li> <b>Pickup location:</b> <address>${
+      parcel.pickupaddress
+    }.</address></li>
     <li> <b>Destination:</b> <address>${parcel.destination}.</address></li>
     <li> <b>Pickup Time:</b> ${parcel.pickuptime}.</li>
     <li> <b>Parcel description:</b> ${parcel.parceldescription}.</li>
@@ -52,8 +54,8 @@ class Messages {
     <p>Please note that you can change the destination of your parcel or cancel your parcel delivery <a href="https://sendit03.herokuapp.com/profile.html">HERE</a></p>`;
 
     return {
-      subject: 'Order successfully created',
-      html: Messages.messageHTML(message),
+      subject: "Order successfully created",
+      html: Messages.messageHTML(message)
     };
   }
 
@@ -67,11 +69,11 @@ class Messages {
    */
   static statusInTransitMail(location, id, name) {
     const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id: <b>${id}</b> is in transit and presently at <address><b>${location}</b>.</address></p>
-    <p>You can <a href="http://sendit03.herokuapp.com?parcelId=${id}">track your parcel</a> while it is
+    <p>You can <a href="http://sendit03.herokuapp.com/track.html?parcelId=${id}">track your parcel</a> while it is
      in transit</p>`;
     return {
-      subject: 'Update on your parcel delivery order',
-      html: Messages.messageHTML(message),
+      subject: "Update on your parcel delivery order",
+      html: Messages.messageHTML(message)
     };
   }
 
@@ -94,8 +96,8 @@ class Messages {
     <i>Regards. SEND IT</i>`;
 
     return {
-      subject: 'Update on your parcel delivery order',
-      html: Messages.messageHTML(message),
+      subject: "Update on your parcel delivery order",
+      html: Messages.messageHTML(message)
     };
   }
 
@@ -111,8 +113,8 @@ class Messages {
     const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id <b>${id}</b> is presently at <address><b>${location}.</b></address></p>
     <p>You can <a href="http://sendit03.herokuapp.com?parcelId=${id}">track your parcel</a> while it is in transit</p>`;
     return {
-      subject: 'Update on your parcel delivery order',
-      html: Messages.messageHTML(message),
+      subject: "Update on your parcel delivery order",
+      html: Messages.messageHTML(message)
     };
   }
 }

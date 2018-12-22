@@ -1,122 +1,132 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>WELCOME | SEND-IT</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="courier, shipping, delivery">
-    <link rel="stylesheet" type="text/css" media="screen" href="./CSS/main.css" />
-    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="courier, shipping, delivery" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./CSS/main.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
+      integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
     <header>
-        <div class = 'container'>
-            <div class = 'site-logo'>
-                <a href= ''><h1>SeNd It</h1>....<i class="fas fa-shipping-fast fa-2x"></i>  </a>
-                <i id="fast-reliable" style="color: white;">fast, reliable, efficient</i>
-            </div>
-           
-            <div class= 'account', id = "account">
-            </div>
-           
+      <div class="container">
+        <div class="site-logo">
+          <a href=""
+            ><h1>SeNd It</h1>
+            ....<i class="fas fa-shipping-fast fa-2x"></i>
+          </a>
+          <i id="fast-reliable" style="color: white;"
+            >fast, reliable, efficient</i
+          >
         </div>
+
+        <div class="account" , id="account"></div>
+      </div>
     </header>
     <nav>
-            <div class= 'container'>
-                    <span id= 'nav-bar'><i class="fas fa-bars"></i></span>
-                <div id= 'nav-contents'>
-                    <div id="nav-links"> 
-                    <a id="present" href = 'index.html' style="background-color:  #DFB607;"><i class="fa fa-home"></i>  HOME</a>
-                    <a href = 'about.html'><i class="fas fa-users"></i>  ABOUT US</a>
-                    <a href = 'services.html'><i class="fas fa-concierge-bell"></i>  SERVICES</a>
-                    <a href = '#how'><i class="fas fa-cogs"></i> HOW IT WORKS</a>  
-                    <a href = '#contacts'><i class="fas fa-phone"></i>  CONTACTS</a>
-                    <a href = '/api-docs'><i class="fas fa-file-alt"></i>  DOCS</a>
-                    </div>     
-                </div>
-                <div id="book">
-                    <a href = 'profile.html#orders' >TRACK</a>
-                    <a href = 'bookings.html' >CREATE AN ORDER</a>
-                </div>
-            </div>
-        </nav>
+      <div class="container">
+        <span id="nav-bar"><i class="fas fa-bars"></i></span>
+        <div id="nav-contents">
+          <div id="nav-links">
+            <a
+              id="present"
+              href="index.html"
+              style="background-color:  #DFB607;"
+              ><i class="fa fa-home"></i> HOME</a
+            >
+            <a href="about.html"><i class="fas fa-users"></i> ABOUT US</a>
+            <a href="services.html"
+              ><i class="fas fa-concierge-bell"></i> SERVICES</a
+            >
+            <a href="#how"><i class="fas fa-cogs"></i> HOW IT WORKS</a>
+            <a href="#contacts"><i class="fas fa-phone"></i> CONTACTS</a>
+            <a href="/api-docs"><i class="fas fa-file-alt"></i> DOCS</a>
+          </div>
+        </div>
+        <div id="book">
+          <a href="profile.html#orders">TRACK</a>
+          <a href="bookings.html">CREATE AN ORDER</a>
+        </div>
+      </div>
+    </nav>
     <section>
-        <div class="container">
-            <div id="map"></div>
-            <h>Couldn't load map presently. Try again later</h1>
-            <div id="result"></div>
-       </div>
+      <div class="container">
+        <div id="map">Couldn't load map presently</div>
+      </div>
     </section>
-    
+
     <script>
-        const mapContainer = document.getElementById('map');
-        const urlParams = new URLSearchParams(window.location.search);
-        const parcelId = urlParams.get('parcelId');
-        const token = localStorage.getItem('token');
+      const urlParams = new URLSearchParams(window.location.search);
+      const parcelId = urlParams.get("parcelId");
+      const token = localStorage.getItem("token");
 
-        const fetchParcel = async () => {
-            const response = await fetch(`/api/v1/parcels/${parcelId}`, {
-                headers: {
-                    'x-auth-token': token,
-                }
-            });
-            if(response.status !== 200) {
-                window.location.href = '/';
-                return;
-            }
-            const data = await response.json();
-            return data;
-        } 
-
-       
-        
-        async function initMap() {
-            const { pickupaddress, presentlocation, destination } = await fetchParcel();
-            loadMap(presentlocation, destination);
+      const fetchParcel = async () => {
+        const response = await fetch(`/api/v1/parcels/${parcelId}`, {
+          headers: {
+            "x-auth-token": token
+          }
+        });
+        if (response.status !== 200) {
+          window.location.href = "/";
+          return;
         }
+        const data = await response.json();
+        return data;
+      };
 
+      function initMap() {
+        fetchParcel().then(results => {
+          const { pickupaddress, presentlocation, destination } = results;
+          loadMap(presentlocation, destination);
+        });
+      }
 
-        function loadMap(presentlocation, destination) {
-            const geocoder = new google.maps.Geocoder;
-            geocoder.geocode({address: presentlocation}, (result, status) => {
-                if(status !== 'OK') {
-                    console.log(`Geocode was not successful for the following reason: ${status}`);
-                    return;    
-                }
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 10,
-                    center: result[0].geometry.location
-                });
-                const infoWindow = new google.maps.InfoWindow;
+      function loadMap(presentlocation, destination) {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: presentlocation }, (results, status) => {
+          if (status !== "OK") {
+            console.log(
+              `Geocode was not successful for the following reason: ${status}`
+            );
+            return;
+          }
+          var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 10,
+            center: results[0].geometry.location
+          });
+          const infoWindow = new google.maps.InfoWindow();
 
-                const marker = new google.maps.Marker({
-                    map: map,
-                    position: result[0].geometry.location
-                });
+          const marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+          });
 
-                geocoder.geocode({ address: destination }, (result2, status2) => {
-                    if(status2 !== 'OK') {
-                        console.log(`Geocode was not successful for the following reason: ${status}`);
-                        return;    
-                    }
-
-                    const marker2 = new google.maps.Marker({
-                        map: map,
-                        position: result2[0].geometry.location
-                    });
-                })
-
-                infoWindow.setContent(result[0].formatted_address);
-                infoWindow.open(map, marker);
-                
-            })
-        }
+          infoWindow.setContent(results[0].formatted_address);
+          infoWindow.open(map, marker);
+        });
+      }
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ9zoRhXuWGy6HN1cR_9wPz15MywBDkbg&callback=initMap">
-    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ9zoRhXuWGy6HN1cR_9wPz15MywBDkbg&callback=initMap"
+    ></script>
     <script src="scripts/main.js"></script>
-</body>
+  </body>
 </html>
