@@ -30,24 +30,46 @@ class ParcelControllers {
    */
   static async createOrder(req, res, next) {
     const {
-      pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price,
+      pickupAddress,
+      destination,
+      pickupTime,
+      parcelDescription,
+      parcelWeight,
+      price
     } = req.body;
     const { userId } = req.user;
     try {
-      const { rows: parcelRows } = await db(`INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price) 
+      const { rows: parcelData } = await db(
+        `INSERT INTO parcelOrders (userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price) 
       values ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [userId, pickupAddress, destination, pickupTime, parcelDescription, parcelWeight, price]);
+        [
+          userId,
+          pickupAddress,
+          destination,
+          pickupTime,
+          parcelDescription,
+          parcelWeight,
+          price
+        ]
+      );
 
-      const { rows: userRows } = await db(`SELECT email, fullname from users
-      WHERE userid = $1`, [parcelRows[0].userid]);
-      const { email, fullname } = userRows[0];
-      const { subject, html } = orderCreatedMail(parcelRows[0], fullname);
+      const { rows: userData } = await db(
+        `SELECT email, fullname from users
+      WHERE userid = $1`,
+        [parcelData[0].userid]
+      );
+      const { email, fullname } = userData[0];
+      const { subject, html } = orderCreatedMail(parcelData[0], fullname);
       mailer(subject, html, email);
 
-      res.status(201).json(parcelRows[0]);
+      res.status(201).json(parcelData[0]);
     } catch (error) {
       console.log(error);
-      if (error.detail.match(/userid/i)) return res.status(401).json({ message: "You'll have to be registered to create an order" });
+      if (error.detail.match(/userid/i)) {
+        return res
+          .status(401)
+          .json({ message: "You'll have to be registered to create an order" });
+      }
       next();
     }
   }
@@ -81,8 +103,13 @@ class ParcelControllers {
   static async getOneOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('SELECT * FROM parcelOrders WHERE parcelId = $1', [parcelId]);
-      if (rows.length === 0) return res.status(404).json({ message: 'Order not found' });
+      const { rows } = await db(
+        'SELECT * FROM parcelOrders WHERE parcelId = $1',
+        [parcelId]
+      );
+      if (rows.length === 0) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
       res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
@@ -101,7 +128,10 @@ class ParcelControllers {
   static async cancelOrder(req, res, next) {
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('UPDATE parcelOrders SET status=\'cancelled\' WHERE parcelId = $1 RETURNING *', [parcelId]);
+      const { rows } = await db(
+        "UPDATE parcelOrders SET status='cancelled' WHERE parcelId = $1 RETURNING *",
+        [parcelId]
+      );
       if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
       res.status(200).json(rows[0]);
     } catch (error) {
@@ -122,7 +152,10 @@ class ParcelControllers {
     const { status } = req.body;
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *', [status, parcelId]);
+      const { rows } = await db(
+        'UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *',
+        [status, parcelId]
+      );
       return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
@@ -142,7 +175,10 @@ class ParcelControllers {
     const { destination, price } = req.body;
     const { parcelId } = req.params;
     try {
-      const { rows } = await db('UPDATE parcelOrders SET destination = $1, price = $2 WHERE parcelId = $3 RETURNING *', [destination, price, parcelId]);
+      const { rows } = await db(
+        'UPDATE parcelOrders SET destination = $1, price = $2 WHERE parcelId = $3 RETURNING *',
+        [destination, price, parcelId]
+      );
       return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
@@ -162,17 +198,26 @@ class ParcelControllers {
     const { presentLocation } = req.body;
     const { parcelId } = req.params;
     try {
-      const { rows: parcelRows } = await db(`UPDATE parcelOrders
+      const { rows: parcelData } = await db(
+        `UPDATE parcelOrders
        SET presentLocation = $1 WHERE parcelId= $2 RETURNING *`,
-      [presentLocation, parcelId]);
+        [presentLocation, parcelId]
+      );
 
-      const { rows: userRows } = await db(`SELECT email, fullname from users
-      WHERE userid = $1`, [parcelRows[0].userid]);
-      const { email, fullname } = userRows[0];
-      const { subject, html } = locationChangeMail(presentLocation, parcelId, fullname);
+      const { rows: userData } = await db(
+        `SELECT email, fullname from users
+      WHERE userid = $1`,
+        [parcelData[0].userid]
+      );
+      const { email, fullname } = userData[0];
+      const { subject, html } = locationChangeMail(
+        presentLocation,
+        parcelId,
+        fullname
+      );
       mailer(subject, html, email);
 
-      res.status(200).json(parcelRows[0]);
+      res.status(200).json(parcelData[0]);
     } catch (error) {
       console.log(error);
       next();

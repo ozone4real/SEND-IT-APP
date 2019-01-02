@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { DataCreationValidator, DataUpdateValidator } from '../middlewares/dataValidator';
+import {
+  DataCreationValidator,
+  DataUpdateValidator
+} from '../middlewares/dataValidator';
 import ParcelController from '../controllers/parcelController';
 import Auth from '../middlewares/auth';
 import addPrice from '../middlewares/addPrice';
@@ -17,33 +20,62 @@ const {
 const { userAuth, adminAuth } = Auth;
 const { parcelDataValidator } = DataCreationValidator;
 const {
-  status, destination, presentLocation, delivered, cancel, inTransit,
+  status: validateStatus,
+  destination: validateDestination,
+  presentLocation: validatePresentLocation,
+  delivered: handleDeliveredStatus,
+  cancel: handleCancelledStatus,
+  inTransit: handleInTransitStatus
 } = DataUpdateValidator;
 
 const router = Router();
 
-router.post('/',
+router.post('/', [userAuth, parcelDataValidator, addPrice], createOrder);
+router.post(
+  '/confirm',
   [userAuth, parcelDataValidator, addPrice],
-  createOrder);
-router.post('/confirm', [userAuth, parcelDataValidator, addPrice], confirmOrder);
+  confirmOrder
+);
 
-router.put('/:parcelId/confirmUpdate', [userAuth, destination, addPrice, confirmOrder]);
+router.put('/:parcelId/confirmUpdate', [
+  userAuth,
+  validateDestination,
+  addPrice,
+  confirmOrder
+]);
 
 router.get('/', [userAuth, adminAuth], getAllOrders);
 
 router.get('/:parcelId', userAuth, getOneOrder);
 
-router.put('/:parcelId/cancel/', [userAuth, cancel], cancelOrder);
+router.put(
+  '/:parcelId/cancel/',
+  [userAuth, handleCancelledStatus],
+  cancelOrder
+);
 
-router.put('/:parcelId/status',
-  [userAuth, adminAuth, status, inTransit, delivered],
-  changeStatus);
+router.put(
+  '/:parcelId/status',
+  [
+    userAuth,
+    adminAuth,
+    validateStatus,
+    handleInTransitStatus,
+    handleDeliveredStatus
+  ],
+  changeStatus
+);
 
-router.put('/:parcelId/destination',
-  [userAuth, destination, addPrice], changeDestination);
+router.put(
+  '/:parcelId/destination',
+  [userAuth, validateDestination, addPrice],
+  changeDestination
+);
 
-router.put('/:parcelId/presentLocation',
-  [userAuth, adminAuth, presentLocation],
-  changePresentLocation);
+router.put(
+  '/:parcelId/presentLocation',
+  [userAuth, adminAuth, validatePresentLocation],
+  changePresentLocation
+);
 
 export default router;

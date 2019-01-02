@@ -1,41 +1,40 @@
-const profileHead = document.getElementById("head");
-const profileBody = document.getElementById("body");
-const token = localStorage.getItem("token");
-const modal = document.querySelector(".modal");
-const confirmOrder = document.getElementById("confirm-order");
+const profileHead = document.getElementById('head');
+const profileBody = document.getElementById('body');
+const token = localStorage.getItem('token');
+const modal = document.querySelector('.modal');
+const confirmOrder = document.getElementById('confirm-order');
 
-let highlighted = profileHead.querySelector("ul").firstElementChild;
+let highlighted = profileHead.querySelector('ul').firstElementChild;
 
-profileHead.addEventListener("click", e => {
-  if (e.target.tagName !== "LI") return;
-  display(e.target);
+profileHead.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'LI') return;
+  displayDiv(e.target);
 });
 
-function display(node) {
+function displayDiv(node) {
   if (highlighted) {
-    highlighted.classList.remove("highlight");
+    highlighted.classList.remove('highlight');
     for (elem of profileBody.children) {
-      if (highlighted.id === elem.id) elem.style.display = "none";
+      if (highlighted.id === elem.id) elem.style.display = 'none';
     }
   }
   highlighted = node;
-  highlighted.classList.add("highlight");
+  highlighted.classList.add('highlight');
   for (elem of profileBody.children) {
-    if (highlighted.id === elem.id) elem.style.display = "";
+    if (highlighted.id === elem.id) elem.style.display = '';
   }
 }
 
-document.addEventListener("DOMContentLoaded", async e => {
-  const userInfo = document.querySelector(".info");
-  userInfo.innerHTML =
-    '<i style= "margin: 80px 40%;" class="fas fa-spinner fa-pulse fa-6x"></i>';
-  const response = await fetch("/api/v1/user/", {
+document.addEventListener('DOMContentLoaded', async (e) => {
+  const userInfo = document.querySelector('.info');
+  userInfo.innerHTML =    '<i style= "margin: 80px 40%;" class="fas fa-spinner fa-pulse fa-6x"></i>';
+  const response = await fetch('/api/v1/user/', {
     headers: {
-      "x-auth-token": token
+      'x-auth-token': token
     }
   });
 
-  if (response.status === 404) return (window.location.href = "../signup.html");
+  if (response.status === 404) return (window.location.href = '../signup.html');
 
   const body = await response.json();
 
@@ -43,32 +42,31 @@ document.addEventListener("DOMContentLoaded", async e => {
   <li id="username"><h2>${body.fullname.toUpperCase()}</h2></li>
   <li><b>Email: </b>${body.email}</li>
   <li id="user-cont"><b>Phone No:</b> <span id= 'contact-edit'><span id='num-edit'>${
-    body.phoneno
-  }</span>  <button style="display:inline; width: auto;" id="num-change"><i class="far fa-edit"></i></button></span></li>
+  body.phoneno
+}</span>  <button style="display:inline; width: auto;" id="num-change"><i class="far fa-edit"></i></button></span></li>
   <li id="reg-date"><b>Date Registered: </b>${new Date(
     Date.parse(body.registered)
   )} </li>
   <li><b>Total Number of Parcel Orders:</b> <span id="total-parcels"></span></li>
 </ul>`;
 
-  const numEdit = document.getElementById("num-edit");
-  const numChange = document.getElementById("num-change");
-  const contactEdit = document.getElementById("contact-edit");
+  const numEdit = document.getElementById('num-edit');
+  const numChange = document.getElementById('num-change');
+  const contactEdit = document.getElementById('contact-edit');
 
-  numChange.onclick = e => {
-    const numForm = document.createElement("form");
-    numForm.style.display = "inline";
+  numChange.onclick = (e) => {
+    const numForm = document.createElement('form');
+    numForm.style.display = 'inline';
     numForm.innerHTML = `<small></small><input type="number" name = "contact" style="max-width: 150px; padding: 3px; display: inline;">
      <input type= "submit" value ="submit" name="submit" style="display:inline; padding: 3px; width: auto;">`;
     numForm.contact.value = numEdit.innerHTML;
     contactEdit.replaceWith(numForm);
 
-    numForm.onsubmit = async e => {
+    numForm.onsubmit = async (e) => {
       e.preventDefault();
       const { value } = numForm.contact;
       if (!/^\d{7,20}$/.test(value)) {
-        numForm.contact.previousElementSibling.innerHTML =
-          "Invalid phone number";
+        numForm.contact.previousElementSibling.innerHTML =          'Invalid phone number';
         return;
       }
 
@@ -76,14 +74,14 @@ document.addEventListener("DOMContentLoaded", async e => {
       const data = JSON.stringify({ phoneNo: value });
 
       submitButton.insertAdjacentHTML(
-        "afterend",
+        'afterend',
         '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>'
       );
-      const result = await fetch("/api/v1/user/updatePhoneNo", {
-        method: "PUT",
+      const result = await fetch('/api/v1/user/updatePhoneNo', {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": token
+          'Content-Type': 'application/json',
+          'x-auth-token': token
         },
         body: data
       });
@@ -94,19 +92,19 @@ document.addEventListener("DOMContentLoaded", async e => {
     };
   };
 
-  const result = await fetch("/api/v1/user/parcels", {
+  const result = await fetch('/api/v1/user/parcels', {
     headers: {
-      "x-auth-token": token
+      'x-auth-token': token
     }
   });
 
-  const unfulfilled = document.querySelector(".unfulfilled");
-  const delivered = document.querySelector(".delivered");
-  const totalParcels = document.getElementById("total-parcels");
+  const unfulfilled = document.querySelector('.unfulfilled');
+  const delivered = document.querySelector('.delivered');
+  const totalParcels = document.getElementById('total-parcels');
 
   if (result.status === 404) {
     setTimeout(() => {
-      totalParcels.innerHTML = "0";
+      totalParcels.innerHTML = '0';
     }, 0);
 
     unfulfilled.innerHTML = `<ul style="width: 100%; text-align: center; background: white;">
@@ -127,8 +125,8 @@ document.addEventListener("DOMContentLoaded", async e => {
   setTimeout(() => {
     totalParcels.innerHTML = parcelsBody.length;
   }, 0);
-  const unfulfilledParcels = parcelsBody.filter(p => p.status !== "delivered");
-  const deliveredParcels = parcelsBody.filter(p => p.status === "delivered");
+  const unfulfilledParcels = parcelsBody.filter(p => p.status !== 'delivered');
+  const deliveredParcels = parcelsBody.filter(p => p.status === 'delivered');
 
   if (!unfulfilledParcels[0]) {
     unfulfilled.innerHTML = `<ul style="width: 100%; text-align: center; background: white;">
@@ -143,15 +141,15 @@ document.addEventListener("DOMContentLoaded", async e => {
   </ul>`;
   }
 
-  unfulfilledParcels.forEach(item => {
-    if (item.status === "recorded") {
+  unfulfilledParcels.forEach((item) => {
+    if (item.status === 'recorded') {
       unfulfilled.insertAdjacentHTML(
-        "afterbegin",
+        'afterbegin',
         `<ul>
       <li><b>Parcel ID:</b> <span id="parcelId"> ${item.parcelid}</span></li>
       <li><b>Parcel Description:</b> <span id="parcelDesc"> ${
-        item.parceldescription
-      }</span ></li>
+  item.parceldescription
+}</span ></li>
       <li id="red-date"><b>Parcel Weight:</b> ${item.parcelweight}</li>
       <li id="red-date"><b>Price:</b> N${item.price}</li>
       <li id= "total-parcels"><b>Pickup Location:</b> ${item.pickupaddress}</li>
@@ -159,22 +157,22 @@ document.addEventListener("DOMContentLoaded", async e => {
       <li id="red-date"><b>Pickup Time:</b> ${new Date(item.pickuptime)}</li>
       <li id="red-date"><b>Status:</b> ${item.status}</li>
       <li><button onclick= "cancelOrder(${
-        item.parcelid
-      })">Cancel</button> <button onclick="changeDestination(${
-          item.parcelid
-        })">Change Destination</button></li>
+  item.parcelid
+})">Cancel</button> <button onclick="changeDestination(${
+  item.parcelid
+})">Change Destination</button></li>
   </ul>`
       );
     }
 
-    if (item.status === "cancelled") {
+    if (item.status === 'cancelled') {
       unfulfilled.insertAdjacentHTML(
-        "beforeend",
+        'beforeend',
         `<ul>
       <li><b>Parcel ID:</b> <span id="parcelId"> ${item.parcelid}</span></li>
       <li><b>Parcel Description:</b> <span id="parcelDesc"> ${
-        item.parceldescription
-      }</span ></li>
+  item.parceldescription
+}</span ></li>
       <li id="red-date"><b>Parcel Weight:</b> ${item.parcelweight}</li>
       <li id="red-date"><b>Price:</b> N${item.price}</li>
       <li id= "total-parcels"><b>Pickup Location:</b> ${item.pickupaddress}</li>
@@ -185,14 +183,14 @@ document.addEventListener("DOMContentLoaded", async e => {
       );
     }
 
-    if (item.status === "in transit") {
+    if (item.status === 'in transit') {
       unfulfilled.insertAdjacentHTML(
-        "afterbegin",
+        'afterbegin',
         `<ul>
       <li><b>Parcel ID:</b> <span id="parcelId"> ${item.parcelid}</span></li>
       <li><b>Parcel Description:</b> <span id="parcelDesc"> ${
-        item.parceldescription
-      }</span ></li>
+  item.parceldescription
+}</span ></li>
       <li><b>Parcel Weight:</b> ${item.parcelweight}</li>
       <li><b>Price:</b> ${item.price}</li>
       <li><b>Pickup Location:</b> ${item.pickupaddress}</li>
@@ -201,8 +199,8 @@ document.addEventListener("DOMContentLoaded", async e => {
       <li><b>Present Location:</b> ${item.presentlocation}</li>
       <li><button onclick= "cancelOrder(${item.parcelid})">Cancel</button>
      <button  onclick="changeDestination(${
-       item.parcelid
-     })">Change Destination</button>
+  item.parcelid
+})">Change Destination</button>
      <button><a href="/track.html?parcelId=${item.parcelid}">Track</a></button>
      </li>
   </ul>`
@@ -210,14 +208,14 @@ document.addEventListener("DOMContentLoaded", async e => {
     }
   });
 
-  deliveredParcels.forEach(item => {
+  deliveredParcels.forEach((item) => {
     delivered.insertAdjacentHTML(
-      "afterbegin",
+      'afterbegin',
       `<ul>
       <li><b>Parcel ID:</b> <span id="parcelId"> ${item.parcelid}</span></li>
       <li><b>Parcel Description:</b> <span id="parcelDesc"> ${
-        item.parceldescription
-      }</span ></li>
+  item.parceldescription
+}</span ></li>
       <li><b>Parcel Weight:</b> ${item.parcelweight}</li>
       <li><b>Price Paid:</b> ${item.price}</li>
       <li><b>Status:</b> ${item.status}</li>
@@ -231,27 +229,26 @@ document.addEventListener("DOMContentLoaded", async e => {
 });
 
 function cancelOrder(id) {
-  modal.style.display = "block";
+  modal.style.display = 'block';
 
   confirmOrder.innerHTML = `<div style="text-align: center; margin: 25% auto;">
   <h2>Are you sure you want to cancel this order (Parcel ID: ${id})?</h2>
   <button id="abort">No! Return</button><button id="confirm-cancel">Yes! Cancel</button>
   </div>`;
 
-  const abort = document.getElementById("abort");
-  const confirmCancel = document.getElementById("confirm-cancel");
+  const abort = document.getElementById('abort');
+  const confirmCancel = document.getElementById('confirm-cancel');
 
   abort.onclick = () => {
-    modal.style.display = "";
+    modal.style.display = '';
   };
 
   confirmCancel.onclick = async () => {
-    confirmOrder.innerHTML =
-      '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
+    confirmOrder.innerHTML =      '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
     const response = await fetch(`/api/v1/parcels/${id}/cancel`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "x-auth-token": token
+        'x-auth-token': token
       }
     });
 
@@ -269,12 +266,12 @@ function cancelOrder(id) {
       <h1>Order successfully cancelled</h1>
       <div><i class="far fa-check-circle fa-5x"></i></div>
       </div>`;
-    location.href = "/profile.html";
+    location.href = '/profile.html';
   };
 }
 
 function changeDestination(id) {
-  modal.style.display = "block";
+  modal.style.display = 'block';
 
   confirmOrder.innerHTML = `<form id="update-form" style="margin: 20% auto;">
   <label><h3>New Destination for parcel (ID: ${id})</h3></label>
@@ -283,19 +280,18 @@ function changeDestination(id) {
   <button id="abort" type="button">Return</button> <button type="submit">Submit</button>
   </form>`;
 
-  const abort = document.getElementById("abort");
-  const updateForm = document.getElementById("update-form");
+  const abort = document.getElementById('abort');
+  const updateForm = document.getElementById('update-form');
 
   abort.onclick = () => {
-    modal.style.display = "";
+    modal.style.display = '';
   };
 
-  updateForm.addEventListener("submit", async e => {
+  updateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!updateForm.destination.value) {
-      updateForm.destination.previousElementSibling.innerHTML =
-        "This must not be empty";
+      updateForm.destination.previousElementSibling.innerHTML =        'This must not be empty';
       return;
     }
     const json = JSON.stringify({
@@ -306,7 +302,7 @@ function changeDestination(id) {
 
     submitButton.disabled = true;
     submitButton.insertAdjacentHTML(
-      "beforeend",
+      'beforeend',
       '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>'
     );
 
@@ -337,16 +333,15 @@ function changeDestination(id) {
     <li><button id= "cancel">Cancel</button> <button id = "confirm">Confirm</button></li>
     </ul>`;
 
-    const cancelUpdate = document.getElementById("cancel");
-    const confirmUpdate = document.getElementById("confirm");
+    const cancelUpdate = document.getElementById('cancel');
+    const confirmUpdate = document.getElementById('confirm');
 
     cancelUpdate.onclick = () => {
-      modal.style.display = "";
+      modal.style.display = '';
     };
 
     confirmUpdate.onclick = async () => {
-      confirmOrder.innerHTML =
-        '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
+      confirmOrder.innerHTML =        '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
 
       const result = await destinationRequest(
         `/api/v1/parcels/${id}/destination`,
@@ -363,17 +358,17 @@ function changeDestination(id) {
       <h1>Destination successfully changed</h1>
       <div><i class="far fa-check-circle fa-5x"></i></div>
       </div>`;
-      window.location.href = "/profile.html";
+      window.location.href = '/profile.html';
     };
   });
 }
 
 async function destinationRequest(url, json) {
   const response = await fetch(url, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "application/json",
-      "x-auth-token": token
+      'Content-Type': 'application/json',
+      'x-auth-token': token
     },
     body: json
   });

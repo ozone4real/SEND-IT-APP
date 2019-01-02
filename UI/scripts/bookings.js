@@ -1,4 +1,25 @@
-const lagos = ['Agege', 'Ajeromi-Ifelodun', 'Alimosho', 'Amuwo-Odofin', 'Apapa', 'Badagry', 'Epe', 'Eti Osa', 'Ibeju-Lekki', 'Ifako-Ijaiye', 'Ikeja', 'Ikorodu', 'Kosofe', 'Lagos Island', 'Lagos Mainland', 'Mushin', 'Ojo', 'Oshodi-Isolo', 'Shomolu', 'Surulere'];
+const lagos = [
+  'Agege',
+  'Ajeromi-Ifelodun',
+  'Alimosho',
+  'Amuwo-Odofin',
+  'Apapa',
+  'Badagry',
+  'Epe',
+  'Eti Osa',
+  'Ibeju-Lekki',
+  'Ifako-Ijaiye',
+  'Ikeja',
+  'Ikorodu',
+  'Kosofe',
+  'Lagos Island',
+  'Lagos Mainland',
+  'Mushin',
+  'Ojo',
+  'Oshodi-Isolo',
+  'Shomolu',
+  'Surulere'
+];
 const lG1 = document.getElementById('lg1');
 const lG2 = document.getElementById('lg2');
 const bookingForm = document.getElementById('booking-form');
@@ -8,22 +29,15 @@ const confirmOrder = document.getElementById('confirm-order');
 const token = localStorage.getItem('token');
 
 lagos.forEach((item) => {
-  lG1.insertAdjacentHTML('beforeend', `<option value =${item}>${item}</option>`);
-  lG2.insertAdjacentHTML('beforeend', `<option value =${item}>${item}</option>`);
+  lG1.insertAdjacentHTML(
+    'beforeend',
+    `<option value =${item}>${item}</option>`
+  );
+  lG2.insertAdjacentHTML(
+    'beforeend',
+    `<option value =${item}>${item}</option>`
+  );
 });
-
-/*
-const loadSpinner = () => {
-  const spinner = `<div class="spinner">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  </div>`;
-
-  return spinner;
-}; */
 
 
 bookingForm.addEventListener('submit', async (e) => {
@@ -43,9 +57,15 @@ bookingForm.addEventListener('submit', async (e) => {
   if (error) return;
 
   const {
-    address1, city1, lg1,
-    address2, city2, lg2,
-    pickupTime, parcelDescription, parcelWeight
+    address1,
+    city1,
+    lg1,
+    address2,
+    city2,
+    lg2,
+    pickupTime,
+    parcelDescription,
+    parcelWeight
   } = bookingForm;
 
   const json = JSON.stringify({
@@ -53,11 +73,14 @@ bookingForm.addEventListener('submit', async (e) => {
     destination: `${address2.value}, ${city2.value}, ${lg2.value}`,
     pickupTime: pickupTime.value,
     parcelDescription: parcelDescription.value,
-    parcelWeight: parcelWeight.value,
+    parcelWeight: parcelWeight.value
   });
 
   submitButton.disabled = true;
-  submitButton.insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>');
+  submitButton.insertAdjacentHTML(
+    'beforeend',
+    '<i class="fas fa-spinner fa-spin" style= "padding: 0 5px 0 10px;"></i>'
+  );
 
   const response = await createOrder('/api/v1/parcels/confirm', json);
   const body = await response.json();
@@ -101,7 +124,7 @@ bookingForm.addEventListener('submit', async (e) => {
   };
 
   confirm.onclick = async (e) => {
-    confirmOrder.innerHTML = '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
+    confirmOrder.innerHTML =      '<div style = "text-align: center; margin-top: 30%; color: #0B0B61;"><i class="fas fa-spinner fa-6x fa-pulse"></i></div>';
     const result = await createOrder('api/v1/parcels', json);
     if (result.status === 401 || result.status === 403) {
       window.location.href = '/signup.html';
@@ -122,9 +145,9 @@ async function createOrder(url, json) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-auth-token': token,
+      'x-auth-token': token
     },
-    body: json,
+    body: json
   });
 
   return response;
