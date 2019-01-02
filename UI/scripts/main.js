@@ -4,6 +4,13 @@ const navContents = document.getElementById('nav-contents');
 const user = document.querySelector('.user');
 const presentPage = document.getElementById('present');
 
+const removeClasses = () => {
+  navLinks.classList.remove('responsive-nav');
+  navContents.classList.remove('responsive-nav');
+  document.body.classList.remove('preventScroll');
+};
+
+
 document.addEventListener('click', (e) => {
   if (e.target.closest('#nav-bar')) {
     if (presentPage) presentPage.style.background = '#D8D8D8';
@@ -13,9 +20,7 @@ document.addEventListener('click', (e) => {
     return;
   }
   if (!e.target.closest('#nav-links')) {
-    navLinks.classList.remove('responsive-nav');
-    navContents.classList.remove('responsive-nav');
-    document.body.classList.remove('preventScroll');
+    removeClasses();
   }
 });
 
@@ -26,9 +31,7 @@ setInterval(() => {
 
 window.onscroll = (e) => {
   if (pageYOffset) {
-    navLinks.classList.remove('responsive-nav');
-    navContents.classList.remove('responsive-nav');
-    document.body.classList.remove('preventScroll');
+    removeClasses();
   }
 };
 

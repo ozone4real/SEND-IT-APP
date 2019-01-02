@@ -38,7 +38,7 @@ class Messages {
    * @returns an object
    */
   static orderCreatedMail(parcel, name) {
-    const message = `<p>Hello <b><i>${name}</i></b>. Your order has been recorded. 
+    const message = `<p>Hello <b><i>${name}</i></b>. Your order has been pending. 
     A delivery man would call you soon to find out more about your request before coming to get your parcel for delivery. Below are details of your order:</p>
     <ul>
     <li> <b>Parcel id:</b> ${parcel.parcelid}.</li>

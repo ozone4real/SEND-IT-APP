@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   }
 
   unfulfilledParcels.forEach((item) => {
-    if (item.status === 'recorded') {
+    if (item.status === 'pending') {
       unfulfilled.insertAdjacentHTML(
         'afterbegin',
         `<ul>

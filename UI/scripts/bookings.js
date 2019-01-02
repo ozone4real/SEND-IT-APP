@@ -39,23 +39,8 @@ lagos.forEach((item) => {
   );
 });
 
-
 bookingForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  const bookingFormElems = Array.from(bookingForm.elements);
-  let error;
-  bookingFormElems.forEach((item) => {
-    if (item.tagName !== 'INPUT' && item.tagName !== 'SELECT') return;
-    if (!item.value) {
-      item.style.cssText = 'background-color: lightyellow; border-color: red;';
-      item.previousElementSibling.innerHTML = 'This must not be empty';
-      error = true;
-    }
-  });
-
-  if (error) return;
-
   const {
     address1,
     city1,
