@@ -32,40 +32,8 @@ function display(node) {
   }
 }
 
-const fillTable = (table, parcelProps, parcel, buttonClickHandler) => {
-  const parcelHTML = parcelProps
-    .map(prop => `<div class="grid-item">${parcel[prop]}</div>`)
-    .join("\n");
-
-  let button;
-
-  if (parcel.status === "in transit" || parcel.status === "pending") {
-    button = `<div class="grid-item" id="button">
-    <button onclick="${buttonClickHandler}(${parcel.parcelid})">update</button>
-  </div>`;
-  } else {
-    button = "";
-  }
-
-  table.lastElementChild.insertAdjacentHTML(
-    "afterbegin",
-    `<ul>
-   <li>
-       <div class="grid-container">
-         ${parcelHTML}
-         ${button}
-       </div>
-   </li>
- </ul>
-`
-  );
-};
-
-
-
 document.addEventListener("DOMContentLoaded", async e => {
-  const response = await fetchParcels();
-  const body = await response.json();
+  const { response, data: body } = await getRequests("/api/v1/parcels", token);
   if (response.status === 401 || response.status === 403) {
     window.location.href = "/";
     return;
@@ -96,14 +64,18 @@ document.addEventListener("DOMContentLoaded", async e => {
     document.getElementById("total-pending").innerHTML = pending.length;
   }, 0);
 
-  if (!pending[0])
+  if (!pending[0]) {
     pendingTable.innerHTML = "<h2>There are no pending orders</h2>";
-  if (!inTransit[0])
+  }
+  if (!inTransit[0]) {
     transitingTable.innerHTML = "<h2>There are no transiting parcels</h2>";
-  if (!cancelled[0])
+  }
+  if (!cancelled[0]) {
     cancelledTable.innerHTML = "<h2>There are no cancelled parcels</h2>";
-  if (!delivered[0])
+  }
+  if (!delivered[0]) {
     deliveredTable.innerHTML = "<h2>There are no delivered parcels</h2>";
+  }
 
   pending.forEach(parcel => {
     const parcelProps = [
@@ -117,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async e => {
       "pickuptime",
       "status"
     ];
-    fillTable(pendingTable, parcelProps, parcel, "updatePending");
+    fillAdminTable(pendingTable, parcelProps, parcel, "updatePending");
   });
 
   inTransit.forEach(parcel => {
@@ -133,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async e => {
       "presentlocation"
     ];
 
-    fillTable(transitingTable, parcelProps, parcel, "updateTransiting");
+    fillAdminTable(transitingTable, parcelProps, parcel, "updateTransiting");
   });
 
   cancelled.forEach(parcel => {
@@ -149,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async e => {
       "presentlocation"
     ];
 
-    fillTable(cancelledTable, parcelProps, parcel);
+    fillAdminTable(cancelledTable, parcelProps, parcel);
   });
 
   delivered.forEach(parcel => {
@@ -166,7 +138,7 @@ document.addEventListener("DOMContentLoaded", async e => {
       "receivedat"
     ];
 
-    fillTable(deliveredTable, parcelProps, parcel);
+    fillAdminTable(deliveredTable, parcelProps, parcel);
   });
 });
 
@@ -219,8 +191,7 @@ function updatePending(id) {
     }
 
     if (response.status !== 200) return;
-    confirmOrder.innerHTML =
-      '<h2 style="color: green; text-align: center; margin: 25% auto;">Parcel successfully updated</h2>';
+    displaySuccessMessage(confirmOrder, "Parcel successfully updated");
     window.location.href = "/admin.html";
   });
 }
@@ -284,8 +255,13 @@ function updateTransiting(id) {
       presentLocation: updateForm.presentLocation.value
     });
 
-    const response = await updateParcelRequest(url, json);
-    const body = await response.json();
+    const { response, data: body } = await createAndUpdateRequests(
+      url,
+      "PUT",
+      token,
+      json
+    );
+
     if (response.status === 400) {
       updateError.innerHTML = body.message;
       return;
@@ -295,32 +271,7 @@ function updateTransiting(id) {
       window.location.href = "/";
       return;
     }
-
-    confirmOrder.innerHTML =
-      '<h2 style="color: green; text-align: center; margin: 25% auto;">Parcel successfully updated</h2>';
+    displaySuccessMessage(confirmOrder, "Parcel successfully updated");
     window.location.href = "/admin.html";
   });
-}
-
-async function fetchParcels() {
-  const response = await fetch("/api/v1/parcels", {
-    headers: {
-      "x-auth-token": token
-    }
-  });
-
-  return response;
-}
-
-async function updateParcelRequest(url, json) {
-  const response = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "x-auth-token": token
-    },
-    body: json
-  });
-
-  return response;
 }
