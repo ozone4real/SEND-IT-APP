@@ -6,6 +6,7 @@
     <title>WELCOME | SEND-IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="courier, shipping, delivery">
+    <script src="scripts/utils.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="./CSS/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
@@ -45,14 +46,14 @@
                 <form id= 'sign-up-form'>
                     <h3>SIGN UP</h3>
                     <small id= 'name-error'></small>
-                    <input id = 'fullname' type="text" name='fullname' placeholder="Full name">
+                    <input id = 'fullname' type="text" name='fullname' placeholder="Full name" required>
                     <small id= 'contact-error'></small>
-                    <input id = 'contact' type="number" name='phoneNo' placeholder="Phone number">
+                    <input id = 'contact' type="number" name='phoneNo' placeholder="Phone number" required>
                     <small id= 'email-error'></small>
-                    <input id = 'email-field' type="email" name='email' placeholder="Email Adress">
+                    <input id = 'email-field' type="email" name='email' placeholder="Email Adress" required>
                     <small id= 'password-error'></small>
-                    <input id = 'password-field' type="password" name='password' placeholder="Password">
-                    <button type="submit">SIGN UP</button>
+                    <input id = 'password-field' type="password" name='password' placeholder="Password" required>
+                    <button type="submit" name="button">SIGN UP</button>
                     <p>Already have an account? <a href= './signin.html'>Sign in</a></p>
                 </form>
             </div>

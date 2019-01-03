@@ -6,6 +6,7 @@
     <title>WELCOME | SEND-IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="courier, shipping, delivery">
+    <script src="scripts/utils.js"></script>
     <script src="./scripts/redirect.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="./CSS/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Francois+One|Playfair+Display+SC|Teko|Ubuntu|Noto+Sans+TC" rel="stylesheet">
@@ -53,11 +54,11 @@
                     <fieldset>
                         <legend><h4>Pick-up Address</h4></legend>
                         <small></small>
-                        <input id = 'address1' type="text" name='address1' placeholder="Address">
+                        <input id = 'address1' type="text" name='address1' placeholder="Address" required>
                         <small></small>
-                        <input id = 'city1' type="text" name='city1' placeholder="City/Town">
+                        <input id = 'city1' type="text" name='city1' placeholder="City/Town" required>
                         <small></small>
-                        <select id = 'lg1' name='lg1'>
+                        <select id = 'lg1' name='lg1' required>
 
                             <option selected="true" disabled value = ''>Local Government</option>
                         </select>
@@ -65,23 +66,23 @@
                     <fieldset>
                             <legend><h4>Delivery Address</h4></legend>
                             <small></small>
-                            <input id = '2' type="text" name='address2' placeholder="Address">
+                            <input id = '2' type="text" name='address2' placeholder="Address" required>
                             <small></small>
-                            <input id = 'city2' type="text" name='city2' placeholder="City/Town">
+                            <input id = 'city2' type="text" name='city2' placeholder="City/Town" required>
                             <small></small>
-                            <select id = 'lg2' name='lg2'>
+                            <select id = 'lg2' name='lg2' required>
                                 <option selected="true" disabled value = ''>Local Government</option>
                             </select>
                         </fieldset>
-                        <label><h4>Pick-up Time</h4></label>
+                        <label for='delivery-time'><h4>Pick-up Time</h4></label>
                         <small></small>
-                        <input id = 'delivery-time' type="datetime-local" name='pickupTime' placeholder="Delivery Time">
-                    <label><h4>Parcel Description</h4></label>
+                        <input id = 'delivery-time' type="datetime-local" name='pickupTime' placeholder="Delivery Time" required>
+                    <label for="parcelDescription"><h4>Parcel Description</h4></label>
                     <small></small>
-                    <input name="parcelDescription" id="parcelDescription" placeholder="Parcel Description">
-                    <label><h4>Parcel Weight</h4></label>
+                    <input name="parcelDescription" id="parcelDescription" placeholder="Parcel Description" required>
+                    <label for='parcelWeight'><h4>Parcel Weight</h4></label>
                     <small></small>
-                    <select id = 'parcelWeight' name='parcelWeight'>
+                    <select id = 'parcelWeight' name='parcelWeight' required>
                         <option selected="true" disabled value=''>Parcel Weight</option>
                         <option value="0kg - 5kg">0kg - 5kg (N50/km)</option>
                         <option value="5kg - 20kg">5kg - 20kg (N70/km)</option>
