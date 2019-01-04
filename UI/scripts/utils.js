@@ -137,3 +137,19 @@ const insertParcelData = (div, insertPos, parcelProps, parcel) => {
 const removeModal = elem => {
   elem.style.display = "";
 };
+
+const displayDiv = (divElems, currentElem) => {
+  const toggleDisplay = display => {
+    Array.from(divElems).forEach(elem => {
+      if (highlighted.dataset.name === elem.id) elem.style.display = display;
+    });
+  };
+
+  if (highlighted) {
+    highlighted.classList.remove("highlight");
+    toggleDisplay("none");
+  }
+  highlighted = currentElem;
+  highlighted.classList.add("highlight");
+  toggleDisplay("");
+};

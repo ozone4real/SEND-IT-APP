@@ -13,24 +13,10 @@ signout.onclick = () => {
 
 let highlighted = categories.querySelector("ul").firstElementChild;
 
-categories.addEventListener("click", e => {
-  if (e.target.tagName !== "LI") return;
-  display(e.target);
+categories.addEventListener("click", ({ target }) => {
+  if (target.tagName !== "LI") return;
+  displayDiv(parcelsTables.children, target);
 });
-
-function display(node) {
-  if (highlighted) {
-    highlighted.classList.remove("highlight");
-    for (elem of parcelsTables.children) {
-      if (highlighted.dataset.name === elem.id) elem.style.display = "none";
-    }
-  }
-  highlighted = node;
-  highlighted.classList.add("highlight");
-  for (elem of parcelsTables.children) {
-    if (highlighted.dataset.name === elem.id) elem.style.display = "";
-  }
-}
 
 document.addEventListener("DOMContentLoaded", async e => {
   const { response, data: body } = await getRequests("/api/v1/parcels", token);

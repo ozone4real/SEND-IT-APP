@@ -6,26 +6,10 @@ const confirmOrder = document.getElementById("confirm-order");
 
 let highlighted = profileHead.querySelector("ul").firstElementChild;
 
-profileHead.addEventListener("click", e => {
-  if (e.target.tagName !== "LI") return;
-  displayDiv(e.target);
+profileHead.addEventListener("click", ({ target }) => {
+  if (target.tagName !== "LI") return;
+  displayDiv(profileBody.children, target);
 });
-
-function displayDiv(node) {
-  const toggleDisplay = display => {
-    Array.from(profileBody.children).forEach(elem => {
-      if (highlighted.id === elem.id) elem.style.display = display;
-    });
-  };
-
-  if (highlighted) {
-    highlighted.classList.remove("highlight");
-    toggleDisplay("none");
-  }
-  highlighted = node;
-  highlighted.classList.add("highlight");
-  toggleDisplay("");
-}
 
 document.addEventListener("DOMContentLoaded", async e => {
   const userInfo = document.querySelector(".info");
