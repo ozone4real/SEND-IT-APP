@@ -47,7 +47,7 @@ function validate(elem, button) {
 
 async function submitData(form) {
   const emailError = document.getElementById("email-error");
-  const json = JSON.stringify({
+  const formData = JSON.stringify({
     fullname: form.fullname.value,
     email: form.email.value,
     password: form.password.value,
@@ -59,7 +59,7 @@ async function submitData(form) {
     "/api/v1/auth/signup",
     "POST",
     null,
-    json
+    formData
   );
 
   if (response.status === 409) {
