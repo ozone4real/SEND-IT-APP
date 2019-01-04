@@ -133,3 +133,7 @@ const insertParcelData = (div, insertPos, parcelProps, parcel) => {
 </ul>`
   );
 };
+
+const removeModal = elem => {
+  elem.style.display = "";
+};

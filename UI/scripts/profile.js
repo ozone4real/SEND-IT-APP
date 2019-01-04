@@ -182,15 +182,10 @@ function cancelOrder(id) {
 
   confirmOrder.innerHTML = `<div style="text-align: center; margin: 25% auto;">
   <h2>Are you sure you want to cancel this order (Parcel ID: ${id})?</h2>
-  <button id="abort">No! Return</button><button id="confirm-cancel">Yes! Cancel</button>
+  <button onclick="removeModal(modal)">No! Return</button><button id="confirm-cancel">Yes! Cancel</button>
   </div>`;
 
-  const abort = document.getElementById("abort");
   const confirmCancel = document.getElementById("confirm-cancel");
-
-  abort.onclick = () => {
-    modal.style.display = "";
-  };
 
   confirmCancel.onclick = async () => {
     loadDivSpinner(confirmOrder);
@@ -223,25 +218,14 @@ function changeDestination(id) {
   confirmOrder.innerHTML = `<form id="update-form" style="margin: 20% auto;">
   <label><h3>New Destination for parcel (ID: ${id})</h3></label>
   <small></small>
-  <input style="margin-bottom:0;" type="text" name="destination" placeholder="New Destination">
-  <button id="abort" type="button">Return</button> <button type="submit">Submit</button>
+  <input style="margin-bottom:0;" type="text" name="destination" placeholder="New Destination" required>
+  <button type="button" onclick="removeModal(modal)">Return</button> <button type="submit">Submit</button>
   </form>`;
 
-  const abort = document.getElementById("abort");
   const updateForm = document.getElementById("update-form");
-
-  abort.onclick = () => {
-    modal.style.display = "";
-  };
 
   updateForm.addEventListener("submit", async e => {
     e.preventDefault();
-
-    if (!updateForm.destination.value) {
-      updateForm.destination.previousElementSibling.innerHTML =
-        "This must not be empty";
-      return;
-    }
     const json = JSON.stringify({
       destination: updateForm.destination.value
     });
