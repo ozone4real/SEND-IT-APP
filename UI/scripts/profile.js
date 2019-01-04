@@ -12,17 +12,19 @@ profileHead.addEventListener("click", e => {
 });
 
 function displayDiv(node) {
+  const toggleDisplay = display => {
+    Array.from(profileBody.children).forEach(elem => {
+      if (highlighted.id === elem.id) elem.style.display = display;
+    });
+  };
+
   if (highlighted) {
     highlighted.classList.remove("highlight");
-    for (elem of profileBody.children) {
-      if (highlighted.id === elem.id) elem.style.display = "none";
-    }
+    toggleDisplay("none");
   }
   highlighted = node;
   highlighted.classList.add("highlight");
-  for (elem of profileBody.children) {
-    if (highlighted.id === elem.id) elem.style.display = "";
-  }
+  toggleDisplay("");
 }
 
 document.addEventListener("DOMContentLoaded", async e => {
