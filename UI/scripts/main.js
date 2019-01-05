@@ -1,67 +1,63 @@
-const navLinks = document.getElementById('nav-links');
-const navBar = document.getElementById('nav-bar');
-const navContents = document.getElementById('nav-contents');
-const user = document.querySelector('.user');
-const presentPage = document.getElementById('present');
+const navLinks = document.getElementById("nav-links");
+const navBar = document.getElementById("nav-bar");
+const navContents = document.getElementById("nav-contents");
+const user = document.querySelector(".user");
+const presentPage = document.getElementById("present");
 
 const removeClasses = () => {
-  navLinks.classList.remove('responsive-nav');
-  navContents.classList.remove('responsive-nav');
-  document.body.classList.remove('preventScroll');
+  navLinks.classList.remove("responsive-nav");
+  navContents.classList.remove("responsive-nav");
+  document.body.classList.remove("preventScroll");
 };
 
-
-document.addEventListener('click', (e) => {
-  if (e.target.closest('#nav-bar')) {
-    if (presentPage) presentPage.style.background = '#D8D8D8';
-    navLinks.classList.toggle('responsive-nav');
-    navContents.classList.toggle('responsive-nav');
-    document.body.classList.toggle('preventScroll');
+document.addEventListener("click", e => {
+  if (e.target.closest("#nav-bar")) {
+    if (presentPage) presentPage.style.background = "#D8D8D8";
+    navLinks.classList.toggle("responsive-nav");
+    navContents.classList.toggle("responsive-nav");
+    document.body.classList.toggle("preventScroll");
     return;
   }
-  if (!e.target.closest('#nav-links')) {
+  if (!e.target.closest("#nav-links")) {
     removeClasses();
   }
 });
 
-const carousel = document.getElementById('container1');
+const carousel = document.getElementById("container1");
 setInterval(() => {
-  carousel.classList.toggle('sliding');
+  carousel.classList.toggle("sliding");
 }, 6000);
 
-window.onscroll = (e) => {
+window.onscroll = e => {
   if (pageYOffset) {
     removeClasses();
   }
 };
 
-document.addEventListener('DOMContentLoaded', async (e) => {
+document.addEventListener("DOMContentLoaded", async e => {
   await verifyUser();
 
-  const userIcon = document.getElementById('user-icon');
-  const accountMenu = document.getElementById('account-menu');
-  const accountMenuTip = document.querySelector('.tip');
+  const userIcon = document.getElementById("user-icon");
+  const accountMenu = document.getElementById("account-menu");
+  const accountMenuTip = document.querySelector(".tip");
   userIcon.onclick = () => {
-    accountMenu.classList.toggle('display-menu');
-    accountMenuTip.classList.toggle('display-tip');
+    accountMenu.classList.toggle("display-menu");
+    accountMenuTip.classList.toggle("display-tip");
     const userIconPos = userIcon.getBoundingClientRect();
     const accountMenuPos = accountMenu.getBoundingClientRect();
 
-    accountMenu.style.left = `${userIconPos.left
-      - (accountMenu.offsetWidth - userIcon.offsetWidth) / 2}px`;
+    accountMenu.style.left = `${userIconPos.left -
+      (accountMenu.offsetWidth - userIcon.offsetWidth) / 2}px`;
 
-    accountMenuTip.style.top = `${accountMenuPos.top
-      - accountMenuTip.offsetHeight}px`;
+    accountMenuTip.style.top = `${accountMenuPos.top -
+      accountMenuTip.offsetHeight}px`;
 
-    accountMenuTip.style.left = `${userIconPos.left
-      - (accountMenuTip.offsetWidth - userIcon.offsetWidth) / 2}px`;
+    accountMenuTip.style.left = `${userIconPos.left -
+      (accountMenuTip.offsetWidth - userIcon.offsetWidth) / 2}px`;
   };
 
-  const logout = document.getElementById('logout');
-  logout.onclick = () => {
-    localStorage.clear();
-    window.location.href = '/';
-  };
+  const logout = document.getElementById("logout");
+  if (logout) handleSignOut(logout);
 });
 
 async function verifyUser() {
@@ -75,16 +71,16 @@ async function verifyUser() {
   </ul>
   </div>`;
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   if (!token) {
     account.innerHTML = accountHTML;
     return;
   }
 
-  const response = await fetch('/api/v1/user', {
+  const response = await fetch("/api/v1/user", {
     headers: {
-      'x-auth-token': token
+      "x-auth-token": token
     }
   });
 

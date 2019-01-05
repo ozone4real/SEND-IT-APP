@@ -153,3 +153,17 @@ const displayDiv = (divElems, currentElem) => {
   highlighted.classList.add("highlight");
   toggleDisplay("");
 };
+
+const displayElemsOnClick = (clickNode, divElems) => {
+  clickNode.addEventListener("click", ({ target }) => {
+    if (target.tagName !== "LI") return;
+    displayDiv(divElems, target);
+  });
+};
+
+const handleSignOut = (elem) => {
+  elem.onclick = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
+}

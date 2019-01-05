@@ -4,19 +4,12 @@ const parcelsTables = document.getElementById("parcelsTables")
   .firstElementChild;
 const confirmOrder = document.getElementById("confirm-order");
 const modal = document.querySelector(".modal");
-const signout = document.getElementById("signout");
+const signOutButton = document.getElementById("signout");
 
-signout.onclick = () => {
-  localStorage.clear();
-  window.location.href = "/";
-};
+handleSignOut(signOutButton);
 
 let highlighted = categories.querySelector("ul").firstElementChild;
-
-categories.addEventListener("click", ({ target }) => {
-  if (target.tagName !== "LI") return;
-  displayDiv(parcelsTables.children, target);
-});
+displayElemsOnClick(categories, parcelsTables.children);
 
 document.addEventListener("DOMContentLoaded", async e => {
   const { response, data: body } = await getRequests("/api/v1/parcels", token);
@@ -209,16 +202,17 @@ function updateTransiting(id) {
 
   let url = `api/v1/parcels/${id}/presentLocation`;
   updateForm.status.oninput = () => {
+    const toggleUpdateForm = (display, disabled, fetchUrl) => {
+      updateForm.receivedBy.style.display = display;
+      updateForm.receivedAt.style.display = display;
+      updateForm.presentLocation.disabled = disabled;
+      url = fetchUrl;
+    };
+
     if (updateForm.status.value === "delivered") {
-      updateForm.receivedBy.style.display = "";
-      updateForm.receivedAt.style.display = "";
-      updateForm.presentLocation.disabled = true;
-      url = `api/v1/parcels/${id}/status`;
+      toggleUpdateForm("", true, `api/v1/parcels/${id}/status`);
     } else {
-      updateForm.receivedBy.style.display = "none";
-      updateForm.receivedAt.style.display = "none";
-      updateForm.presentLocation.disabled = false;
-      url = `api/v1/parcels/${id}/presentLocation`;
+      toggleUpdateForm("none", false, `api/v1/parcels/${id}/presentLocation`);
     }
   };
 

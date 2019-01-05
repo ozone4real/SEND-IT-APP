@@ -47,17 +47,19 @@ function validate(elem, button) {
 
 async function submitData(form) {
   const emailError = document.getElementById("email-error");
+  const formData = JSON.stringify({
+    fullname: form.fullname.value,
+    email: form.email.value,
+    password: form.password.value,
+    phoneNo: form.phoneNo.value
+  });
+
   loadButtonSpinner(submitButton);
   const { response, data: body } = await createAndUpdateRequests(
     "/api/v1/auth/signup",
     "POST",
     null,
-    JSON.stringify({
-      fullname: form.fullname.value,
-      email: form.email.value,
-      password: form.password.value,
-      phoneNo: form.phoneNo.value
-    })
+    formData
   );
 
   if (response.status === 409) {

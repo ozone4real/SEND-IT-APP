@@ -5,11 +5,7 @@ const modal = document.querySelector(".modal");
 const confirmOrder = document.getElementById("confirm-order");
 
 let highlighted = profileHead.querySelector("ul").firstElementChild;
-
-profileHead.addEventListener("click", ({ target }) => {
-  if (target.tagName !== "LI") return;
-  displayDiv(profileBody.children, target);
-});
+displayElemsOnClick(profileHead, profileBody.children);
 
 document.addEventListener("DOMContentLoaded", async e => {
   const userInfo = document.querySelector(".info");
