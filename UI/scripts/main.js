@@ -23,11 +23,6 @@ document.addEventListener("click", e => {
   }
 });
 
-const carousel = document.getElementById("container1");
-setInterval(() => {
-  carousel.classList.toggle("sliding");
-}, 6000);
-
 window.onscroll = e => {
   if (pageYOffset) {
     removeClasses();
@@ -46,14 +41,16 @@ document.addEventListener("DOMContentLoaded", async e => {
     const userIconPos = userIcon.getBoundingClientRect();
     const accountMenuPos = accountMenu.getBoundingClientRect();
 
-    accountMenu.style.left = `${userIconPos.left -
-      (accountMenu.offsetWidth - userIcon.offsetWidth) / 2}px`;
+    const centerHorizontally = elem => {
+      elem.style.left = `${userIconPos.left -
+        (elem.offsetWidth - userIcon.offsetWidth) / 2}px`;
+    };
+
+    centerHorizontally(accountMenu);
+    centerHorizontally(accountMenuTip);
 
     accountMenuTip.style.top = `${accountMenuPos.top -
       accountMenuTip.offsetHeight}px`;
-
-    accountMenuTip.style.left = `${userIconPos.left -
-      (accountMenuTip.offsetWidth - userIcon.offsetWidth) / 2}px`;
   };
 
   const logout = document.getElementById("logout");

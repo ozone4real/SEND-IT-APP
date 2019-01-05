@@ -1,9 +1,9 @@
-import 'babel-polyfill';
-import db from '../db/connection';
-import mailer from '../helpers/mailer';
-import messages from '../helpers/mailMessages';
+import "babel-polyfill";
+import db from "../db/connection";
+import mailer from "../helpers/mailer";
+import messages from "../helpers/mailMessages";
 
-const { locationChangeMail, orderCreatedMail } = messages;
+const { parcelInTransitMail, orderCreatedMail } = messages;
 
 /**
  * @description Represents a collection of route handlers for the parcel delivery resource
@@ -11,7 +11,7 @@ const { locationChangeMail, orderCreatedMail } = messages;
  */
 class ParcelControllers {
   /**
-   * @description returns a data with compputed distance and price to the user for confirmation
+   * @description returns a data with computed distance and price to the user for confirmation
    * @static
    * @param {object} req Request Object
    * @param {object} res Response Object
@@ -84,7 +84,7 @@ class ParcelControllers {
    */
   static async getAllOrders(req, res, next) {
     try {
-      const { rows } = await db('SELECT * FROM parcelOrders');
+      const { rows } = await db("SELECT * FROM parcelOrders");
       res.status(200).json(rows);
     } catch (error) {
       console.log(error);
@@ -104,11 +104,11 @@ class ParcelControllers {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'SELECT * FROM parcelOrders WHERE parcelId = $1',
+        "SELECT * FROM parcelOrders WHERE parcelId = $1",
         [parcelId]
       );
       if (rows.length === 0) {
-        return res.status(404).json({ message: 'Order not found' });
+        return res.status(404).json({ message: "Order not found" });
       }
       res.status(200).json(rows[0]);
     } catch (error) {
@@ -132,7 +132,7 @@ class ParcelControllers {
         "UPDATE parcelOrders SET status='cancelled' WHERE parcelId = $1 RETURNING *",
         [parcelId]
       );
-      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
+      if (!rows[0]) return res.status(404).json({ message: "Order not found" });
       res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
@@ -153,7 +153,7 @@ class ParcelControllers {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *',
+        "UPDATE parcelOrders SET status = $1 WHERE parcelId = $2 RETURNING *",
         [status, parcelId]
       );
       return res.status(200).json(rows[0]);
@@ -176,7 +176,7 @@ class ParcelControllers {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'UPDATE parcelOrders SET destination = $1, price = $2 WHERE parcelId = $3 RETURNING *',
+        "UPDATE parcelOrders SET destination = $1, price = $2 WHERE parcelId = $3 RETURNING *",
         [destination, price, parcelId]
       );
       return res.status(200).json(rows[0]);
@@ -210,7 +210,7 @@ class ParcelControllers {
         [parcelData[0].userid]
       );
       const { email, fullname } = userData[0];
-      const { subject, html } = locationChangeMail(
+      const { subject, html } = parcelInTransitMail(
         presentLocation,
         parcelId,
         fullname

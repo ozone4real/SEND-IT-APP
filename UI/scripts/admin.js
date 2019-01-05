@@ -218,7 +218,7 @@ function updateTransiting(id) {
 
   updateForm.addEventListener("submit", async e => {
     e.preventDefault();
-
+    
     if (
       !updateForm.presentLocation.value &&
       !updateForm.presentLocation.disabled

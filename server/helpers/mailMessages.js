@@ -3,11 +3,17 @@
  * @class Messages
  */
 class Messages {
-  static messageHTML(mailMessage) {
+  /**
+   * @description HTMl container for mail messages
+   * @static
+   * @param {string} message Main email message
+   * @returns a string
+   */
+  static mailHTMLContainer(message) {
     return `<div style="font-family: 'Verdana';">
       <header style="text-align: center; background: #0B0B61; padding: 5px;"><h1 style="color: gold; margin-bottom:0;">SeNd It</h1><small style="color: white; margin-top:0;"><i>fast, reliable, efficient</i></small></header>
       <section style="font-size: 13px; background-color: white; padding: 10px; margin: 20px auto; border: 10px solid #F2F2F2;"> 
-      ${mailMessage}
+      ${message}
       </section>
       </div>`;
   }
@@ -26,7 +32,7 @@ class Messages {
     </p>`;
     return {
       subject: "Welcome To Send It !",
-      html: Messages.messageHTML(message)
+      html: Messages.mailHTMLContainer(message)
     };
   }
 
@@ -55,7 +61,7 @@ class Messages {
 
     return {
       subject: "Order successfully created",
-      html: Messages.messageHTML(message)
+      html: Messages.mailHTMLContainer(message)
     };
   }
 
@@ -67,13 +73,13 @@ class Messages {
    * @param {string} name Name of the user
    * @returns an object
    */
-  static statusInTransitMail(location, id, name) {
+  static parcelInTransitMail(location, id, name) {
     const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id: <b>${id}</b> is in transit and presently at <address><b>${location}</b>.</address></p>
     <p>You can <a href="http://sendit03.herokuapp.com/track.html?parcelId=${id}">track your parcel</a> while it is
      in transit</p>`;
     return {
       subject: "Update on your parcel delivery order",
-      html: Messages.messageHTML(message)
+      html: Messages.mailHTMLContainer(message)
     };
   }
 
@@ -86,7 +92,7 @@ class Messages {
    * @param {string} name Name of thr user
    * @returns an object
    */
-  static statusDeliveredMail(receivedBy, receivedAt, id, name) {
+  static parcelDeliveredMail(receivedBy, receivedAt, id, name) {
     const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id: <b>${id}</b> has been delivered !</p>
     <ul>
     <li>Received by : <b>${receivedBy}</b></li>
@@ -97,24 +103,7 @@ class Messages {
 
     return {
       subject: "Update on your parcel delivery order",
-      html: Messages.messageHTML(message)
-    };
-  }
-
-  /**
-   * @description Email content for updates on present location
-   * @static
-   * @param {string} location Present location of the parcel
-   * @param {number} id ID of the parcel
-   * @param {string} name name of the user
-   * @returns an object
-   */
-  static locationChangeMail(location, id, name) {
-    const message = `<p>Hello <b><i>${name}</i></b>. Your parcel with parcel id <b>${id}</b> is presently at <address><b>${location}.</b></address></p>
-    <p>You can <a href="http://sendit03.herokuapp.com?parcelId=${id}">track your parcel</a> while it is in transit</p>`;
-    return {
-      subject: "Update on your parcel delivery order",
-      html: Messages.messageHTML(message)
+      html: Messages.mailHTMLContainer(message)
     };
   }
 }

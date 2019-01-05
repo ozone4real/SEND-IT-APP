@@ -1,10 +1,10 @@
-import 'babel-polyfill';
-import db from '../db/connection';
-import validationHelper from '../helpers/validationHelpers';
-import mailer from '../helpers/mailer';
-import messages from '../helpers/mailMessages';
+import "babel-polyfill";
+import db from "../db/connection";
+import validationHelper from "../helpers/validationHelpers";
+import mailer from "../helpers/mailer";
+import messages from "../helpers/mailMessages";
 
-const { statusDeliveredMail, statusInTransitMail } = messages;
+const { parcelDeliveredMail, parcelInTransitMail } = messages;
 
 /**
  * @description Represents a collection of improper data values submitted by a client
@@ -18,9 +18,7 @@ class ImproperValues {
    * @returns an array of improper data from signup form
    */
   static improperUserData(req) {
-    const {
- fullname, email, phoneNo, password 
-} = req.body;
+    const { fullname, email, phoneNo, password } = req.body;
 
     const fnameTest = /^[a-zA-Z-]+? [a-zA-Z-]+?( [a-zA-Z-]+?)?$/.test(fullname);
     const emailTest = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/.test(email);
@@ -36,11 +34,11 @@ class ImproperValues {
     }
     if (!passwordTest) {
       improperValues.push(
-        'Password too short. Should be at least 7 characters'
+        "Password too short. Should be at least 7 characters"
       );
     }
-    if (!phNoTest) improperValues.push('Invalid phone No');
-    if (!emailTest) improperValues.push('Invalid email');
+    if (!phNoTest) improperValues.push("Invalid phone No");
+    if (!emailTest) improperValues.push("Invalid email");
 
     return improperValues;
   }
@@ -72,19 +70,19 @@ class ImproperValues {
 
     if (!timeTest) {
       improperValues.push(
-        'Improper date-time format or invalid date. Pattern should follow: YYYY-MM-DDThh:mm and date/time must not be behind present'
+        "Improper date-time format or invalid date. Pattern should follow: YYYY-MM-DDThh:mm and date/time must not be behind present"
       );
     }
-    if (!pAdTest) improperValues.push('Pickup Address not detailed enough');
-    if (!dAdTest) improperValues.push('destination not detailed enough');
+    if (!pAdTest) improperValues.push("Pickup Address not detailed enough");
+    if (!dAdTest) improperValues.push("destination not detailed enough");
     if (!pDeTest) {
       improperValues.push(
-        'parcel description not detailed enough or too long. Min. Length:3, Max. Length:40'
+        "parcel description not detailed enough or too long. Min. Length:3, Max. Length:40"
       );
     }
     if (!pWeightTest) {
       improperValues.push(
-        'parcel weight value must be a positive integer and its unit must be in kg'
+        "parcel weight value must be a positive integer and its unit must be in kg"
       );
     }
 
@@ -105,7 +103,7 @@ class DataCreationValidator {
    * @param {object} next passes control to the next middleware
    */
   static userDataValidator(req, res, next) {
-    const dataKeys = ['fullname', 'email', 'phoneNo', 'password'];
+    const dataKeys = ["fullname", "email", "phoneNo", "password"];
     validationHelper(req, res, dataKeys, ImproperValues.improperUserData, next);
   }
 
@@ -118,11 +116,11 @@ class DataCreationValidator {
    */
   static parcelDataValidator(req, res, next) {
     const dataKeys = [
-      'pickupAddress',
-      'destination',
-      'pickupTime',
-      'parcelDescription',
-      'parcelWeight'
+      "pickupAddress",
+      "destination",
+      "pickupTime",
+      "parcelDescription",
+      "parcelWeight"
     ];
     validationHelper(
       req,
@@ -150,14 +148,14 @@ class DataUpdateValidator {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'SELECT status FROM parcelOrders WHERE parcelId = $1',
+        "SELECT status FROM parcelOrders WHERE parcelId = $1",
         [parcelId]
       );
-      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (rows[0].status === 'delivered') {
+      if (!rows[0]) return res.status(404).json({ message: "Order not found" });
+      if (rows[0].status === "delivered") {
         return res
           .status(400)
-          .json({ message: 'You cannot cancel an already delivered order' });
+          .json({ message: "You cannot cancel an already delivered order" });
       }
       next();
     } catch (error) {
@@ -173,25 +171,25 @@ class DataUpdateValidator {
    * @param {object} next passes control to the next middleware/handler
    */
   static async status(req, res, next) {
-    const validValues = ['in transit', 'delivered'];
+    const validValues = ["in transit", "delivered"];
     const { status } = req.body;
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'SELECT status FROM parcelOrders WHERE parcelId = $1',
+        "SELECT status FROM parcelOrders WHERE parcelId = $1",
         [parcelId]
       );
-      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (rows[0].status === 'delivered' || rows[0].status === 'cancelled') {
+      if (!rows[0]) return res.status(404).json({ message: "Order not found" });
+      if (rows[0].status === "delivered" || rows[0].status === "cancelled") {
         return res.status(400).json({
           message:
-            'You cannot change the status of an already delivered or cancelled order'
+            "You cannot change the status of an already delivered or cancelled order"
         });
       }
       if (!status) {
         return res
           .status(400)
-          .json({ message: 'invalid request, new status not provided' });
+          .json({ message: "invalid request, new status not provided" });
       }
       if (!validValues.includes(status)) {
         return res.status(400).json({
@@ -215,11 +213,11 @@ class DataUpdateValidator {
   static async delivered(req, res, next) {
     const { status, receivedBy, receivedAt } = req.body;
     const { parcelId } = req.params;
-    if (status !== 'delivered') return next();
+    if (status !== "delivered") return next();
     if (!receivedBy || !receivedAt) {
       return res.status(400).json({
         message:
-          'Incomplete request, pls submit the name of the parcel receiver and the time the parcel was delivered'
+          "Incomplete request, pls submit the name of the parcel receiver and the time the parcel was delivered"
       });
     }
     if (
@@ -229,7 +227,7 @@ class DataUpdateValidator {
     ) {
       return res
         .status(400)
-        .json({ message: 'Invalid time. Format must be timestamp' });
+        .json({ message: "Invalid time. Format must be timestamp" });
     }
     try {
       const { rows: parcelRows } = await db(
@@ -245,7 +243,7 @@ class DataUpdateValidator {
       );
 
       const { email, fullname } = userRows[0];
-      const { subject, html } = statusDeliveredMail(
+      const { subject, html } = parcelDeliveredMail(
         receivedBy,
         receivedAt,
         parcelId,
@@ -272,7 +270,7 @@ class DataUpdateValidator {
     const { status, presentLocation } = req.body;
     const { parcelId } = req.params;
 
-    if (status !== 'in transit') return next();
+    if (status !== "in transit") return next();
     if (!presentLocation) {
       return res.status(400).json({
         message:
@@ -282,7 +280,7 @@ class DataUpdateValidator {
     if (!/^[\w\s]{2,20}, [\w\s]{2,20}$/.test(presentLocation)) {
       return res
         .status(400)
-        .json({ message: 'invalid location or location length too long' });
+        .json({ message: "invalid location or location length too long" });
     }
 
     try {
@@ -299,7 +297,7 @@ class DataUpdateValidator {
         [parcelRows[0].userid]
       );
       const { email, fullname } = userRows[0];
-      const { subject, html } = statusInTransitMail(
+      const { subject, html } = parcelInTransitMail(
         presentLocation,
         parcelId,
         fullname
@@ -324,26 +322,26 @@ class DataUpdateValidator {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'SELECT * FROM parcelOrders WHERE parcelId = $1',
+        "SELECT * FROM parcelOrders WHERE parcelId = $1",
         [parcelId]
       );
-      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
+      if (!rows[0]) return res.status(404).json({ message: "Order not found" });
       const { status, pickupaddress, parcelweight } = rows[0];
-      if (status === 'delivered' || status === 'cancelled') {
+      if (status === "delivered" || status === "cancelled") {
         return res.status(400).json({
           message:
-            'You cannot change the destination of an already delivered or cancelled order'
+            "You cannot change the destination of an already delivered or cancelled order"
         });
       }
       if (!destination) {
         return res
           .status(400)
-          .json({ message: 'invalid request, new destination not provided' });
+          .json({ message: "invalid request, new destination not provided" });
       }
       if (!/.{15,}/.test(destination)) {
         return res
           .status(400)
-          .json({ message: 'destination not detailed enough' });
+          .json({ message: "destination not detailed enough" });
       }
       req.body.pickupAddress = pickupaddress;
       req.body.parcelWeight = parcelweight;
@@ -365,20 +363,20 @@ class DataUpdateValidator {
     const { parcelId } = req.params;
     try {
       const { rows } = await db(
-        'SELECT status FROM parcelOrders WHERE parcelId = $1',
+        "SELECT status FROM parcelOrders WHERE parcelId = $1",
         [parcelId]
       );
-      if (!rows[0]) return res.status(404).json({ message: 'Order not found' });
-      if (rows[0].status === 'delivered') {
+      if (!rows[0]) return res.status(404).json({ message: "Order not found" });
+      if (rows[0].status === "delivered") {
         return res.status(400).json({
           message:
-            'You cannot change the present location of an already delivered parcel'
+            "You cannot change the present location of an already delivered parcel"
         });
       }
       if (!presentLocation) {
         return res
           .status(400)
-          .json({ message: 'Invalid request, present location not provided' });
+          .json({ message: "Invalid request, present location not provided" });
       }
       if (!/^[\w\s]{2,20}, [\w\s]{2,20}$/.test(presentLocation)) {
         return res.status(400).json({
@@ -395,7 +393,7 @@ class DataUpdateValidator {
   static validatePhoneNo(req, res, next) {
     const { phoneNo } = req.body;
     if (!/^\d{7,20}$/.test(phoneNo)) {
-      return res.status(400).json({ message: 'Invalid phone number' });
+      return res.status(400).json({ message: "Invalid phone number" });
     }
     next();
   }
