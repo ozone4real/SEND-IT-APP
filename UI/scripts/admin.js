@@ -126,44 +126,37 @@ function updatePending(id) {
   confirmOrder.innerHTML = `<form id="update-form" style="margin: 10% auto;">
         <h3>Update parcel ${id}</h3>
         <label>Status</label>
-        <select name='status'>
+        <select name='status' required>
         <option value="" disabled>status</option>
         <option value='in transit' selected="true">in transit</option>
         <option value='delivered' disabled>delivered</option>
         </select>
         <small></small>
-        <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location(town, state)">
-        <button id="abort" type="button">Return</button> <button type="submit">Submit</button>
+        <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location(town, state)" required>
+        <button type="button" onclick="removeModal(modal)">Return</button> <button type="submit" name="submitButton">Submit</button>
         </form>`;
 
-  const abort = document.getElementById("abort");
   const updateForm = document.getElementById("update-form");
-
-  abort.onclick = () => {
-    modal.style.display = "";
-  };
 
   updateForm.addEventListener("submit", async e => {
     e.preventDefault();
 
-    if (!updateForm.presentLocation.value) {
-      updateForm.presentLocation.previousElementSibling.innerHTML =
-        "This must not be empty";
-      return;
-    }
+    loadButtonSpinner(updateForm.submitButton);
 
     const json = JSON.stringify({
       presentLocation: updateForm.presentLocation.value,
       status: updateForm.status.value
     });
 
-    const response = await updateParcelRequest(
+    const { response, data: body } = await createAndUpdateRequests(
       `/api/v1/parcels/${id}/status`,
+      "PUT",
+      token,
       json
     );
-    const body = await response.json();
 
     if (response.status === 400) {
+      removeButtonSpinner(updateForm.submitButton);
       updateForm.presentLocation.previousElementSibling.innerHTML =
         body.message;
       return;
@@ -181,52 +174,47 @@ function updateTransiting(id) {
           <h3>Update parcel ${id}</h3>
           <small id="updateError" style="display:block;"></small>
           <label>Status</label>
-          <select name='status'>
+          <select name='status' required>
           <option value="" disabled>status</option>
           <option value='in transit' selected="true">in transit</option>
           <option value='delivered'>delivered</option>
           </select>
           <input type="text" name="receivedBy" placeholder="receiver" style="display: none;">
-          <input type="datetime-local" name="receivedAt" placeholder="Time of delivery" style="display: none;">
+          <input type="datetime-local" name="receivedAt" placeholder="Time of delivery" style="display: none;" >
           <small></small>
-          <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location (town, state)">
-          <button id="abort" type="button">Return</button> <button type="submit">Submit</button>
+          <input style="margin-bottom: 0;" type="text" name="presentLocation" placeholder="Present Location (town, state)" required>
+          <button type="button" onclick="removeModal(modal)">Return</button> <button type="submit" name="submitButton">Submit</button>
           </form>`;
 
-  const abort = document.getElementById("abort");
   const updateForm = document.getElementById("update-form");
 
-  abort.onclick = () => {
-    modal.style.display = "";
-  };
-
   let url = `api/v1/parcels/${id}/presentLocation`;
+
   updateForm.status.oninput = () => {
-    const toggleUpdateForm = (display, disabled, fetchUrl) => {
-      updateForm.receivedBy.style.display = display;
-      updateForm.receivedAt.style.display = display;
-      updateForm.presentLocation.disabled = disabled;
+    const toggleUpdateForm = (display, isdisabled, isrequired, fetchUrl) => {
+      updateForm.receivedBy.style.display = updateForm.receivedAt.style.display = display;
+      updateForm.receivedBy.required = updateForm.receivedAt.required = isrequired;
+      updateForm.presentLocation.disabled = isdisabled;
       url = fetchUrl;
     };
 
     if (updateForm.status.value === "delivered") {
-      toggleUpdateForm("", true, `api/v1/parcels/${id}/status`);
+      toggleUpdateForm("", true, true, `api/v1/parcels/${id}/status`);
+      updateError.innerHTML = "";
     } else {
-      toggleUpdateForm("none", false, `api/v1/parcels/${id}/presentLocation`);
+      toggleUpdateForm(
+        "none",
+        false,
+        false,
+        `api/v1/parcels/${id}/presentLocation`
+      );
     }
   };
 
   updateForm.addEventListener("submit", async e => {
     e.preventDefault();
-    
-    if (
-      !updateForm.presentLocation.value &&
-      !updateForm.presentLocation.disabled
-    ) {
-      updateForm.presentLocation.previousElementSibling.innerHTML =
-        "This must not be empty";
-      return;
-    }
+
+    loadButtonSpinner(updateForm.submitButton);
 
     const json = JSON.stringify({
       status: updateForm.status.value,
@@ -243,6 +231,7 @@ function updateTransiting(id) {
     );
 
     if (response.status === 400) {
+      removeButtonSpinner(updateForm.submitButton);
       updateError.innerHTML = body.message;
       return;
     }
