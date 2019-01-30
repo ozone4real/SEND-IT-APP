@@ -17,7 +17,6 @@ body {
 h3 {
   color: #dfb607;
 }
-
 small {
   color: red;
   margin: 0;
@@ -562,7 +561,7 @@ fieldset {
   background: white;
   margin-top: 0;
   padding: 10px 30px 80px 30px;
-}
+} 
 
 #profile #body ul {
   margin: auto;
