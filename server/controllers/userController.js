@@ -136,7 +136,7 @@ class UserController {
         phoneNo,
         userId
       ]);
-      return res.status(200).json(rows);
+      return res.status(200).json(rows[0]);
     } catch (error) {
       console.log(error);
       return next();
