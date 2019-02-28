@@ -24,8 +24,8 @@ class UserController {
    */
   static async signUpUser(req, res, next) {
     const {
- fullname, email, phoneNo, password 
-} = req.body;
+      fullname, email, phoneNo, password
+    } = req.body;
 
     try {
       const salt = await bcrypt.genSalt(10);
@@ -60,9 +60,7 @@ class UserController {
   static async signInUser(req, res, next) {
     const { email, password } = req.body;
     try {
-      const { rows } = await db('SELECT * FROM users where email = ($1)', [
-        email
-      ]);
+      const { rows } = await db('SELECT * FROM users where email = ($1)', [email]);
       if (!rows[0]) {
         return res.status(401).json({ message: 'Invalid Email or Password' });
       }
@@ -91,9 +89,7 @@ class UserController {
   static async authUser(req, res, next) {
     const { userId } = req.user;
     try {
-      const { rows } = await db('SELECT * FROM users WHERE userId = $1', [
-        userId
-      ]);
+      const { rows } = await db('SELECT * FROM users WHERE userId = $1', [userId]);
       if (!rows[0]) return res.status(404).json({ message: 'User not found' });
       delete rows[0].password;
       delete rows[0].userid;
@@ -114,10 +110,7 @@ class UserController {
   static async getAllUserOrders(req, res, next) {
     const { userId } = req.user;
     try {
-      const { rows } = await db(
-        'SELECT * FROM parcelOrders WHERE userId = $1',
-        [userId]
-      );
+      const { rows } = await db('SELECT * FROM parcelOrders WHERE userId = $1', [userId]);
       if (!rows[0]) {
         return res.status(404).json({ message: 'No orders found for user' });
       }
@@ -139,13 +132,11 @@ class UserController {
     const { userId } = req.user;
     const { phoneNo } = req.body;
     try {
-      await db('UPDATE users SET phoneNo = $1 WHERE userId = $2', [
+      const { rows } = await db('UPDATE users SET phoneNo = $1 WHERE userId = $2 RETURNING *', [
         phoneNo,
         userId
       ]);
-      return res
-        .status(200)
-        .json({ message: 'Phone number successfully updated' });
+      return res.status(200).json(rows);
     } catch (error) {
       console.log(error);
       return next();
